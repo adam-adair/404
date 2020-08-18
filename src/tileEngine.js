@@ -1,4 +1,5 @@
 import {init,TileEngine} from 'kontra';
+init('game');
 
 let img = new Image();
 img.src = '../assets/img/mapPack_tilesheet.png';

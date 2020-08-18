@@ -2,7 +2,7 @@ import {init, GameLoop, initKeys,keyPressed, TileEngine} from 'kontra';
 import player from './src/player'
 //import level99 from './src/tileEngine'
 
-
+init();
 initKeys();
 
 const loop = GameLoop({  // create the main game loop
