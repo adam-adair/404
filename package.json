@@ -1,0 +1,20 @@
+{
+  "name": "404",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -w"
+  },
+  "author": "Jeff Garber and Adam Reeves",
+  "license": "ISC",
+  "dependencies": {
+    "kontra": "^7.1.0"
+
+  },
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}
