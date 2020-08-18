@@ -1,11 +1,12 @@
-import {init, GameLoop, initKeys,keyPressed, TileEngine} from 'kontra';
+import {GameLoop, initKeys,keyPressed, TileEngine} from 'kontra';
 import player from './src/player'
+import context from './src/initalize';
 //import level99 from './src/tileEngine'
 
-init();
 initKeys();
 
-const loop = GameLoop({  // create the main game loop
+const loop = GameLoop({
+  context:context, // create the main game loop
   update: function() {
     if(keyPressed('right')){
       player.x+=2;
@@ -31,7 +32,7 @@ const loop = GameLoop({  // create the main game loop
 
   },
   render: function() { // render the game state
-   // level99.renderLayer('ground');
+    //level99.render();
     player.render();
   }
 });

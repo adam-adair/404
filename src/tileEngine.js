@@ -1,5 +1,5 @@
-import {init,TileEngine} from 'kontra';
-init('game');
+import {TileEngine} from 'kontra';
+import context from './initalize';
 
 let img = new Image();
 img.src = '../assets/img/mapPack_tilesheet.png';
@@ -18,7 +18,7 @@ img.src = '../assets/img/mapPack_tilesheet.png';
       firstgid: 1,
       image: img
     }],
-
+    context:context,
     // layer object
     layers: [{
       name: 'ground',

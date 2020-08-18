@@ -1,5 +1,5 @@
-import {init, Sprite, SpriteSheet} from 'kontra';
-init('game');
+import {Sprite, SpriteSheet} from 'kontra';
+import context from './initalize';
 
 let image = new Image();
 image.src = '../assets/img/rpg_sprite_walk.png';
@@ -34,10 +34,13 @@ image.src = '../assets/img/rpg_sprite_walk.png';
     }
   });
 
+
   let player = Sprite({
     x: 0,        // starting x,y position of the sprite
     y: 0,
-    animations:spriteSheet.animations
+    animations:spriteSheet.animations,
+    context: context
   });
+
 
   export default player;
