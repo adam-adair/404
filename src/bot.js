@@ -14,10 +14,17 @@ let bot = Sprite({
   image: image,
 });
 
+const invalidDirs = {
+  S: [[4,1],[3,1],[2,1],[0,1],[4,2],[3,2],[4,3]],
+  E: [[4,0],[0,0],[4,2],[3,2],[2,2],[4,3],[3,3]],
+  W: [[4,0],[3,0],[2,0],[0,0],[4,1],[3,1],[4,2]],
+  N: [[4,0],[3,0],[4,1],[0,1],[4,3],[3,3],[2,3]]
+}
 
 bot.heading = 'E';
-bot.speed = 2;
-bot.currentMoveIndex = -1;
+bot.baseSpeed = 2;
+bot.speed = 0;
+bot.currentMoveIndex = 0;
 
 bot.rotate = function(dir){
   const dirs = ['N','E','S','W']
@@ -32,41 +39,46 @@ bot.rotate = function(dir){
 }
 
 bot.update = function(nodes, moves){
-  if(this.currentMoveIndex > moves.length - 1 ) {
-    this.currentMoveIndex = 0
-  }
   // eslint-disable-next-line complexity
   nodes.forEach((node) => {
     //check if the absolute x and y pos of the bot is the same as a node
-    if(this.x===node.x && this.y===node.y)
-    {
-      //freeze if on the winning node
+    if(this.x===node.x && this.y===node.y) {
+      //if you're on a node, stop
+      this.speed = 0
+
+      //if you're at the end of the level, stop and wait
       if (node.nodeType === 99) {
         this.speed = 0
         moves.splice(0,moves.length)
       }
-      //start a move loop
-      if (moves[this.currentMoveIndex]==='LOOP') {
-        moves.splice(0,this.currentMoveIndex+1)
-        this.currentMoveIndex = 0
+
+      if (moves[this.currentMoveIndex]==='F') {
+        //only go forward if the node type and orientation allows
+        const badNodes = invalidDirs[this.heading]
+        const numBadNodes = badNodes.filter(badNode=>{
+          return badNode[0]===node.nodeType && badNode[1]===node.nodeOrientation}).length
+        if(numBadNodes===0) this.speed = this.baseSpeed
       }
-      //go to the next/first move
-      this.currentMoveIndex++;
+
       if (moves[this.currentMoveIndex]==='L') {
         this.rotate('L')
-        this.currentMoveIndex++
       }
       if (moves[this.currentMoveIndex]==='R') {
         this.rotate('R')
+      }
+      // after move is processed, increment move counter
+      //to do this, first check if you're at the end
+      if(this.currentMoveIndex === moves.length - 1){
+        //if there's a loop, go back to the start of the loop
+        if(moves.includes('LOOP')) {
+          this.currentMoveIndex = moves.indexOf('LOOP')
+        } else {
+          //otherwise, go back to the first index
+          this.currentIndex = 0
+        }
+      } else {
+        //if you're not at the end of the moves, go to next
         this.currentMoveIndex++
-      }
-      if (moves[this.currentMoveIndex]==='B') {
-        //move against direction of heading
-        this.speed = -1*(Math.abs(this.speed))
-      }
-      if (moves[this.currentMoveIndex]==='F') {
-        //move with direction of heading
-        this.speed = (Math.abs(this.speed))
       }
     }
   })
