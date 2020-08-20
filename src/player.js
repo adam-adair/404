@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import {Sprite, SpriteSheet} from 'kontra';
 import context from './initalize';
+=======
+
+import {Sprite, SpriteSheet} from 'kontra';
+import context from './initialize';
+>>>>>>> e737a22cb37d6eb132715f1f639ee41ba705226d
 
 let image = new Image();
 image.src = '../assets/img/rpg_sprite_walk.png';
