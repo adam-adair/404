@@ -14,15 +14,67 @@ initKeys();
 let moves = []
 const goButton = document.getElementById('go')
 const userInput = document.getElementById('userMoves')
+const levelPick = document.getElementById('levelPick')
+
 goButton.addEventListener('click',()=>{
   moves = userInput.value.split(',')
 })
 
+levelPick.addEventListener('click',(ev)=>{
+  if(ev.target.tagName==="BUTTON"){
+    console.log(ev.target.value)
+  }
+})
 ///Level Testing Code//////////////////////
 
 ///these levels and robot moves will be loaded/created dynamically later
 
+let selectedLevel = 1
+const levelNames = ['test','pipe2']
+const levelObstacles = [
+  // test.json obstacle locations in decorations layer
+  [ //array; potentially other obstacles
+    [ //array of obstacle locations
+      {row: 4, column: 12},
+      {row: 4, column: 13},
+      {row: 4, column: 14},
+      {row: 4, column: 15},
+      {row: 5, column: 12},
+      {row: 5, column: 13},
+      {row: 5, column: 14},
+      {row: 5, column: 15},
+    ],
+  ],
+  // pipe2.json obstacle locations
+  [
+    [
+      {row: 11, column: 5},
+      {row: 11, column: 6},
+      {row: 11, column: 7},
+      {row: 11, column: 8},
+      {row: 11, column: 9},
+      {row: 11, column: 10},
+      {row: 12, column: 5},
+      {row: 12, column: 6},
+      {row: 12, column: 7},
+      {row: 12, column: 8},
+      {row: 12, column: 9},
+      {row: 12, column: 10},
+    ]
+  ]
+]
 
+const levelSwitches = [
+  //test.json switch locations
+  [
+    {row: 7, column: 8}, //potentially others
+    //{row: 1, column: 1}
+  ],
+  //pipe2.json switch locations
+  [
+    {row: 2, column: 13}, //potentially others
+  ]
+]
 
 //import level1 from './assets/levels/pipe1' //Test Lvl 1
 //import level2 from './assets/levels/pipe2' //Test Lvl 1
@@ -70,6 +122,28 @@ const loop = GameLoop({
 
     //update the bot based on level nodes and move list
     bot.update(nodes,moves);
+
+    //check each switch
+    const switches = levelSwitches[selectedLevel]
+    let swIx = -1
+    switches.forEach( (sw,ix) => {
+      const matchRow = bot.currentNode.gridRow === sw.row
+      const matchCol = bot.currentNode.gridCol === sw.column
+      if(matchRow && matchCol) {swIx = ix}
+    })
+    if(swIx !== -1) {
+      const obsTilesToClear = levelObstacles[selectedLevel][swIx]
+      obsTilesToClear.forEach(tile=>{
+        levelTest.setTileAtLayer('decorations',{row:tile.row, col: tile.column}, 0)
+      })
+    }
+    // if(bot.currentNode===99) {
+    //   for(let r = 11; r <= 12; r++) {
+    //     for(let c = 5; c <= 10; c++) {
+    //       levelTest.setTileAtLayer('decorations',{row:r, col: c}, 0)
+    //     }
+    //   }
+    // }
   },
   render: function() { // render the game state
     levelTest.render();
@@ -106,10 +180,11 @@ load("../assets/img/rpg_sprite_walk.png",
   Right now it is hardcoded but we can probably update it programatically as the levels change
   */
 
-  levelTest=TileEngine(dataAssets["../assets/tile/pipe2.json"]);
+  levelTest=TileEngine(dataAssets[`../assets/tile/${levelNames[selectedLevel]}.json`]);
   ({ pipes, nodes } = makeTrack({
     pipes: levelTest.layers.filter(layer=>layer.name==="pipes")[0].data,
     nodes: levelTest.layers.filter(layer=>layer.name==="nodes")[0].data
   }))
-loop.start();
+
+  loop.start();
 });

@@ -18,6 +18,8 @@ const makeNode = function(xpos, ypos, nodeType, nodeOrientation) {
     anchor: {x: 0.5, y: 0.5},
     image: nodeImg
   });
+  node.gridCol = xpos
+  node.gridRow = ypos
   node.nodeType = nodeType
   node.nodeOrientation = nodeOrientation
   return node

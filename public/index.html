@@ -10,9 +10,16 @@
     <input type="text" id="userMoves"></input>
     <button id="go">Sparky Go!</button>
     <button id="reset">Level Reset</button>
-    <div style="color:red; width: 400px">For now, enter comma separated moves: F=forward, L=turn left, R=turn right, LOOP=start a loop.
+    <div style="color:red; width: 400px">
+      <p>For now, enter comma separated moves:</p>
+      <p>F=forward, L=turn left, R=turn right, LOOP=start a loop.</p>
       <p>Level 1 = F,L,F,L,F,F,R,F,R,F</p>
       <p>Level 2 = F,L,F,L,F,LOOP,F,R</p>
+    </div>
+    <div style="color:green; width: 400px" id="levelPick">
+      pick a level (not yet implemented):
+      <button value="0">test.json</button>
+      <button value="1">pipe2.json</button>
     </div>
   </body>
 </html>

@@ -25,6 +25,7 @@ bot.heading = 'E';
 bot.baseSpeed = 2;
 bot.speed = 0;
 bot.currentMoveIndex = 0;
+//bot.currentNode = 1
 
 bot.rotate = function(dir){
   const dirs = ['N','E','S','W']
@@ -39,11 +40,15 @@ bot.rotate = function(dir){
 }
 
 bot.update = function(nodes, moves){
+  let nodeSet = 0
   // eslint-disable-next-line complexity
   nodes.forEach((node) => {
     //check if the absolute x and y pos of the bot is the same as a node
     if(this.x===node.x && this.y===node.y) {
       //if you're on a node, stop
+      nodeSet = 1
+      bot.currentNode = node
+      //console.log(bot.currentNode)
       this.speed = 0
 
       //if you're at the end of the level, stop and wait
@@ -80,7 +85,8 @@ bot.update = function(nodes, moves){
         //if you're not at the end of the moves, go to next
         this.currentMoveIndex++
       }
-    }
+      //don't check other nodes
+    } else {bot.currentNode = nodeSet === 1 ? bot.currentNode : {gridRow: -1, gridCol: -1}}
   })
 
   //update bot position based on heading
