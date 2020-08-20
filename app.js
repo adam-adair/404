@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { load, TileEngine, dataAssets,GameLoop, initKeys,keyPressed} from 'kontra';
 
 
@@ -10,30 +11,29 @@ import makeTrack from './src/makeTrack'
 
 initKeys();
 
+let moves = []
+const goButton = document.getElementById('go')
+const userInput = document.getElementById('userMoves')
+goButton.addEventListener('click',()=>{
+  moves = userInput.value.split(',')
+})
+
 ///Level Testing Code//////////////////////
 
 ///these levels and robot moves will be loaded/created dynamically later
 
 
 
-import level1 from './assets/levels/pipe1' //Test Lvl 1
-import level2 from './assets/levels/pipe2' //Test Lvl 1
+//import level1 from './assets/levels/pipe1' //Test Lvl 1
+//import level2 from './assets/levels/pipe2' //Test Lvl 1
 
 //declares the level to be built by the tile engine globally so that the game loop can access it
 
-let levelTest=null;
+//let levelTest=null;
+let levelTest, pipes, nodes
+//const level = level1
+//const {pipes,nodes} = makeTrack(level)
 
-const moves1 = [
-  'F','L','F','L','F',
-  'F','R','F','R','F'] //test moves for level 1
-const moves2 = [
-  'F','L','F','L','F',
-  'LOOP','F','R'
-]
-const level = level1
-const moves = moves1
-
-const {pipes,nodes} = makeTrack(level)
 ///////////////////////////////////////
 
 const loop = GameLoop({
@@ -106,5 +106,9 @@ load("../assets/img/rpg_sprite_walk.png",
   */
 
   levelTest=TileEngine(dataAssets["../assets/tile/test.json"]);
+  ({ pipes, nodes } = makeTrack({
+    pipes: levelTest.layers.filter(layer=>layer.name==="pipes")[0].data,
+    nodes: levelTest.layers.filter(layer=>layer.name==="nodes")[0].data
+  }))
 loop.start();
 });

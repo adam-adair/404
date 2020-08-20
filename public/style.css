@@ -9,3 +9,8 @@ canvas{
   border:1px solid #ca1616;
 
 }
+
+* {
+  margin: auto;
+  display: block
+}

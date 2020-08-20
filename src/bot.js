@@ -68,13 +68,13 @@ bot.update = function(nodes, moves){
       }
       // after move is processed, increment move counter
       //to do this, first check if you're at the end
-      if(this.currentMoveIndex === moves.length - 1){
+      if(this.currentMoveIndex >= moves.length - 1){
         //if there's a loop, go back to the start of the loop
         if(moves.includes('LOOP')) {
           this.currentMoveIndex = moves.indexOf('LOOP')
         } else {
           //otherwise, go back to the first index
-          this.currentIndex = 0
+          this.currentMoveIndex = 0
         }
       } else {
         //if you're not at the end of the moves, go to next
