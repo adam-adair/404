@@ -1,5 +1,4 @@
-import makePipe from './makePipe'
-import makeNode from './makeNode'
+import node from './node'
 
 //this takes (some of) the JSON level data from Tiled and
 //converts to an array that can be fed into makePipe
@@ -23,19 +22,13 @@ const pipeKey = {
   }
 
 
-const makeTrack = (lvl) => {
+const track = (lvl) => {
   const pipeArray = lvl.pipes
   const nodeArray = lvl.nodes
   let pipes = []
   let nodes = []
   for(let j = 0; j < 16; j++) {
     for(let i = 0; i < 16; i++){
-      //create an array of pipes based on the JSON output from Tiled
-      if(pipeArray[j*16 + i] !== 0) {
-        const thisPipe = pipeKey[pipeArray[j*16 + i]]
-        const pipe = makePipe(i,j,thisPipe[0],thisPipe[1]*-90);
-        pipes.push(pipe)
-      }
       //create an array of nodes based on the JSON output from Tiled
       //give them nodeTypes for logic that limits movement options
       //or recognizes winning condition at a particular node
@@ -44,11 +37,11 @@ const makeTrack = (lvl) => {
         let nt = thisNode[0]
         //nodeType 99 is the 'winning node' for the level
         if(nodeArray[j*16 + i] === 7) nt = 99
-        nodes.push(makeNode(i,j,nt, thisNode[1]))
+        nodes.push(node(i,j,nt, thisNode[1]))
       }
     }
   }
-  return {pipes, nodes}
+  return nodes
 }
 
-export default makeTrack
+export default track

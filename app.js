@@ -1,12 +1,9 @@
 /* eslint-disable complexity */
 import { load, TileEngine, dataAssets,GameLoop, initKeys,keyPressed} from 'kontra';
-
-
 import player from './src/player'
-
 import context from './src/initialize';
 import bot from './src/bot'
-import makeTrack from './src/makeTrack'
+import track from './src/track'
 
 
 initKeys();
@@ -22,6 +19,7 @@ goButton.addEventListener('click',()=>{
 
 levelPick.addEventListener('click',(ev)=>{
   if(ev.target.tagName==="BUTTON"){
+    /* there will have to be some logic here related to loading and resetting the level */
     console.log(ev.target.value)
   }
 })
@@ -34,7 +32,7 @@ const levelNames = ['test','pipe2']
 const levelObstacles = [
   // test.json obstacle locations in decorations layer
   [ //array; potentially other obstacles
-    [ //array of obstacle locations
+    [ //array of obstacle tile locations
       {row: 4, column: 12},
       {row: 4, column: 13},
       {row: 4, column: 14},
@@ -45,7 +43,7 @@ const levelObstacles = [
       {row: 5, column: 15},
     ],
   ],
-  // pipe2.json obstacle locations
+  // pipe2.json obstacle tile locations
   [
     [
       {row: 11, column: 5},
@@ -76,15 +74,12 @@ const levelSwitches = [
   ]
 ]
 
-//import level1 from './assets/levels/pipe1' //Test Lvl 1
-//import level2 from './assets/levels/pipe2' //Test Lvl 1
-
 //declares the level to be built by the tile engine globally so that the game loop can access it
 
-//let levelTest=null;
-let levelTest, pipes, nodes
-//const level = level1
-//const {pipes,nodes} = makeTrack(level)
+//these could and probably should be combined into a single level object later. I imagine there will
+//be other properties as we develop more features in the game
+
+let levelTest, levelTrack
 
 ///////////////////////////////////////
 
@@ -120,8 +115,8 @@ const loop = GameLoop({
     }// update the game state
     player.update();
 
-    //update the bot based on level nodes and move list
-    bot.update(nodes,moves);
+    //update the bot based on level track and move list
+    bot.update(levelTrack,moves);
 
     //check each switch
     const switches = levelSwitches[selectedLevel]
@@ -137,13 +132,6 @@ const loop = GameLoop({
         levelTest.setTileAtLayer('decorations',{row:tile.row, col: tile.column}, 0)
       })
     }
-    // if(bot.currentNode===99) {
-    //   for(let r = 11; r <= 12; r++) {
-    //     for(let c = 5; c <= 10; c++) {
-    //       levelTest.setTileAtLayer('decorations',{row:r, col: c}, 0)
-    //     }
-    //   }
-    // }
   },
   render: function() { // render the game state
     levelTest.render();
@@ -153,8 +141,9 @@ const loop = GameLoop({
     /* the tile engine can render the pipes and nodes on its own so we don't need to render them separately anymore.
     except it looks like the horizontal pipes don't come from the tileset, so it doesn' know how to render them*/
 
-   pipes.forEach(pipe=>pipe.render())
-   nodes.forEach(node=>node.render())
+    //I've taken out the manual rendering of nodes/pipes and replaced with just one track object and its' node/pipe logic.
+    //The pieces that aren't appearing on the map are rotated within the Tiled editor (trying to save on KBs), but 
+    //apparently Kontra's TileEngine can't handle that. 
 
     bot.render();
 
@@ -181,10 +170,10 @@ load("../assets/img/rpg_sprite_walk.png",
   */
 
   levelTest=TileEngine(dataAssets[`../assets/tile/${levelNames[selectedLevel]}.json`]);
-  ({ pipes, nodes } = makeTrack({
+  levelTrack = track({
     pipes: levelTest.layers.filter(layer=>layer.name==="pipes")[0].data,
     nodes: levelTest.layers.filter(layer=>layer.name==="nodes")[0].data
-  }))
+  })
 
   loop.start();
 });
