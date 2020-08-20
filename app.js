@@ -97,7 +97,8 @@ load("../assets/img/rpg_sprite_walk.png",
   "../assets/tile/node.tsx",
   "../assets/tile/nodeHome.tsx",
   "../assets/tile/pipes.tsx",
-  "../assets/tile/test.json"
+  "../assets/tile/test.json",
+  "../assets/tile/pipe2.json",
 ).then(assets=>{load()}).then((assets) => {
 
 /* the tile engine is looking for an image property within the tilesets that doesn't exist.
@@ -105,7 +106,7 @@ load("../assets/img/rpg_sprite_walk.png",
   Right now it is hardcoded but we can probably update it programatically as the levels change
   */
 
-  levelTest=TileEngine(dataAssets["../assets/tile/test.json"]);
+  levelTest=TileEngine(dataAssets["../assets/tile/pipe2.json"]);
   ({ pipes, nodes } = makeTrack({
     pipes: levelTest.layers.filter(layer=>layer.name==="pipes")[0].data,
     nodes: levelTest.layers.filter(layer=>layer.name==="nodes")[0].data
