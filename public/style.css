@@ -7,10 +7,13 @@ canvas{
   margin-left:auto;
   margin-right: auto;
   border:1px solid #ca1616;
+  width: 512px;
+  height: 512px;
 
 }
 
 * {
   margin: auto;
   display: block
+
 }
