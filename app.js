@@ -1,4 +1,16 @@
 /* eslint-disable complexity */
+
+//disable the brower from scrolling when pressing directional keys
+const arrow_keys_handler = function(e) {
+  console.log("calling")
+  switch(e.keyCode){
+      case 37: case 39: case 38:  case 40: // Arrow key codes
+       e.preventDefault(); break; //prevent window scroll
+      default: break; // do not block other keys
+  }
+};
+window.addEventListener("keydown", arrow_keys_handler, false);
+
 import { load, TileEngine, dataAssets,GameLoop, initKeys,keyPressed} from 'kontra';
 import player from './src/player'
 import context from './src/initialize';
@@ -142,8 +154,8 @@ const loop = GameLoop({
     except it looks like the horizontal pipes don't come from the tileset, so it doesn' know how to render them*/
 
     //I've taken out the manual rendering of nodes/pipes and replaced with just one track object and its' node/pipe logic.
-    //The pieces that aren't appearing on the map are rotated within the Tiled editor (trying to save on KBs), but 
-    //apparently Kontra's TileEngine can't handle that. 
+    //The pieces that aren't appearing on the map are rotated within the Tiled editor (trying to save on KBs), but
+    //apparently Kontra's TileEngine can't handle that.
 
     bot.render();
 
