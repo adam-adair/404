@@ -114,7 +114,7 @@ const loop = GameLoop({
     ////  position test prevents player from walking off screen
 
     if (keyPressed("right")) {
-      if (player.x < (canvas.width-player.width)) player.x += 2;
+      if (player.x < (canvas.width-(player.width*player.scaleX))) player.x += 2;
       if (levelTest.layerCollidesWith("decorations", player)) player.x -= 2;
       player.playAnimation("walkRight");
     } else if (keyPressed("left")) {
@@ -127,7 +127,7 @@ const loop = GameLoop({
       if (levelTest.layerCollidesWith("decorations", player)) player.y += 2;
       player.playAnimation("walkUp");
     } else if (keyPressed("down")) {
-      if (player.y < (canvas.height-player.height)) player.y += 2;
+      if (player.y < (canvas.height-(player.height*player.scaleY))) player.y += 2;
       if (levelTest.layerCollidesWith("decorations", player)) player.y -= 2;
       player.playAnimation("walkDown");
     } else {

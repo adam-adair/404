@@ -43,5 +43,7 @@ image.src = '../assets/img/rpg_sprite_walk.png';
     context: context
   });
 
+  player.setScale(1.25)
+
 
   export default player;
