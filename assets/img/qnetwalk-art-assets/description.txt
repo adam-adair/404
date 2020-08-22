@@ -1,0 +1,6 @@
+These are the images from QNetWalk by Andi Peredri
+downloaded from http://qt-apps.org/content/show.php/QNetWalk?content=62804 as his original page seems to be dead http://qt.osdn.org.ua/qnetwalk.html
+I added 2 tilesets for all the images, one for the 32x32 and one for 16x16.
+
+The 32x32 cable images names seems to be following the following pattern: "cable UP RIGHT DOWN LEFT.png" where each CAP is 1 if there is a cable from that
+side and 0 if not. So cable1100.png would be a turn from up to the right, since both UP and RIGHT are 1 and DOWN and LEFT are 0.

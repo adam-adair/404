@@ -1,17 +1,15 @@
 import {Sprite, degToRad} from 'kontra';
 import { offset, rows, gridSize } from './initialize';
 
-let image = new Image();
-image.src = '../assets/img/bot.png';
-
-let bot = Sprite({
+export  default function makeBot(botImage){
+  let bot = Sprite({
   x: 0+offset,
   y: (rows*gridSize)-offset,
   dx: 2,
   width: 32,
   height: 32,
   anchor:  {x: 0.5, y: 0.5},
-  image: image,
+  image: botImage,
 });
 
 const invalidDirs = {
@@ -38,6 +36,7 @@ bot.rotate = function(dir){
     this.rotation -= degToRad(90)
   }
 }
+
 
 bot.update = function(nodes, moves){
   let nodeSet = 0
@@ -96,4 +95,5 @@ bot.update = function(nodes, moves){
   if(this.heading==='S') this.y+=this.speed
 }
 
-export default bot;
+return bot;
+}

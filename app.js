@@ -22,10 +22,11 @@ import {
   GameLoop,
   initKeys,
   keyPressed,
+
 } from "kontra";
-import player from "./src/player";
+import makePlayer from "./src/player";
 import { canvas, context, offset } from "./src/initialize";
-import bot from "./src/bot";
+import makeBot from "./src/bot";
 import track from "./src/track";
 
 initKeys();
@@ -104,7 +105,7 @@ const levelSwitches = [
 //be other properties as we develop more features in the game
 
 let levelTest, levelTrack;
-
+let player, bot;
 ///////////////////////////////////////
 
 const loop = GameLoop({
@@ -176,28 +177,83 @@ const loop = GameLoop({
   },
 });
 
+const assetPaths=["./assets/img/rpg_sprite_walk.png",
+'./assets/img/bot.png',
+"./assets/img/pipes.png",
+"./assets/img/test.png",
+"./assets/img/node.png",
+"./assets/img/nodeHome.png",
+"./assets/tile/test.tsx",
+"./assets/tile/node.tsx",
+"./assets/tile/nodeHome.tsx",
+"./assets/tile/pipes.tsx",
+"./assets/tile/test.json",
+"./assets/tile/pipe2.json"]
+
+const levelImageAssetPaths=assetPaths.slice(2,6)
+
+const levelDataAssetPaths= assetPaths.slice(6,11)
+
+const levelImageAssets=[]
+
+////  TO PLAY USING LOCAL FILE /////////
+////  Loads the player and bot spritesheets, then creates their objects. This is imporant to properly animate the sprites
+////  The level assets and level generator need to be added to this chain to avoid the fetch being used by the load function
+
+Promise.all([
+  new Promise( (resolve,reject)=>{
+    let botImage = new Image();
+  botImage.src = assetPaths[1]
+  botImage.addEventListener('load',()=> {
+    bot=makeBot(botImage);
+    resolve(true)
+  })
+}),
+new Promise( (resolve,reject)=>{
+  let playerImage = new Image();
+  playerImage.src = assetPaths[0]
+  playerImage.addEventListener('load',()=> {
+    player=makePlayer(playerImage);
+    resolve(true)
+  })
+}),
+...levelImageAssetPaths.map(path=>{
+  return new Promise( (resolve,reject)=>{
+    let levelImage = new Image();
+    levelImage.src = path;
+    levelImage.addEventListener('load',()=> {
+      levelImageAssets.push(levelImage);
+      resolve(true)
+    })
+  })
+}),
+...levelDataAssetPaths.map(path=>{
+  return new Promise( (resolve,reject)=>{
+    let levelImage = new Image();
+    levelImage.src = path;
+    levelImage.addEventListener('load',()=> {
+      levelImageAssets.push(levelImage);
+      resolve(true)
+    })
+  })
+})
+]).then( () =>{
+console.log(levelImageAssetPaths)
+}
+)
+
+//// FOR USE WITH SERVER UNTIL WE FIGURE OUT HOW TO RUN LOCAL FILE ////////
 //// all images, tiles, spritesheets, etc. must be loaded prior to starting the game loop
 load(
-  "../assets/img/rpg_sprite_walk.png",
-  "../assets/img/pipes.png",
-  "../assets/img/test.png",
-  "../assets/img/node.png",
-  "../assets/img/nodeHome.png",
-  "../assets/tile/test.tsx",
-  "../assets/tile/node.tsx",
-  "../assets/tile/nodeHome.tsx",
-  "../assets/tile/pipes.tsx",
-  "../assets/tile/test.json",
-  "../assets/tile/pipe2.json"
-)
-  .then((assets) => {
+  ...assetPaths
+
+).then((assets) => {
     /* the tile engine is looking for an image property within the tilesets that doesn't exist.
   You MUST add it to the JSON, the value is the path for the original tileset png.
-  Right now it is hardcoded but we can probably update it programatically as the levels change
-  */
+   */
 
     levelTest = TileEngine(
-      dataAssets[`../assets/tile/${levelNames[selectedLevel]}.json`]
+      dataAssets[`./assets/tile/${levelNames[selectedLevel]}.json`]
     );
     levelTrack = track({
       pipes: levelTest.layers.filter((layer) => layer.name === "pipes")[0].data,
