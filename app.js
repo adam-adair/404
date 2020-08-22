@@ -28,7 +28,7 @@ import makePlayer from "./src/player";
 import { canvas, context, offset } from "./src/initialize";
 import makeBot from "./src/bot";
 import track from "./src/track";
-import pipe2 from "./assets/tile/pipe2.json"
+import pipe2 from "./assets/tile/parsed.pipe2.json"
 
 initKeys();
 
@@ -52,7 +52,7 @@ levelPick.addEventListener("click", (ev) => {
 ///these levels and robot moves will be loaded/created dynamically later
 
 let selectedLevel = 1;
-const levelNames = ["test", "pipe2"];
+const levelNames = ["test", "parsed.pipe2"];
 const levelObstacles = [
   // test.json obstacle locations in decorations layer
   [
@@ -187,7 +187,7 @@ const imageAssetPaths=[
 "./assets/img/nodeHome.png",
 ]
 const tilesetNames = ["pipes.tsx","node.tsx","nodeHome.tsx","test.tsx"]
-let levelJson = "./assets/tile/pipe2.json"
+let levelJson = "./assets/tile/parsed.pipe2.json"
 
 ////  TO PLAY USING LOCAL FILE /////////
 ////  Loads the player and bot spritesheets, then creates their objects. This is imporant to properly animate the sprites
@@ -239,12 +239,11 @@ let levelJson = "./assets/tile/pipe2.json"
 //// all images, tiles, spritesheets, etc. must be loaded prior to starting the game loop
 load(...imageAssetPaths
 ).then(() => {
-  console.log(imageAssets)
   //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
   //it also fakes the required mapping for the TileEngine
   //later, we should make something that cleans this up and creates the necessary JSON for a level and also deal w multiple levels
   dataAssets[levelJson] = pipe2
-
+  console.dir(dataAssets)
   tilesetNames.map(tileset=> {
     const tilesetURL = new URL(tileset, window.location.href).href
     window.__k.d[tilesetURL] = 'x'

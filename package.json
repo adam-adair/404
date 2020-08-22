@@ -11,10 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "kontra": "^7.1.0"
-
   },
   "devDependencies": {
     "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "xml2js": "^0.4.23"
   }
 }
