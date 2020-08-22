@@ -80,23 +80,23 @@
        {
               "firstgid":1,
               "source":"pipes.tsx",
-              "image":"../img/pipes.png"
+              "image":"./assets/img/pipes.png"
              },
              {
               "firstgid":6,
               "source":"node.tsx",
-              "image":"../img/node.png"
+              "image":"./assets/img/node.png"
 
              },
              {
               "firstgid":7,
               "source":"nodeHome.tsx",
-              "image":"../img/nodeHome.png"
+              "image":"./assets/img/nodeHome.png"
              },
              {
               "firstgid":8,
               "source":"test.tsx",
-              "image":"../img/test.png"
+              "image":"./assets/img/test.png"
              }],
  "tilewidth":32,
  "type":"map",

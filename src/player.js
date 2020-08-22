@@ -2,12 +2,10 @@
 import {Sprite, SpriteSheet} from 'kontra';
 import context from './initialize';
 
-let image = new Image();
-image.src = '../assets/img/rpg_sprite_walk.png';
-
+const player = (img) => {
 
   let spriteSheet = SpriteSheet({
-    image: image,
+    image: img,
     frameWidth: 24,
     frameHeight: 32,
     animations: {
@@ -36,12 +34,13 @@ image.src = '../assets/img/rpg_sprite_walk.png';
   });
 
 
-  let player = Sprite({
+  return Sprite({
     x: 100,        // starting x,y position of the sprite
     y: 450,
     animations:spriteSheet.animations,
     context: context
   });
 
+}
 
-  export default player;
+export default player

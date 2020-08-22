@@ -1,14 +1,15 @@
 /* eslint-disable complexity */
-import { load, TileEngine, dataAssets,GameLoop, initKeys,keyPressed} from 'kontra';
-import player from './src/player'
+import { load, TileEngine, dataAssets,GameLoop, initKeys,keyPressed, imageAssets} from 'kontra';
+import playerSprite from './src/player'
 import context from './src/initialize';
-import bot from './src/bot'
+import botSprite from './src/bot'
 import track from './src/track'
-
+import pipe2 from './public/assets/tile/pipe2.json'
 
 initKeys();
 
 let moves = []
+let player, bot
 const goButton = document.getElementById('go')
 const userInput = document.getElementById('userMoves')
 const levelPick = document.getElementById('levelPick')
@@ -151,25 +152,46 @@ const loop = GameLoop({
 });
 
 //// all images, tiles, spritesheets, etc. must be loaded prior to starting the game loop
-load("../assets/img/rpg_sprite_walk.png",
-  "../assets/img/pipes.png",
-  "../assets/img/test.png",
-  "../assets/img/node.png",
-  "../assets/img/nodeHome.png",
-  "../assets/tile/test.tsx",
-  "../assets/tile/node.tsx",
-  "../assets/tile/nodeHome.tsx",
-  "../assets/tile/pipes.tsx",
-  "../assets/tile/test.json",
-  "../assets/tile/pipe2.json",
-).then(assets=>{load()}).then((assets) => {
+load("./assets/img/rpg_sprite_walk.png",
+  "./assets/img/bot.png",
+  "./assets/img/pipes.png",
+  "./assets/img/test.png",
+  "./assets/img/node.png",
+  "./assets/img/nodeHome.png",
+  // "./assets/tile/test.tsx",
+  // "./assets/tile/node.tsx",
+  // "./assets/tile/nodeHome.tsx",
+  // "./assets/tile/pipes.tsx",
+  // "./assets/tile/test.json",
+  // "./assets/tile/pipe2.json",
+).then(() => {
+
+  //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
+  //it also fakes the required mapping for the TileEngine
+  //later, we should make something that cleans this up and creates the necessary JSON for a level and also deal w multiple levels
+
+  let tilesets = ["pipes.tsx","node.tsx","nodeHome.tsx","test.tsx"]
+  let levelJson = "./assets/tile/pipe2.json"
+  dataAssets[levelJson] = pipe2
+
+  tilesets.map(tileset=> {
+    const tilesetURL = new URL(tileset, window.location.href).href
+    window.__k.d[tilesetURL] = 'x'
+    window.__k.dm.set(dataAssets[levelJson],tilesetURL)
+  })
+  
+
+  //I moved the asset assignment for the player and bot here so that they could load from the image assets (which don't have the same fetch problem)
+  player = playerSprite(imageAssets["./assets/img/rpg_sprite_walk.png"])
+
+  bot = botSprite(imageAssets["./assets/img/bot.png"])
 
 /* the tile engine is looking for an image property within the tilesets that doesn't exist.
   You MUST add it to the JSON, the value is the path for the original tileset png.
   Right now it is hardcoded but we can probably update it programatically as the levels change
   */
 
-  levelTest=TileEngine(dataAssets[`../assets/tile/${levelNames[selectedLevel]}.json`]);
+  levelTest=TileEngine(dataAssets[`./assets/tile/${levelNames[selectedLevel]}.json`]);
   levelTrack = track({
     pipes: levelTest.layers.filter(layer=>layer.name==="pipes")[0].data,
     nodes: levelTest.layers.filter(layer=>layer.name==="nodes")[0].data
