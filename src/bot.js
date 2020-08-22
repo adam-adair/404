@@ -1,17 +1,16 @@
 import {Sprite, degToRad} from 'kontra';
 import { offset, rows, gridSize } from './initialize';
 
-const botSprite = (img) => {
-
+export  default function makeBot(botImage){
   let bot = Sprite({
-    x: 0+offset,
-    y: (rows*gridSize)-offset,
-    dx: 2,
-    width: 32,
-    height: 32,
-    anchor:  {x: 0.5, y: 0.5},
-    image: img,
-  });
+  x: 0+offset,
+  y: (rows*gridSize)-offset,
+  dx: 2,
+  width: 32,
+  height: 32,
+  anchor:  {x: 0.5, y: 0.5},
+  image: botImage,
+});
 
   const invalidDirs = {
     S: [[4,1],[3,1],[2,1],[0,1],[4,2],[3,2],[4,3]],
@@ -38,17 +37,18 @@ const botSprite = (img) => {
     }
   }
 
-  bot.update = function(nodes, moves){
-    let nodeSet = 0
-    // eslint-disable-next-line complexity
-    nodes.forEach((node) => {
-      //check if the absolute x and y pos of the bot is the same as a node
-      if(this.x===node.x && this.y===node.y) {
-        //if you're on a node, stop
-        nodeSet = 1
-        bot.currentNode = node
-        //console.log(bot.currentNode)
-        this.speed = 0
+
+bot.update = function(nodes, moves){
+  let nodeSet = 0
+  // eslint-disable-next-line complexity
+  nodes.forEach((node) => {
+    //check if the absolute x and y pos of the bot is the same as a node
+    if(this.x===node.x && this.y===node.y) {
+      //if you're on a node, stop
+      nodeSet = 1
+      bot.currentNode = node
+      //console.log(bot.currentNode)
+      this.speed = 0
 
         //if you're at the end of the level, stop and wait
         if (node.nodeType === 99) {
@@ -94,8 +94,5 @@ const botSprite = (img) => {
     if(this.heading==='N') this.y-=this.speed
     if(this.heading==='S') this.y+=this.speed
   }
-
   return bot
 }
-
-export default botSprite;
