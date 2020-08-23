@@ -11,7 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "kontra": "^7.1.0"
-
   },
   "devDependencies": {
     "webpack": "^4.44.1",
