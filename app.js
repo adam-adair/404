@@ -23,13 +23,13 @@ import {
   GameLoop,
   initKeys,
   keyPressed,
-  collides
+  collides,
 } from "kontra";
 import makePlayer from "./src/player";
-import { canvas, context } from "./src/initialize";
+import { canvas, context, initialTileHeadings } from "./src/initialize";
 import makeBot from "./src/bot";
 import track from "./src/track";
-import level from "./assets/tile/parsed.level2.json"
+import level from "./assets/tile/parsed.level1.json"
 
 
 initKeys();
@@ -54,7 +54,7 @@ levelPick.addEventListener("click", (ev) => {
 ///these levels and robot moves will be loaded/created dynamically later
 
 let selectedLevel = 1;
-const levelNames = ["test", "parsed.level2"];
+const levelNames = ["test", "parsed.level1"];
 const levelObstacles = [
   // test.json obstacle locations in decorations layer
   [
@@ -96,6 +96,7 @@ const levelObstacles = [
 
 let playerStart;
 let playerGoal;
+let botStart;
 let botGoal;
 let levelSwitches;
 let levelGates;
@@ -112,7 +113,7 @@ let player, bot;
 const loop = GameLoop({
   context: context, // create the main game loop
   update: function () {
-    ///// player keyboard controls. collision test prevents player from moving into obstacle tiles
+    ///// player key board controls. collision test prevents player from moving into obstacle tiles
     ////  position test prevents player from walking off screen
 
     if (keyPressed("right")) {
@@ -137,15 +138,12 @@ const loop = GameLoop({
       player.playAnimation("idle");
     }
 
-
-
-
-
     player.update();
 
 
     //update the bot based on level track and move list
-    bot.update(levelTrack, moves);
+    bot.update();
+    bot.process(levelTrack, moves);
 
 
     if(collides(player,bot)) console.log("COLLIDING")
@@ -202,19 +200,11 @@ const loop = GameLoop({
 const imageAssetPaths=[
   './assets/img/boardArt.png',
  "./assets/img/rpg_sprite_walk.png",
- './assets/img/bot.png',
-// "./assets/img/pipes.png",
-// "./assets/img/test.png",
-// "./assets/img/node.png",
-// "./assets/img/nodeHome.png",
+ './assets/img/botSheet.png',
 ]
-const tilesetNames = [
-//  "pipes.tsx","node.tsx","nodeHome.tsx","test.tsx"
-  "boardArt.tsx"
-]
-let levelJson = "./assets/tile/parsed.level2.json"
+const tilesetNames = ["boardArt.tsx"]
 
-
+let levelJson = "./assets/tile/parsed.level1.json"
 
 //// all images, tiles, spritesheets, etc. must be loaded prior to starting the game loop
 load(...imageAssetPaths
@@ -248,13 +238,20 @@ load(...imageAssetPaths
   const levelObjects=levelTest.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
   playerStart =levelObjects.filter(object=>object.name==='playerStart')[0];
   playerGoal = levelObjects.filter(object => object.name==='playerGoal')[0];
+  botStart = levelObjects.filter(object => object.name==='botStart')[0];
   botGoal = levelObjects.filter(object => object.name==='botGoal')[0];
-  levelSwitches= levelObjects.filter(object => object.type==='Switch');
-  console.log(levelSwitches)
+   levelSwitches= levelObjects.filter(object => object.type==='Switch');
+  //console.log(levelSwitches)
   levelGates= levelObjects.filter(object => object.type==='Gate');
   levelGates.forEach(gate=>{assignTilesToObject(gate)})
-  console.log(levelGates)
+  //console.log(levelGates)
+
+  //get type of pipe for bot start to determine initial bot heading
+  let initialPipeIx = (botStart.y/32 * 16) + botStart.x/32
+  let initialPipeType = levelTest.layers.filter((layer) => layer.name === "pipes")[0].data[initialPipeIx]
+  botStart.heading = initialTileHeadings[initialPipeType]
   player.placeAtStart(playerStart)
+  bot.placeAtStart(botStart)
 
 
   loop.start();
