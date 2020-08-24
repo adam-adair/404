@@ -4,27 +4,25 @@ import node from './node'
 //converts to an array that can be fed into makePipe
 //there's surely a better way to do this, but I don't want to learn Tiled
 const pipeKey = {
-  "1":[4,0],
-  "2":[3,0],
-  "3":[2,0],
-  "4":[1,0],
-  "5":[0,0],
-  "6":[4,1],
-  "7":[3,1],
-  "8":[2,1],
-  "9":[0,1],
-  "10":[4,2],
-  "11":[3,2],
-  "12":[2,2],
-  "13":[4,3],
-  "14":[3,3],
-  "15":[2,3]
+  "37":[4,0],
+  "38":[3,0],
+  "39":[2,0],
+  "40":[1,0],
+  "41":[0,0],
+  "42":[4,1],
+  "43":[3,1],
+  "44":[2,1],
+  "53":[0,1],
+  "47":[4,2],
+  "48":[3,2],
+  "49":[2,2],
+  "50":[4,3],
+  "51":[3,3],
+  "52":[2,3]
   }
 
 
 const track = (lvl) => {
-  const firstgid = lvl.tilesets.filter(tx=>tx.source==="pipes.tsx")[0].firstgid
-  //console.log(firstgid)
   const pipeArray = lvl.layers.filter(layer=>layer.name==="pipes")[0].data
   const nodeArray = lvl.layers.filter(layer=>layer.name==="nodes")[0].data
   console.log(pipeArray)
@@ -36,7 +34,7 @@ const track = (lvl) => {
       //or recognizes winning condition at a particular node
       if(nodeArray[j*16 + i] !== 0) {
         console.log(pipeArray[j*16 + i],nodeArray[j*16 + i],j,i)
-        let thisNode = pipeKey[pipeArray[j*16 + i] - firstgid + 1]
+        let thisNode = pipeKey[pipeArray[j*16 + i]]
         let nt = thisNode[0]
         //nodeType 99 is the 'winning node' for the level
         if(nodeArray[j*16 + i] === 2) nt = 99

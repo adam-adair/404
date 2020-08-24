@@ -210,14 +210,18 @@ const loop = GameLoop({
 });
 
 const imageAssetPaths=[
-"./assets/img/rpg_sprite_walk.png",
-'./assets/img/bot.png',
-"./assets/img/pipes.png",
-"./assets/img/test.png",
-"./assets/img/node.png",
-"./assets/img/nodeHome.png",
+  './assets/img/boardArt.png',
+ "./assets/img/rpg_sprite_walk.png",
+ './assets/img/bot.png',
+// "./assets/img/pipes.png",
+// "./assets/img/test.png",
+// "./assets/img/node.png",
+// "./assets/img/nodeHome.png",
 ]
-const tilesetNames = ["pipes.tsx","node.tsx","nodeHome.tsx","test.tsx"]
+const tilesetNames = [
+//  "pipes.tsx","node.tsx","nodeHome.tsx","test.tsx"
+  "boardArt.tsx"
+]
 let levelJson = "./assets/tile/parsed.level2.json"
 
 
@@ -229,7 +233,7 @@ load(...imageAssetPaths
   //it also fakes the required mapping for the TileEngine
   //later, we should make something that cleans this up and creates the necessary JSON for a level and also deal w multiple levels
   dataAssets[levelJson] = level
-  console.dir(dataAssets)
+
   tilesetNames.map(tileset=> {
     const tilesetURL = new URL(tileset, window.location.href).href
     window.__k.d[tilesetURL] = 'x'
@@ -237,9 +241,9 @@ load(...imageAssetPaths
   })
 
   //I moved the asset assignment for the player and bot here so that they could load from the image assets (which don't have the same fetch problem)
-  player = makePlayer(imageAssets[imageAssetPaths[0]]);
+  player = makePlayer(imageAssets[imageAssetPaths[1]]);
 
-  bot = makeBot(imageAssets[imageAssetPaths[1]]);
+  bot = makeBot(imageAssets[imageAssetPaths[2]]);
 
   levelTest = TileEngine(
     dataAssets[`./assets/tile/${levelNames[selectedLevel]}.json`]
