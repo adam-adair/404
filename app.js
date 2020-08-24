@@ -194,7 +194,7 @@ const loop = GameLoop({
       need to create a bot end node tile layer for each level or dynamically check for the
       tile id of the end node
       */
-    console.log(collides(player,playerGoal))
+    //console.log(collides(player,playerGoal))
       if (
       collides(player,playerGoal) &&
       levelTest.tileAtLayer("nodes", { x: bot.x, y: bot.y }) === 7
@@ -258,7 +258,7 @@ load(...imageAssetPaths
   levelObjects=levelTest.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
   playerStart =levelObjects.filter(layer=>layer.name==='playerStart')[0];
   playerGoal = levelObjects.filter(layer => layer.name==='playerGoal')[0];
-  console.log(playerGoal)
+  //console.log(playerGoal)
   player.placeAtStart(playerStart)
 
 
