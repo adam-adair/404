@@ -157,7 +157,7 @@ const loop = GameLoop({
 
 
         //use the gate names to create an array of gate objects. This would be where we would check
-        // if a switch affects multiple gates but right now it is only coded for single gates
+        // if a switch affects multiple gates but right now it is only coded for single gate
         const associatedGameObjects=[];
 
         linkedGateNames.forEach(gateName=>{
@@ -165,30 +165,19 @@ const loop = GameLoop({
         }
             )
 
-        //convert the gate objects to tiles
-        const obsTilesToClear = []
-
+      // clear the decorations at each tiles
         associatedGameObjects.forEach(gate=>{
           console.log(gate)
-          for(let x =gate.x/32; x<((gate.x+gate.width)/32);x++){
-            for(let y = gate.y/32; y<((gate.y+gate.height)/32);y++)
-            {
-              obsTilesToClear.push({row:y,col:x})
-            }
-        }
-
+          gate.tiles.forEach(tile=> {
+            levelTest.setTileAtLayer("decorations",
+          tile,
+          0)
+          })
         })
 
 
-        //clear the tiles
-        obsTilesToClear.forEach(tile => {
-          levelTest.setTileAtLayer("decorations",
-        tile,
-        0)
-        })
-    }
-  })
-
+  }
+})
   },
   render: function () {
     // render the game state
@@ -288,9 +277,24 @@ load(
   playerGoal = levelObjects.filter(object => object.name==='playerGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
   levelGates= levelObjects.filter(object => object.type==='Gate');
-
+  levelGates.forEach(gate=>{assignTilesToObject(gate)})
+  console.log(levelGates)
   player.placeAtStart(playerStart)
 
 
   loop.start();
 });
+
+
+function assignTilesToObject(gameObject){
+
+    gameObject.tiles=[]
+      for(let x =gameObject.x/32; x<((gameObject.x+gameObject.width)/32);x++){
+        for(let y = gameObject.y/32; y<((gameObject.y+gameObject.height)/32);y++)
+        {
+          gameObject.tiles.push({row:y,col:x})
+        }
+    }
+
+    }
+
