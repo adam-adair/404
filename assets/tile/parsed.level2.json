@@ -1487,7 +1487,8 @@
 		},
 		{
 			"firstgid": 3,
-			"source": "test.tsx"
+			"source": "test.tsx",
+			"image": "./assets/img/test.png"
 		},
 		{
 			"firstgid": 819,

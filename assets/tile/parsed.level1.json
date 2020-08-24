@@ -3,7 +3,7 @@
 	"editorsettings": {
 		"export": {
 			"format": "json",
-			"target": "level1.json"
+			"target": "../tile/level1.json"
 		}
 	},
 	"height": 16,
@@ -727,7 +727,7 @@
 				0,
 				0,
 				0,
-				0,
+				825,
 				0,
 				0,
 				0,
@@ -1371,15 +1371,15 @@
 					"y": 32
 				},
 				{
-					"height": 37.962805396864,
+					"height": 37.9628,
 					"id": 4,
 					"name": "playerGoal",
 					"rotation": 0,
 					"type": "playerGoal",
 					"visible": true,
-					"width": 38.5851464689437,
-					"x": 460.532393339006,
-					"y": 461.777075483165
+					"width": 38.5851,
+					"x": 460.532,
+					"y": 461.777
 				},
 				{
 					"height": 32,

@@ -28,7 +28,7 @@ import makePlayer from "./src/player";
 import { canvas, context } from "./src/initialize";
 import makeBot from "./src/bot";
 import track from "./src/track";
-import pipe2 from "./assets/tile/parsed.pipe2.json"
+import level from "./assets/tile/parsed.level2.json"
 
 initKeys();
 
@@ -52,7 +52,7 @@ levelPick.addEventListener("click", (ev) => {
 ///these levels and robot moves will be loaded/created dynamically later
 
 let selectedLevel = 1;
-const levelNames = ["test", "parsed.pipe2"];
+const levelNames = ["test", "parsed.level2"];
 const levelObstacles = [
   // test.json obstacle locations in decorations layer
   [
@@ -205,7 +205,7 @@ const imageAssetPaths=[
 "./assets/img/nodeHome.png",
 ]
 const tilesetNames = ["pipes.tsx","node.tsx","nodeHome.tsx","test.tsx"]
-let levelJson = "./assets/tile/parsed.pipe2.json"
+let levelJson = "./assets/tile/parsed.level2.json"
 
 
 
@@ -215,7 +215,7 @@ load(...imageAssetPaths
   //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
   //it also fakes the required mapping for the TileEngine
   //later, we should make something that cleans this up and creates the necessary JSON for a level and also deal w multiple levels
-  dataAssets[levelJson] = pipe2
+  dataAssets[levelJson] = level
   console.dir(dataAssets)
   tilesetNames.map(tileset=> {
     const tilesetURL = new URL(tileset, window.location.href).href
@@ -223,34 +223,19 @@ load(...imageAssetPaths
     window.__k.dm.set(dataAssets[levelJson],tilesetURL)
   })
 
-  tilesetNames.map((tileset) => {
-    const tilesetURL = new URL(tileset, window.location.href).href;
-    console.log(tilesetURL);
-    window.__k.d[tilesetURL] = "x";
-    window.__k.dm.set(dataAssets[levelJson], tilesetURL);
-  });
-
   //I moved the asset assignment for the player and bot here so that they could load from the image assets (which don't have the same fetch problem)
   player = makePlayer(imageAssets[imageAssetPaths[0]]);
 
   bot = makeBot(imageAssets[imageAssetPaths[1]]);
 
-  /* the tile engine is looking for an image property within the tilesets that doesn't exist.
-load(
-  ...assetPaths
-
-).then((assets) => {
-    /* the tile engine is looking for an image property within the tilesets that doesn't exist.
-  You MUST add it to the JSON, the value is the path for the original tileset png.
-   */
-
   levelTest = TileEngine(
     dataAssets[`./assets/tile/${levelNames[selectedLevel]}.json`]
   );
-  levelTrack = track({
-    pipes: levelTest.layers.filter((layer) => layer.name === "pipes")[0].data,
-    nodes: levelTest.layers.filter((layer) => layer.name === "nodes")[0].data,
-  });
+  levelTrack = track(
+  //  { pipes: levelTest.layers.filter((layer) => layer.name === "pipes")[0].data,
+  //   nodes: levelTest.layers.filter((layer) => layer.name === "nodes")[0].data,}
+  level
+  );
 
   loop.start();
 });

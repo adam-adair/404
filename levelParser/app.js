@@ -13,7 +13,8 @@ let level
 fs.readFile(path.join(__dirname,'..','assets','json',fileName), 'utf8', function(err, data) {
     if (err) throw err;
     level = JSON.parse(data);
-    const tilesets = level.tilesets.map(tileset=>tileset.source)
+    const tilesets = level.tilesets.map(tileset=>tileset.source.replace('../tile/',''))
+    console.dir(tilesets)
     tilesets.forEach((tileset,ix) => {
       fs.readFile(path.join(__dirname,'..','assets','tile',tileset), 'utf8', function(errReadXML, xml) {
         if (errReadXML) throw errReadXML;
@@ -22,6 +23,7 @@ fs.readFile(path.join(__dirname,'..','assets','json',fileName), 'utf8', function
           let imgString = result.tileset.image[0]['$'].source
           imgString = imgString.replace('..','./assets')
           level.tilesets[ix].image = imgString
+          level.tilesets[ix].source = tileset
           if(ix===tilesets.length-1) {exporter(JSON.stringify(level, null, '\t'),fileName)}
         });
       })
