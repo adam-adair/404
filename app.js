@@ -25,7 +25,7 @@ import {
   keyPressed,
 } from "kontra";
 import makePlayer from "./src/player";
-import { canvas, context, offset } from "./src/initialize";
+import { canvas, context } from "./src/initialize";
 import makeBot from "./src/bot";
 import track from "./src/track";
 import pipe2 from "./assets/tile/parsed.pipe2.json"
@@ -143,7 +143,7 @@ const loop = GameLoop({
       need to create a bot end node tile layer for each level or dynamically check for the
       tile id of the end node
       */
-
+ /*
     if (
       levelTest.layerCollidesWith("playerGoal", player) &&
       levelTest.tileAtLayer("nodes", { x: bot.x, y: bot.y }) === 7
@@ -151,6 +151,7 @@ const loop = GameLoop({
       alert("YOU WIN!!!");
       loop.stop();
     }
+    */
 
     player.update();
 
@@ -206,53 +207,8 @@ const imageAssetPaths=[
 const tilesetNames = ["pipes.tsx","node.tsx","nodeHome.tsx","test.tsx"]
 let levelJson = "./assets/tile/parsed.pipe2.json"
 
-////  TO PLAY USING LOCAL FILE /////////
-////  Loads the player and bot spritesheets, then creates their objects. This is imporant to properly animate the sprites
-////  The level assets and level generator need to be added to this chain to avoid the fetch being used by the load function
 
-// Promise.all([
-//   new Promise( (resolve,reject)=>{
-//     let botImage = new Image();
-//   botImage.src = assetPaths[1]
-//   botImage.addEventListener('load',()=> {
-//     bot=makeBot(botImage);
-//     resolve(true)
-//   })
-// }),
-// new Promise( (resolve,reject)=>{
-//   let playerImage = new Image();
-//   playerImage.src = assetPaths[0]
-//   playerImage.addEventListener('load',()=> {
-//     player=makePlayer(playerImage);
-//     resolve(true)
-//   })
-// }),
-// ...levelImageAssetPaths.map(path=>{
-//   return new Promise( (resolve,reject)=>{
-//     let levelImage = new Image();
-//     levelImage.src = path;
-//     levelImage.addEventListener('load',()=> {
-//       levelImageAssets.push(levelImage);
-//       resolve(true)
-//     })
-//   })
-// }),
-// ...levelDataAssetPaths.map(path=>{
-//   return new Promise( (resolve,reject)=>{
-//     let levelImage = new Image();
-//     levelImage.src = path;
-//     levelImage.addEventListener('load',()=> {
-//       levelImageAssets.push(levelImage);
-//       resolve(true)
-//     })
-//   })
-// })
-// ]).then( () =>{
-// console.log(levelImageAssetPaths)
-// }
-// )
 
-//// FOR USE WITH SERVER UNTIL WE FIGURE OUT HOW TO RUN LOCAL FILE ////////
 //// all images, tiles, spritesheets, etc. must be loaded prior to starting the game loop
 load(...imageAssetPaths
 ).then(() => {

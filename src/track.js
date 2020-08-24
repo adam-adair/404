@@ -36,7 +36,7 @@ const track = (lvl) => {
         let thisNode = pipeKey[pipeArray[j*16 + i]]
         let nt = thisNode[0]
         //nodeType 99 is the 'winning node' for the level
-        if(nodeArray[j*16 + i] === 7) nt = 99
+        if(nodeArray[j*16 + i] === 2) nt = 99
         nodes.push(node(i,j,nt, thisNode[1]))
       }
     }
