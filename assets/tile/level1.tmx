@@ -3,10 +3,10 @@
  <editorsettings>
   <export target="level1.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" source="../404/assets/tile/test.tsx"/>
- <tileset firstgid="817" source="../404/assets/tile/nodeHome.tsx"/>
+ <tileset firstgid="1" source="test.tsx"/>
+ <tileset firstgid="817" source="nodeHome.tsx"/>
  <tileset firstgid="818" source="pipes.tsx"/>
- <tileset firstgid="830" source="../404/assets/tile/node.tsx"/>
+ <tileset firstgid="830" source="node.tsx"/>
  <layer id="1" name="background" width="16" height="16">
   <data encoding="csv">
 779,780,779,780,779,780,779,780,779,780,779,780,779,780,779,780,

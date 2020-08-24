@@ -1353,6 +1353,119 @@
 			"width": 16,
 			"x": 0,
 			"y": 0
+		},
+		{
+			"draworder": "topdown",
+			"id": 7,
+			"name": "InteractiveComponents",
+			"objects": [
+				{
+					"height": 32,
+					"id": 4,
+					"name": "1",
+					"properties": [
+						{
+							"name": "Gates",
+							"type": "string",
+							"value": "1,2"
+						},
+						{
+							"name": "SwitchType",
+							"type": "string",
+							"value": "Temporary"
+						}
+					],
+					"rotation": 0,
+					"type": "Switch",
+					"visible": true,
+					"width": 32,
+					"x": 256,
+					"y": 224
+				},
+				{
+					"height": 64,
+					"id": 5,
+					"name": "1",
+					"rotation": 0,
+					"type": "Gate",
+					"visible": true,
+					"width": 64,
+					"x": 448,
+					"y": 128
+				},
+				{
+					"height": 64,
+					"id": 7,
+					"name": "2",
+					"rotation": 0,
+					"type": "Gate",
+					"visible": true,
+					"width": 64,
+					"x": 448,
+					"y": 320
+				},
+				{
+					"height": 40.0421,
+					"id": 9,
+					"name": "2",
+					"properties": [
+						{
+							"name": "Gates",
+							"type": "string",
+							"value": "2"
+						},
+						{
+							"name": "SwitchType",
+							"type": "string",
+							"value": "Temporary"
+						}
+					],
+					"rotation": 359.15,
+					"type": "Switch",
+					"visible": true,
+					"width": 34.7489,
+					"x": 242.359,
+					"y": 400.15
+				},
+				{
+					"height": 64,
+					"id": 10,
+					"name": "playerGoal",
+					"rotation": 0,
+					"type": "playerGoal",
+					"visible": true,
+					"width": 96,
+					"x": 192,
+					"y": 0
+				},
+				{
+					"height": 32,
+					"id": 11,
+					"name": "playerStart",
+					"rotation": 0,
+					"type": "playerStart",
+					"visible": true,
+					"width": 32,
+					"x": 96,
+					"y": 416
+				},
+				{
+					"height": 32,
+					"id": 13,
+					"name": "botStart",
+					"rotation": 0,
+					"type": "botStart",
+					"visible": true,
+					"width": 32,
+					"x": 0,
+					"y": 480
+				}
+			],
+			"opacity": 1,
+			"type": "objectgroup",
+			"visible": true,
+			"x": 0,
+			"y": 0
 		}
 	],
 	"nextlayerid": 6,

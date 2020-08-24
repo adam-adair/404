@@ -35,11 +35,17 @@ export default function makePlayer(playerImage){
 });
 
 return Sprite({
-  x: 100,        // starting x,y position of the sprite
-  y: 450,
+  x: 5,        // starting x,y position of the sprite
+  y: 5,
   scaleX:1.25,
   scaleY:1.25,
   animations:playerSpriteSheet.animations,
-  context: context
+  context: context,
+  placeAtStart(startObject){
+    this.x=startObject.x;
+    this.y=startObject.y
+  }
 })
+
+
 }

@@ -3,9 +3,9 @@
  <editorsettings>
   <export target="level2.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" source="../404/assets/tile/node.tsx"/>
- <tileset firstgid="2" source="../404/assets/tile/nodeHome.tsx"/>
- <tileset firstgid="3" source="../404/assets/tile/test.tsx"/>
+ <tileset firstgid="1" source="node.tsx"/>
+ <tileset firstgid="2" source="nodeHome.tsx"/>
+ <tileset firstgid="3" source="test.tsx"/>
  <tileset firstgid="819" source="pipes.tsx"/>
  <layer id="3" name="background" width="16" height="16">
   <data encoding="csv">

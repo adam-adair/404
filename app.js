@@ -23,12 +23,14 @@ import {
   GameLoop,
   initKeys,
   keyPressed,
+  collides
 } from "kontra";
 import makePlayer from "./src/player";
 import { canvas, context } from "./src/initialize";
 import makeBot from "./src/bot";
 import track from "./src/track";
 import pipe2 from "./assets/tile/parsed.pipe2.json"
+
 
 initKeys();
 
@@ -100,6 +102,10 @@ const levelSwitches = [
   ],
 ];
 
+let levelObjects;
+let playerStart;
+let playerGoal;
+
 //declares the level to be built by the tile engine globally so that the game loop can access it
 
 //these could and probably should be combined into a single level object later. I imagine there will
@@ -137,21 +143,9 @@ const loop = GameLoop({
       player.playAnimation("idle");
     }
 
-    /* checks for end game if player is colliding with an invisible goal tile layer AND
-      if the bot is at the end node coordinates. Right now the end node tile is hard coded.
-      I'm not sure the tile id will stay the same across levels, in the future we will either
-      need to create a bot end node tile layer for each level or dynamically check for the
-      tile id of the end node
-      */
- /*
-    if (
-      levelTest.layerCollidesWith("playerGoal", player) &&
-      levelTest.tileAtLayer("nodes", { x: bot.x, y: bot.y }) === 7
-    ) {
-      alert("YOU WIN!!!");
-      loop.stop();
-    }
-    */
+
+
+
 
     player.update();
 
@@ -193,6 +187,25 @@ const loop = GameLoop({
     //apparently Kontra's TileEngine can't handle that.
 
     bot.render();
+
+       /* checks for end game if player is colliding with an invisible goal tile layer AND
+      if the bot is at the end node coordinates. Right now the end node tile is hard coded.
+      I'm not sure the tile id will stay the same across levels, in the future we will either
+      need to create a bot end node tile layer for each level or dynamically check for the
+      tile id of the end node
+      */
+    console.log(collides(player,playerGoal))
+      if (
+      collides(player,playerGoal) &&
+      levelTest.tileAtLayer("nodes", { x: bot.x, y: bot.y }) === 7
+    ) {
+    //  If not the last level, reset the bot, player, and tile engine for the  next level and rerender
+    //  Otherwise end game message
+      alert("YOU WIN!!!");
+      loop.stop();
+    }
+
+
   },
 });
 
@@ -251,6 +264,14 @@ load(
     pipes: levelTest.layers.filter((layer) => layer.name === "pipes")[0].data,
     nodes: levelTest.layers.filter((layer) => layer.name === "nodes")[0].data,
   });
+
+  //dynamically sets the player sprite at it's assigned location
+  levelObjects=levelTest.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
+  playerStart =levelObjects.filter(layer=>layer.name==='playerStart')[0];
+  playerGoal = levelObjects.filter(layer => layer.name==='playerGoal')[0];
+  console.log(playerGoal)
+  player.placeAtStart(playerStart)
+
 
   loop.start();
 });
