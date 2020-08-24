@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="14">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="17">
  <editorsettings>
   <export target="../json/level2.json" format="json"/>
  </editorsettings>
@@ -87,18 +87,18 @@
  <layer id="5" name="decorations" width="16" height="16">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-34,0,0,34,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,32,0,30,30,30,
-0,0,0,0,0,0,34,0,0,0,0,0,0,30,30,30,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0,
+34,0,0,34,0,0,0,0,0,0,0,0,32,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,32,32,30,30,30,
+0,0,0,0,0,0,34,0,0,0,0,0,32,30,30,30,
+0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0,
 34,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-33,0,0,0,0,0,0,0,0,0,0,32,0,0,0,0,
-33,0,0,0,0,0,0,0,0,0,0,0,0,30,30,30,
-0,0,0,0,0,0,0,0,0,0,0,0,0,30,30,30,
-0,0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,32,0,0,0,
+33,0,0,0,0,0,0,0,0,0,0,32,32,0,0,0,
+33,0,0,0,0,0,0,0,0,0,0,0,32,30,30,30,
+0,0,0,0,0,0,0,0,0,0,0,0,32,30,30,30,
+32,32,32,32,32,32,32,32,32,32,32,32,32,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -122,5 +122,6 @@
   <object id="10" name="playerGoal" type="playerGoal" x="416" y="32" width="64" height="64"/>
   <object id="11" name="playerStart" type="playerStart" x="96" y="416" width="32" height="32"/>
   <object id="13" name="botStart" type="botStart" x="0" y="480" width="32" height="32"/>
+  <object id="16" name="botGoal" type="botGoal" x="493.634" y="0" width="16" height="32"/>
  </objectgroup>
 </map>

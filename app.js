@@ -96,6 +96,7 @@ const levelObstacles = [
 
 let playerStart;
 let playerGoal;
+let botGoal;
 let levelSwitches;
 let levelGates;
 
@@ -186,7 +187,7 @@ const loop = GameLoop({
 
       if (
       collides(player,playerGoal) &&
-      levelTest.tileAtLayer("nodes", { x: bot.x, y: bot.y }) === 7
+      collides(bot, botGoal)
     ) {
     //  If not the last level, reset the bot, player, and tile engine for the  next level and rerender
     //  Otherwise end game message
@@ -247,6 +248,7 @@ load(...imageAssetPaths
   const levelObjects=levelTest.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
   playerStart =levelObjects.filter(object=>object.name==='playerStart')[0];
   playerGoal = levelObjects.filter(object => object.name==='playerGoal')[0];
+  botGoal = levelObjects.filter(object => object.name==='botGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
   console.log(levelSwitches)
   levelGates= levelObjects.filter(object => object.type==='Gate');
