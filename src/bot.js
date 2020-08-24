@@ -1,5 +1,5 @@
 import {Sprite, degToRad} from 'kontra';
-import { offset, rows, gridSize } from './initialize';
+import { offset, rows, gridSize, invalidPipeTypes } from './initialize';
 
 export  default function makeBot(botImage){
   let bot = Sprite({
@@ -11,13 +11,6 @@ export  default function makeBot(botImage){
   anchor:  {x: 0.5, y: 0.5},
   image: botImage,
 });
-
-  const invalidDirs = {
-    S: [[4,1],[3,1],[2,1],[0,1],[4,2],[3,2],[4,3]],
-    E: [[4,0],[0,0],[4,2],[3,2],[2,2],[4,3],[3,3]],
-    W: [[4,0],[3,0],[2,0],[0,0],[4,1],[3,1],[4,2]],
-    N: [[4,0],[3,0],[4,1],[0,1],[4,3],[3,3],[2,3]]
-  }
 
   bot.heading = 'E';
   bot.baseSpeed = 2;
@@ -58,10 +51,9 @@ bot.update = function(nodes, moves){
 
         if (moves[this.currentMoveIndex]==='F') {
           //only go forward if the node type and orientation allows
-          const badNodes = invalidDirs[this.heading]
-          const numBadNodes = badNodes.filter(badNode=>{
-            return badNode[0]===node.nodeType && badNode[1]===node.nodeOrientation}).length
-          if(numBadNodes===0) this.speed = this.baseSpeed
+          const badPipes = invalidPipeTypes[this.heading]
+          const numBadPipes = badPipes.filter(badPipe=>badPipe===+node.pipeType).length
+          if(numBadPipes===0) this.speed = this.baseSpeed
         }
 
         if (moves[this.currentMoveIndex]==='L') {
