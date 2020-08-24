@@ -142,16 +142,19 @@ const loop = GameLoop({
 
     player.update();
 
+
     //update the bot based on level track and move list
     bot.update(levelTrack, moves);
 
     //run through collision detection for each switch
     levelSwitches.forEach(levelSwitch =>{
+
       if(collides(levelSwitch,bot)) {
 
         activateSwitch(levelSwitch)
 
   } if(collides(levelSwitch,player)){
+    console.log(`colliding with switch ${levelSwitch.name}`)
     activateSwitch(levelSwitch)
   }
 })
@@ -242,6 +245,7 @@ load(...imageAssetPaths
   playerStart =levelObjects.filter(object=>object.name==='playerStart')[0];
   playerGoal = levelObjects.filter(object => object.name==='playerGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
+  console.log(levelSwitches)
   levelGates= levelObjects.filter(object => object.type==='Gate');
   levelGates.forEach(gate=>{assignTilesToObject(gate)})
   console.log(levelGates)
@@ -266,7 +270,7 @@ function assignTilesToObject(gameObject){
 
 function activateSwitch(levelSwitch){
 //get array of gates linked to the switch
-const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gate')
+const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gates')
 
 
 //use the gate names to create an array of gate objects. This would be where we would check

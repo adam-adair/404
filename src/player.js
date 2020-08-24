@@ -37,8 +37,8 @@ export default function makePlayer(playerImage){
 return Sprite({
   x: 5,        // starting x,y position of the sprite
   y: 5,
-  scaleX:1.25,
-  scaleY:1.25,
+  // scaleX:1.25,
+  // scaleY:1.25,
   animations:playerSpriteSheet.animations,
   context: context,
   placeAtStart(startObject){
