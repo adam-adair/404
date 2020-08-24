@@ -93,7 +93,7 @@ const levelObstacles = [
 
 
 //
-let levelObjects;
+
 let playerStart;
 let playerGoal;
 let levelSwitches;
@@ -241,7 +241,7 @@ load(...imageAssetPaths
   );
 
   //assign interactive components from JSON to objects
-  levelObjects=levelTest.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
+  const levelObjects=levelTest.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
   playerStart =levelObjects.filter(object=>object.name==='playerStart')[0];
   playerGoal = levelObjects.filter(object => object.name==='playerGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
