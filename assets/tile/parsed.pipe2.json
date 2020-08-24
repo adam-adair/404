@@ -1360,72 +1360,38 @@
 			"name": "InteractiveComponents",
 			"objects": [
 				{
-					"height": 32,
+					"height": 64,
 					"id": 4,
 					"name": "1",
 					"properties": [
 						{
-							"name": "Gates",
+							"name": "Gate",
 							"type": "string",
-							"value": "1,2"
+							"value": "1"
 						},
 						{
 							"name": "SwitchType",
 							"type": "string",
-							"value": "Temporary"
+							"value": "Permanent"
 						}
 					],
 					"rotation": 0,
 					"type": "Switch",
 					"visible": true,
-					"width": 32,
-					"x": 256,
-					"y": 224
+					"width": 64,
+					"x": 384,
+					"y": 64
 				},
 				{
-					"height": 64,
-					"id": 5,
+					"height": 96,
+					"id": 10,
 					"name": "1",
 					"rotation": 0,
 					"type": "Gate",
 					"visible": true,
-					"width": 64,
-					"x": 448,
-					"y": 128
-				},
-				{
-					"height": 64,
-					"id": 7,
-					"name": "2",
-					"rotation": 0,
-					"type": "Gate",
-					"visible": true,
-					"width": 64,
-					"x": 448,
+					"width": 128,
+					"x": 160,
 					"y": 320
-				},
-				{
-					"height": 40.0421,
-					"id": 9,
-					"name": "2",
-					"properties": [
-						{
-							"name": "Gates",
-							"type": "string",
-							"value": "2"
-						},
-						{
-							"name": "SwitchType",
-							"type": "string",
-							"value": "Temporary"
-						}
-					],
-					"rotation": 359.15,
-					"type": "Switch",
-					"visible": true,
-					"width": 34.7489,
-					"x": 242.359,
-					"y": 400.15
 				},
 				{
 					"height": 64,
@@ -1434,9 +1400,9 @@
 					"rotation": 0,
 					"type": "playerGoal",
 					"visible": true,
-					"width": 96,
+					"width": 64,
 					"x": 192,
-					"y": 0
+					"y": 32
 				},
 				{
 					"height": 32,

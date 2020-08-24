@@ -90,21 +90,14 @@ const levelObstacles = [
   ],
 ];
 
-const levelSwitches = [
-  //test.json switch locations
-  [
-    { row: 7, column: 8 }, //potentially others
-    //{row: 1, column: 1}
-  ],
-  //pipe2.json switch locations
-  [
-    { row: 2, column: 13 }, //potentially others
-  ],
-];
 
+
+//
 let levelObjects;
 let playerStart;
 let playerGoal;
+let levelSwitches;
+let levelGates;
 
 //declares the level to be built by the tile engine globally so that the game loop can access it
 
@@ -152,26 +145,50 @@ const loop = GameLoop({
     //update the bot based on level track and move list
     bot.update(levelTrack, moves);
 
-    //check each switch
-    const switches = levelSwitches[selectedLevel];
-    let swIx = -1;
-    switches.forEach((sw, ix) => {
-      const matchRow = bot.currentNode.gridRow === sw.row;
-      const matchCol = bot.currentNode.gridCol === sw.column;
-      if (matchRow && matchCol) {
-        swIx = ix;
-      }
-    });
-    if (swIx !== -1) {
-      const obsTilesToClear = levelObstacles[selectedLevel][swIx];
-      obsTilesToClear.forEach((tile) => {
-        levelTest.setTileAtLayer(
-          "decorations",
-          { row: tile.row, col: tile.column },
-          0
-        );
-      });
+    //run through collision detection for each switch
+    levelSwitches.forEach(levelSwitch =>{
+      if(collides(levelSwitch,bot)) {
+
+
+
+
+        //get array of gates linked to the switch
+        const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gate')
+
+
+        //use the gate names to create an array of gate objects. This would be where we would check
+        // if a switch affects multiple gates but right now it is only coded for single gates
+        const associatedGameObjects=[];
+
+        linkedGateNames.forEach(gateName=>{
+            associatedGameObjects.push(levelGates.filter(gate=> gate.name===gateName.value)[0])
+        }
+            )
+
+        //convert the gate objects to tiles
+        const obsTilesToClear = []
+
+        associatedGameObjects.forEach(gate=>{
+          console.log(gate)
+          for(let x =gate.x/32; x<((gate.x+gate.width)/32);x++){
+            for(let y = gate.y/32; y<((gate.y+gate.height)/32);y++)
+            {
+              obsTilesToClear.push({row:y,col:x})
+            }
+        }
+
+        })
+
+
+        //clear the tiles
+        obsTilesToClear.forEach(tile => {
+          levelTest.setTileAtLayer("decorations",
+        tile,
+        0)
+        })
     }
+  })
+
   },
   render: function () {
     // render the game state
@@ -194,7 +211,7 @@ const loop = GameLoop({
       need to create a bot end node tile layer for each level or dynamically check for the
       tile id of the end node
       */
-    console.log(collides(player,playerGoal))
+
       if (
       collides(player,playerGoal) &&
       levelTest.tileAtLayer("nodes", { x: bot.x, y: bot.y }) === 7
@@ -265,17 +282,15 @@ load(
     nodes: levelTest.layers.filter((layer) => layer.name === "nodes")[0].data,
   });
 
-  //dynamically sets the player sprite at it's assigned location
+  //assign interactive components from JSON to objects
   levelObjects=levelTest.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
-  playerStart =levelObjects.filter(layer=>layer.name==='playerStart')[0];
-  playerGoal = levelObjects.filter(layer => layer.name==='playerGoal')[0];
-  console.log(playerGoal)
+  playerStart =levelObjects.filter(object=>object.name==='playerStart')[0];
+  playerGoal = levelObjects.filter(object => object.name==='playerGoal')[0];
+  levelSwitches= levelObjects.filter(object => object.type==='Switch');
+  levelGates= levelObjects.filter(object => object.type==='Gate');
+
   player.placeAtStart(playerStart)
 
 
   loop.start();
 });
-
-
-
-///////////TESTING//////
