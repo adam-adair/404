@@ -98,7 +98,7 @@
 33,0,0,0,0,0,0,0,0,0,0,32,32,0,0,0,
 33,0,0,0,0,0,0,0,0,0,0,0,32,30,30,30,
 0,0,0,0,0,0,0,0,0,0,0,0,32,30,30,30,
-32,32,32,32,32,32,32,32,32,32,32,32,32,0,0,0,
+32,32,32,46,32,32,32,32,32,32,32,32,32,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -122,6 +122,6 @@
   <object id="10" name="playerGoal" type="playerGoal" x="416" y="32" width="64" height="64"/>
   <object id="11" name="playerStart" type="playerStart" x="96" y="416" width="32" height="32"/>
   <object id="13" name="botStart" type="botStart" x="0" y="480" width="32" height="32"/>
-  <object id="16" name="botGoal" type="botGoal" x="493.634" y="0" width="16" height="32"/>
+  <object id="16" name="botGoal" type="botGoal" x="480" y="0" width="32" height="32"/>
  </objectgroup>
 </map>
