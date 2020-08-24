@@ -146,15 +146,18 @@ const loop = GameLoop({
     //update the bot based on level track and move list
     bot.update(levelTrack, moves);
 
+
+    if(collides(player,bot)) console.log("COLLIDING")
     //run through collision detection for each switch
     levelSwitches.forEach(levelSwitch =>{
 
-      if(collides(levelSwitch,bot)) {
 
+      //something about the bot's y offset is messing with the collision detection so I had to create a custom object
+      if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
 
   } if(collides(levelSwitch,player)){
-    console.log(`colliding with switch ${levelSwitch.name}`)
+
     activateSwitch(levelSwitch)
   }
 })
