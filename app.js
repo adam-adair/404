@@ -149,33 +149,10 @@ const loop = GameLoop({
     levelSwitches.forEach(levelSwitch =>{
       if(collides(levelSwitch,bot)) {
 
+        activateSwitch(levelSwitch)
 
-
-
-        //get array of gates linked to the switch
-        const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gate')
-
-
-        //use the gate names to create an array of gate objects. This would be where we would check
-        // if a switch affects multiple gates but right now it is only coded for single gate
-        const associatedGameObjects=[];
-
-        linkedGateNames.forEach(gateName=>{
-            associatedGameObjects.push(levelGates.filter(gate=> gate.name===gateName.value)[0])
-        }
-            )
-
-      // clear the decorations at each tiles
-        associatedGameObjects.forEach(gate=>{
-          console.log(gate)
-          gate.tiles.forEach(tile=> {
-            levelTest.setTileAtLayer("decorations",
-          tile,
-          0)
-          })
-        })
-
-
+  } if(collides(levelSwitch,player)){
+    activateSwitch(levelSwitch)
   }
 })
   },
@@ -297,4 +274,30 @@ function assignTilesToObject(gameObject){
     }
 
     }
+
+function activateSwitch(levelSwitch){
+//get array of gates linked to the switch
+const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gate')
+
+
+//use the gate names to create an array of gate objects. This would be where we would check
+// if a switch affects multiple gates but right now it is only coded for single gate
+const associatedGameObjects=[];
+
+linkedGateNames.forEach(gateName=>{
+    associatedGameObjects.push(levelGates.filter(gate=> gate.name===gateName.value)[0])
+}
+    )
+
+// clear the decorations at each tiles
+associatedGameObjects.forEach(gate=>{
+  console.log(gate)
+  gate.tiles.forEach(tile=> {
+    levelTest.setTileAtLayer("decorations",
+  tile,
+  0)
+  })
+})
+
+}
 
