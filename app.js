@@ -88,6 +88,7 @@ goButton.addEventListener("click", () => {
 
 levelPick.addEventListener("click", (ev) => {
   if (ev.target.tagName === "BUTTON") {
+    moves = []
     makeLevel(levels[ev.target.value])
   }
 });
