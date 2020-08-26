@@ -34,7 +34,9 @@ let player,
   botStart,
   botGoal,
   levelSwitches,
-  levelGates
+  levelGates,
+  moves,
+  movesBank
 
   const imageAssetPaths=[
   './assets/img/boardArt.png',
@@ -43,6 +45,20 @@ let player,
   ]
 
   const tilesetNames = ["boardArt.tsx"]
+
+  const moveImage = {
+    L: 'assets/img/turn.png',
+    R: 'assets/img/turn.png',
+    LOOP: 'assets/img/loop.png',
+    F: 'assets/img/fwd.png'
+  }
+  currentLevelIx = 0
+
+  currentLevel = levels[currentLevelIx]
+
+  moves = [];
+
+  movesBank = [];
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,9 +82,7 @@ window.addEventListener("keydown", arrow_keys_handler, false);
 
 initKeys();
 
-let moves = [];
-const goButton = document.getElementById("go");
-const userInput = document.getElementById("userMoves");
+const controls = document.getElementById("controls");
 const levelPick = document.getElementById("levelPick");
 
 ///this is for level testing///////
@@ -82,8 +96,31 @@ levels.map((level,ix) => {
 })
 ////////////
 
-goButton.addEventListener("click", () => {
-  moves = userInput.value.split(",");
+controls.addEventListener("click", (event) => {
+  const clicked = event.target
+  //start bot if not already running, grey out go
+  if(clicked.id === 'botGo' && moves.length === 0) {
+    moves = [...movesBank]
+    clicked.className = 'faded'
+  }
+  //reset level, restore Go
+  if(clicked.id === 'levelReset') {
+    makeLevel(currentLevel)
+    clicked.previousElementSibling.className = ''
+  }
+  //if you click a move bank box and sparky not running, splice out the move
+  if(clicked.parentElement.className === 'moveBlock' && moves.length === 0) {
+    movesBank.splice(+clicked.id.slice(-1),1)
+  }
+
+  //if move bank isn't full and bot's not running, add move to movebank
+  if(movesBank.length < 10 && moves.length === 0) {
+    if(clicked.id === 'forward') movesBank.push('F')
+    if(clicked.id === 'turnLeft') movesBank.push('L')
+    if(clicked.id === 'turnRight') movesBank.push('R')
+    if(clicked.id === 'loop') movesBank.push('LOOP')
+  }
+  redrawControls();
 });
 
 levelPick.addEventListener("click", (ev) => {
@@ -92,10 +129,6 @@ levelPick.addEventListener("click", (ev) => {
     makeLevel(levels[ev.target.value])
   }
 });
-
-currentLevelIx = 0
-
-currentLevel = levels[currentLevelIx]
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -265,6 +298,25 @@ const makeLevel = lvl => {
   let initialPipeIx = (botStart.y/32 * 16) + botStart.x/32
   let initialPipeType = lvl.layers.filter((layer) => layer.name === "pipes")[0].data[initialPipeIx]
   botStart.heading = initialTileHeadings[initialPipeType]
+  moves = []
+  movesBank = []
+  redrawControls();
   player.placeAtStart(playerStart)
   bot.placeAtStart(botStart)
+}
+
+const redrawControls = () => {
+  //empty out move boxes
+  for(let i = 0; i < 10; i++) document.getElementById(`move${i}`).textContent = ''
+  //redraw all banked moves
+  movesBank.map((move,ix)=>{
+    const divApp = document.getElementById(`move${ix}`)
+    divApp.textContent = '';
+    const img = document.createElement('img')
+    img.src = moveImage[move]
+    if(move === 'L') img.className = 'mirror'
+    divApp.appendChild(img)
+  })
+  //unfade go button
+  if(moves.length === 0) document.getElementById('botGo').className = ''
 }

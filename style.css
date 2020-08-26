@@ -29,7 +29,7 @@ canvas{
   display: inline;
 }
 
-#turnLeft {
+.mirror {
   transform: scaleX(-1)
 }
 
@@ -41,4 +41,8 @@ canvas{
 
 .moveBlock {
   border: 1px solid black;
+}
+
+.faded {
+  opacity: 50%
 }
