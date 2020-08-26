@@ -37,6 +37,8 @@ levelList.forEach(fileName =>{
   function exporter(parsedLevel) {
     levels.push(parsedLevel)
     if(levels.length === numLevels) {
+      //put levels in order based on level.name
+      levels.sort((a,b) => a.levelName > b.levelName ? 1 : -1)
       //for production, these stringify flags should be removed or altered.
       //they make the json more readable but take up more space
       const levelsString = JSON.stringify(levels, null, '\t')

@@ -110,7 +110,7 @@ controls.addEventListener("click", (event) => {
   }
   //if you click a move bank box and sparky not running, splice out the move
   if(clicked.parentElement.className === 'moveBlock' && moves.length === 0) {
-    movesBank.splice(+clicked.id.slice(-1),1)
+    movesBank.splice(+clicked.parentElement.id.slice(-1),1)
   }
 
   //if move bank isn't full and bot's not running, add move to movebank
@@ -126,6 +126,8 @@ controls.addEventListener("click", (event) => {
 levelPick.addEventListener("click", (ev) => {
   if (ev.target.tagName === "BUTTON") {
     moves = []
+    currentLevelIx = +ev.target.value
+    currentLevel = levels[ev.target.value]
     makeLevel(levels[ev.target.value])
   }
 });
