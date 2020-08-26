@@ -220,6 +220,7 @@ const loop = GameLoop({
     //  Otherwise end game message
       // eslint-disable-next-line no-alert
       //alert("YOU WIN!!!");
+      console.log('win')
       if(currentLevelIx === levels.length - 1) {
         alert("HTTP STATUS 200! GAME OVER!");
         loop.stop();
