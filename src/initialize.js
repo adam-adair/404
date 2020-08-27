@@ -19,5 +19,11 @@ export const
     52: 'S',
     53: 'W'
   },
-  winNodeGID = 35
+  winNodeGID = 35,
+  openGateGID = 31,
+  closedGateGID = 30,
+  inactivePlayerSwitchGID = 29,
+  activePlayerSwitchGID = 28,
+  inactiveBotSwitchGID = 54,
+  activeBotSwitchGID = 45
 

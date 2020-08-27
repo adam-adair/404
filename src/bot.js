@@ -26,6 +26,10 @@ export  default function makeBot(botImage){
       moveSouth: {
         frames: '6..7',
         frameRate: 5
+      },
+      crash: {
+        frames: [1,7,3,5],
+        frameRate: 10
       }
     }
   });

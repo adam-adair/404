@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 /* eslint-disable no-use-before-define */
 /* eslint-disable complexity */
 
@@ -13,7 +14,17 @@ import {
   keyPressed,
   collides,
 } from "kontra";
-import { canvas, context, initialTileHeadings } from "./src/initialize";
+import {
+  canvas,
+  context,
+  initialTileHeadings,
+  openGateGID,
+  closedGateGID,
+  inactivePlayerSwitchGID,
+  activePlayerSwitchGID,
+  inactiveBotSwitchGID,
+  activeBotSwitchGID
+} from "./src/initialize";
 import makePlayer from "./src/player";
 import makeBot from "./src/bot";
 import track from "./src/track";
@@ -157,21 +168,59 @@ const loop = GameLoop({
 
     if (keyPressed("right")) {
       if (player.x < canvas.width - player.width * player.scaleX) player.x += 2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) player.x -= 2;
+      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+        let blocked = true
+        levelGates.filter(gate => gate.open)
+        .forEach(gate => {
+          //annoyingly, kontra layer collision detection is <= and kontra object collision
+          //is strictly < so this temporary scaling is a hack to determine object collision
+          player.scaleX *= 1.1;
+          if(collides(gate, player)) blocked = false
+          player.scaleX /= 1.1;
+        })
+        if(blocked)player.x -= 2;
+      }
       player.playAnimation("walkRight");
     } else if (keyPressed("left")) {
       if (player.x <= 0) player.x += 2;
       player.x += -2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) player.x -= -2;
+      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+        let blocked = true
+        levelGates.filter(gate => gate.open)
+        .forEach(gate => {
+          player.scaleX *= 1.1;
+          if(collides(gate, player)) blocked = false
+          player.scaleX /= 1.1;
+        })
+        if(blocked) player.x -= -2;
+      }
       player.playAnimation("walkLeft");
     } else if (keyPressed("up")) {
       if (player.y > 0) player.y -= 2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) player.y += 2;
+      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+        let blocked = true
+        levelGates.filter(gate => gate.open)
+        .forEach(gate => {
+          player.scaleY *= 1.1;
+          if(collides(gate, player)) blocked = false
+          player.scaleY /= 1.1;
+        })
+        if(blocked) player.y += 2;
+      }
       player.playAnimation("walkUp");
     } else if (keyPressed("down")) {
       if (player.y < canvas.height - player.height * player.scaleY)
         player.y += 2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) player.y -= 2;
+      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+        let blocked = true
+        levelGates.filter(gate => gate.open)
+        .forEach(gate => {
+          player.scaleY *= 1.1;
+          if(collides(gate, player)) blocked = false
+          player.scaleY /= 1.1;
+        })
+        if(blocked) player.y -= 2;
+      }
       player.playAnimation("walkDown");
     } else {
       player.playAnimation("idle");
@@ -181,6 +230,13 @@ const loop = GameLoop({
 
 
     //update the bot based on level track and move list
+    levelGates.filter(gate => !gate.open)
+    .forEach(gate => {
+      if(collides(gate, bot)) {
+        bot.speed = 0;
+        bot.playAnimation("crash")
+      }
+    })
     bot.update();
     bot.process(levelTrack, moves);
 
@@ -193,23 +249,22 @@ const loop = GameLoop({
         if(!collides(tempSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width}) && !collides(tempSwitch,player)) {
           activateSwitch(tempSwitch,false)
         }
-
-
-
-    })
+      })
     }
         //run through collision detection for each switch
     levelSwitches.forEach(levelSwitch =>{
 
-
       //something about the bot's y offset is messing with the collision detection so I had to create a custom object
       if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
+        levelTileEngine.setTileAtLayer("decorations",levelSwitch,activeBotSwitchGID)
       }
 
       if(collides(levelSwitch,player)){
         activateSwitch(levelSwitch)
-      }
+        levelTileEngine.setTileAtLayer("ground",levelSwitch,activePlayerSwitchGID)
+      } else levelTileEngine.setTileAtLayer("ground",levelSwitch, inactivePlayerSwitchGID,
+      )
 
     })
   },
@@ -276,11 +331,9 @@ function activateSwitch(levelSwitch, activate=true){
   if (activate){
   // clear the decorations at each tiles
   associatedGameObjects.forEach(gate=>{
-
+    gate.open = true
     gate.tiles.forEach(tile=> {
-      levelTileEngine.setTileAtLayer("decorations",
-    tile,
-    0)
+      levelTileEngine.setTileAtLayer("decorations", tile, openGateGID)
     })
   })
 
@@ -294,11 +347,9 @@ function activateSwitch(levelSwitch, activate=true){
 
   } else {
     associatedGameObjects.forEach(gate=>{
-
+      gate.open = false;
       gate.tiles.forEach(tile=> {
-        levelTileEngine.setTileAtLayer("decorations",
-      tile,
-      30)
+        levelTileEngine.setTileAtLayer("decorations", tile, closedGateGID)
       })
     })
 
@@ -325,7 +376,7 @@ const makeLevel = lvl => {
   levelTrack = track(lvl);
 
   //assign interactive components from JSON to objects
-  const levelObjects=lvl.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
+  let levelObjects=lvl.layers.filter(layer=>layer.name==='InteractiveComponents')[0].objects;
   playerStart =levelObjects.filter(object=>object.name==='playerStart')[0];
   playerGoal = levelObjects.filter(object => object.name==='playerGoal')[0];
   botStart = levelObjects.filter(object => object.name==='botStart')[0];
@@ -334,7 +385,14 @@ const makeLevel = lvl => {
   activatedTempSwitches=[]
 
   levelGates= levelObjects.filter(object => object.type==='Gate');
-  levelGates.forEach(gate=>{assignTilesToObject(gate)})
+  levelGates.forEach(gate=>{
+    //reclose any open gates and redraw closed gate images if level is reset
+    gate.open = false;
+    assignTilesToObject(gate);
+    gate.tiles.forEach(tile=> {
+      levelTileEngine.setTileAtLayer("decorations", tile, closedGateGID)
+    })
+  })
 
 
   //get type of pipe for bot start to determine initial bot heading

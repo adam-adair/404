@@ -112,13 +112,13 @@
   <object id="7" name="3" type="Switch" x="192" y="288" width="32" height="32">
    <properties>
     <property name="Gates" value="3"/>
-    <property name="SwitchType" value="Temporary"/>
+    <property name="SwitchType" value="Permanent"/>
    </properties>
   </object>
   <object id="8" name="1" type="Switch" x="256" y="416" width="32" height="32">
    <properties>
     <property name="Gates" value="1"/>
-    <property name="SwitchType" value="Temporary"/>
+    <property name="SwitchType" value="Permanent"/>
    </properties>
   </object>
   <object id="9" name="2" type="Switch" x="448" y="192" width="32" height="32">

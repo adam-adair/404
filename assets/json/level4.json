@@ -132,7 +132,7 @@
                         {
                          "name":"SwitchType",
                          "type":"string",
-                         "value":"Temporary"
+                         "value":"Permanent"
                         }],
                  "rotation":0,
                  "type":"Switch",
@@ -154,7 +154,7 @@
                         {
                          "name":"SwitchType",
                          "type":"string",
-                         "value":"Temporary"
+                         "value":"Permanent"
                         }],
                  "rotation":0,
                  "type":"Switch",
