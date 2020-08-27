@@ -35,6 +35,7 @@ let player,
   botGoal,
   levelSwitches,
   levelGates,
+  activatedTempSwitches,
   moves,
   movesBank
 
@@ -186,6 +187,17 @@ const loop = GameLoop({
 
     //////////// Switch Triggering ///////////////
 
+    ////loop through activated temp switches, if neither player or bot are on them, deactivate
+    if(activatedTempSwitches.length>0){
+      activatedTempSwitches.forEach( tempSwitch =>{
+        if(!collides(tempSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width}) && !collides(tempSwitch,player)) {
+          activateSwitch(tempSwitch,false)
+        }
+
+
+
+    })
+    }
         //run through collision detection for each switch
     levelSwitches.forEach(levelSwitch =>{
 
@@ -250,30 +262,53 @@ function assignTilesToObject(gameObject){
   }
 }
 
-function activateSwitch(levelSwitch){
+function activateSwitch(levelSwitch, activate=true){
   //get array of gates linked to the switch
   const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gates')[0].value.split(",")
-  console.log(linkedGateNames)
 
-  //debugger;
-  //use the gate names to create an array of gate objects. This would be where we would check
-  // if a switch affects multiple gates but right now it is only coded for single gate
+  //use the gate names to create an array of gate objects.
   const associatedGameObjects=[];
 
   linkedGateNames.forEach(gateName=>{
       associatedGameObjects.push(levelGates.filter(gate=> gate.name===gateName)[0])
   })
 
+  if (activate){
   // clear the decorations at each tiles
   associatedGameObjects.forEach(gate=>{
-    //console.log(gate)
+
     gate.tiles.forEach(tile=> {
       levelTileEngine.setTileAtLayer("decorations",
     tile,
     0)
     })
   })
+
+
+  //if switch is temporary, add it to the array of activated switches
+    if(levelSwitch.properties.filter(prop=>prop.name==="SwitchType")[0].value ==="Temporary"
+
+    && !activatedTempSwitches.includes(levelSwitch)) {
+      activatedTempSwitches.push(levelSwitch)
+    }
+
+  } else {
+    associatedGameObjects.forEach(gate=>{
+
+      gate.tiles.forEach(tile=> {
+        levelTileEngine.setTileAtLayer("decorations",
+      tile,
+      30)
+      })
+    })
+
+    //remove switch from array of activated switches
+  const index = activatedTempSwitches.indexOf(levelSwitch)
+  activatedTempSwitches.splice(index,1)
+
+  }
 }
+
 
 const makeLevel = lvl => {
     //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
@@ -296,10 +331,11 @@ const makeLevel = lvl => {
   botStart = levelObjects.filter(object => object.name==='botStart')[0];
   botGoal = levelObjects.filter(object => object.name==='botGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
-  //console.log(levelSwitches)
+  activatedTempSwitches=[]
+
   levelGates= levelObjects.filter(object => object.type==='Gate');
   levelGates.forEach(gate=>{assignTilesToObject(gate)})
-  //console.log(levelGates)
+
 
   //get type of pipe for bot start to determine initial bot heading
   let initialPipeIx = (botStart.y/32 * 16) + botStart.x/32

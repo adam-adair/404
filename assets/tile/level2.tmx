@@ -107,15 +107,15 @@
  <objectgroup id="7" name="InteractiveComponents">
   <object id="4" name="1" type="Switch" x="256" y="224" width="32" height="32">
    <properties>
-    <property name="Gates" value="1"/>
-    <property name="SwitchType" value="Temporary"/>
+    <property name="Gates" value="1,2"/>
+    <property name="SwitchType" value="Permanent"/>
    </properties>
   </object>
   <object id="5" name="1" type="Gate" x="416" y="128" width="96" height="64"/>
   <object id="7" name="2" type="Gate" x="416" y="320" width="96" height="64"/>
   <object id="9" name="2" type="Switch" x="256" y="384" width="32" height="32">
    <properties>
-    <property name="Gates" value="2"/>
+    <property name="Gates" value="1,2"/>
     <property name="SwitchType" value="Temporary"/>
    </properties>
   </object>

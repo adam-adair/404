@@ -2868,12 +2868,12 @@
 							{
 								"name": "Gates",
 								"type": "string",
-								"value": "1"
+								"value": "1,2"
 							},
 							{
 								"name": "SwitchType",
 								"type": "string",
-								"value": "Temporary"
+								"value": "Permanent"
 							}
 						],
 						"rotation": 0,
