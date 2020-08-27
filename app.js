@@ -13,6 +13,7 @@ import {
   initKeys,
   keyPressed,
   collides,
+  Text
 } from "kontra";
 import {
   canvas,
@@ -44,6 +45,7 @@ let player,
   playerGoal,
   botStart,
   botGoal,
+  botMessage,
   levelSwitches,
   levelGates,
   activatedTempSwitches,
@@ -64,6 +66,9 @@ let player,
     LOOP: 'assets/img/loop.png',
     F: 'assets/img/fwd.png'
   }
+
+
+
   currentLevelIx = 0
 
   currentLevel = levels[currentLevelIx]
@@ -235,6 +240,15 @@ const loop = GameLoop({
       if(collides(gate, bot)) {
         bot.speed = 0;
         bot.playAnimation("crash")
+        botMessage= Text({
+          text: '404\nNot Found',
+          font: '20px Arial',
+          color: 'white',
+          x: bot.x,
+          y: bot.y-30,
+          anchor: {x: 0.5, y: 0.5},
+          textAlign: 'center'
+        });
       }
     })
     bot.update();
@@ -281,10 +295,23 @@ const loop = GameLoop({
       tile id of the end node
       */
 
-      if (
-      collides(player,playerGoal) &&
-      collides(bot, botGoal)
-    ) {
+    //Bot gives status messages. If crashing, give message set at time of crash, if not check for end goal
+      if(bot.currentAnimation.frames.length===4){
+        botMessage.render()
+        console.log(botMessage)
+      } else if (collides(bot,botGoal)){
+       botMessage = Text({
+          text: '202\nOK',
+          font: '20px Arial',
+          color: 'white',
+          x: bot.x,
+          y: bot.y-30,
+          anchor: {x: 0.5, y: 0.5},
+          textAlign: 'center'
+        })
+        botMessage.render()
+      if(collides(player,playerGoal))
+      {
     //  If not the last level, reset the bot, player, and tile engine for the  next level and rerender
     //  Otherwise end game message
       // eslint-disable-next-line no-alert
@@ -299,6 +326,7 @@ const loop = GameLoop({
         makeLevel(currentLevel)
       }
     }
+  }
   },
 });
 
