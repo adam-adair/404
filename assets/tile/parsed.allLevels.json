@@ -2913,7 +2913,7 @@
 							{
 								"name": "Gates",
 								"type": "string",
-								"value": "2"
+								"value": "1,2"
 							},
 							{
 								"name": "SwitchType",

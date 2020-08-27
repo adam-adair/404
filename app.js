@@ -184,20 +184,22 @@ const loop = GameLoop({
     bot.process(levelTrack, moves);
 
 
-    //if(collides(player,bot)) console.log("COLLIDING")
-    //run through collision detection for each switch
+    //////////// Switch Triggering ///////////////
+
+        //run through collision detection for each switch
     levelSwitches.forEach(levelSwitch =>{
 
 
       //something about the bot's y offset is messing with the collision detection so I had to create a custom object
       if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
+      }
 
-  } if(collides(levelSwitch,player)){
+      if(collides(levelSwitch,player)){
+        activateSwitch(levelSwitch)
+      }
 
-    activateSwitch(levelSwitch)
-  }
-})
+    })
   },
   render: function () {
     // render the game state
@@ -250,14 +252,16 @@ function assignTilesToObject(gameObject){
 
 function activateSwitch(levelSwitch){
   //get array of gates linked to the switch
-  const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gates')
+  const linkedGateNames=  levelSwitch.properties.filter(prop => prop.name==='Gates')[0].value.split(",")
+  console.log(linkedGateNames)
 
+  //debugger;
   //use the gate names to create an array of gate objects. This would be where we would check
   // if a switch affects multiple gates but right now it is only coded for single gate
   const associatedGameObjects=[];
 
   linkedGateNames.forEach(gateName=>{
-      associatedGameObjects.push(levelGates.filter(gate=> gate.name===gateName.value)[0])
+      associatedGameObjects.push(levelGates.filter(gate=> gate.name===gateName)[0])
   })
 
   // clear the decorations at each tiles
