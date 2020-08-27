@@ -115,10 +115,12 @@ levels.map((level,ix) => {
 
 controls.addEventListener("click", (event) => {
   const clicked = event.target
-  //start bot if not already running, grey out go
+  //if player is in playerstart square, start bot if not already running, grey out go
   if(clicked.id === 'botGo' && moves.length === 0) {
+    if(collides(player,playerStart)){
     moves = [...movesBank]
     clicked.className = 'faded'
+    }
   }
   //reset level, restore Go
   if(clicked.id === 'levelReset') {
