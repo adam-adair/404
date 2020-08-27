@@ -241,7 +241,7 @@ const loop = GameLoop({
         bot.speed = 0;
         bot.playAnimation("crash")
         botMessage= Text({
-          text: '404\nNot Found',
+          text: '401\nUnauthorized',
           font: '20px Arial',
           color: 'white',
           x: bot.x,
