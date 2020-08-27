@@ -301,7 +301,7 @@ const loop = GameLoop({
         console.log(botMessage)
       } else if (collides(bot,botGoal)){
        botMessage = Text({
-          text: '202\nOK',
+          text: '200\nOK',
           font: '20px Arial',
           color: 'white',
           x: bot.x,
