@@ -219,6 +219,12 @@ load(...imageAssetPaths).then(() => {
 const loop = GameLoop({
   context: context, // create the main game loop
   update: function () {
+
+
+    //grey out all controls if player isn't at start
+    if(!collides(player, playerStart)) controls.classList ='faded'
+    else controls.classList = ''
+
     ///// player key board controls. collision test prevents player from moving into obstacle tiles
     ////  position test prevents player from walking off screen
 
@@ -468,6 +474,15 @@ const makeLevel = lvl => {
   botStart = levelObjects.filter(object => object.name==='botStart')[0];
   botGoal = levelObjects.filter(object => object.name==='botGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
+  console.log(levelSwitches)
+
+  //reset bot switches and redraw
+  levelSwitches.filter(sw=>sw.properties[1].value==='Permanent').forEach(sw=>{
+    assignTilesToObject(sw);
+    sw.tiles.forEach(tile=> {
+      levelTileEngine.setTileAtLayer("decorations", tile, inactiveBotSwitchGID)
+    })
+  })
   activatedTempSwitches=[]
 
   levelGates= levelObjects.filter(object => object.type==='Gate');
