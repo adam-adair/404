@@ -46,9 +46,13 @@ let player,
   botStart,
   botGoal,
   botMessage,
+  inputTimer,
+  inputMessageBot,
+  inputMessagePlayer,
   levelSwitches,
   levelGates,
   activatedTempSwitches,
+
   moves,
   movesBank
 
@@ -115,18 +119,20 @@ levels.map((level,ix) => {
 
 controls.addEventListener("click", (event) => {
   const clicked = event.target
-  //if player is in playerstart square, start bot if not already running, grey out go
-  if(clicked.id === 'botGo' && moves.length === 0) {
-    if(collides(player,playerStart)){
-    moves = [...movesBank]
-    clicked.className = 'faded'
-    }
-  }
-  //reset level, restore Go
-  if(clicked.id === 'levelReset') {
+   //reset level, restore Go
+   if(clicked.id === 'levelReset') {
     makeLevel(currentLevel)
     clicked.previousElementSibling.className = ''
   }
+  //if player is in playerstart square accept inputs, otherwise show error text
+  if(collides(player,playerStart)){
+
+    //start bot if not already running, grey out go
+  if(clicked.id === 'botGo' && moves.length === 0) {
+    moves = [...movesBank]
+    clicked.className = 'faded'
+    }
+
   //if you click a move bank box and sparky not running, splice out the move
   if(clicked.parentElement.className === 'moveBlock' && moves.length === 0) {
     movesBank.splice(+clicked.parentElement.id.slice(-1),1)
@@ -138,9 +144,52 @@ controls.addEventListener("click", (event) => {
     if(clicked.id === 'turnLeft') movesBank.push('L')
     if(clicked.id === 'turnRight') movesBank.push('R')
     if(clicked.id === 'loop') movesBank.push('LOOP')
+
+
+    inputTimer=30;
+      inputMessageBot= Text({
+      text: '202\nAccepted',
+      font: 'bold 10px Arial',
+      color: 'white',
+      x: 0,
+      y: 0,
+      anchor: {x: 0.5, y: 0.5},
+      textAlign: 'center'
+    });
+    setXY(inputMessageBot,bot);
+
+    inputMessagePlayer=null;
   }
   redrawControls();
+} else{
+  inputTimer=60;
+  inputMessageBot= Text({
+  text: '503\nService Unavailable',
+  font: 'bold 12px Arial',
+  color: 'white',
+  x: 0,
+  y: 0,
+  anchor: {x: 0.5, y: 0.5},
+  textAlign: 'center'
 });
+
+setXY(inputMessageBot,bot);
+
+inputMessagePlayer= Text({
+  text: 'I need the\nterminal for that',
+  font: 'bold 14px Arial',
+  color: 'white',
+  x: 0,
+  y: 0 ,
+  anchor: {x: 0.5, y: 0.5},
+  textAlign: 'center'
+});
+
+setXY(inputMessagePlayer,player);
+
+}
+});
+
 
 levelPick.addEventListener("click", (ev) => {
   if (ev.target.tagName === "BUTTON") {
@@ -244,13 +293,14 @@ const loop = GameLoop({
         bot.playAnimation("crash")
         botMessage= Text({
           text: '401\nUnauthorized',
-          font: '20px Arial',
+          font: 'bold 20px Arial',
           color: 'white',
-          x: bot.x,
-          y: bot.y-30,
+          x: 0,
+          y: 0,
           anchor: {x: 0.5, y: 0.5},
           textAlign: 'center'
         });
+        setXY(botMessage,bot);
       }
     })
     bot.update();
@@ -296,21 +346,27 @@ const loop = GameLoop({
       need to create a bot end node tile layer for each level or dynamically check for the
       tile id of the end node
       */
+    if(inputTimer>0){
+      inputTimer--;
+      if(inputMessageBot) inputMessageBot.render();
+      if(inputMessagePlayer) inputMessagePlayer.render();
 
+    }
     //Bot gives status messages. If crashing, give message set at time of crash, if not check for end goal
       if(bot.currentAnimation.frames.length===4){
         botMessage.render()
-        console.log(botMessage)
+
       } else if (collides(bot,botGoal)){
        botMessage = Text({
           text: '200\nOK',
-          font: '20px Arial',
+          font: 'bold 20px Arial',
           color: 'white',
-          x: bot.x,
-          y: bot.y-30,
+          x: 0,
+          y: 0,
           anchor: {x: 0.5, y: 0.5},
           textAlign: 'center'
         })
+        setXY(botMessage,bot)
         botMessage.render()
       if(collides(player,playerGoal))
       {
@@ -451,3 +507,10 @@ const redrawControls = () => {
   //unfade go button
   if(moves.length === 0) document.getElementById('botGo').className = ''
 }
+
+function setXY(textObject,sprite){
+  textObject.x=sprite.x>(512-(.5*textObject.width))? (512-(.5*textObject.width)): sprite.x<(.5*textObject.width) ? (.5*textObject.width) :sprite.x;
+  textObject.y= sprite.y>(sprite.height+textObject.height)? (sprite.y-textObject.height) : (sprite.y+sprite.height);
+
+}
+
