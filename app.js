@@ -115,29 +115,30 @@ levels.map((level,ix) => {
 
 controls.addEventListener("click", (event) => {
   const clicked = event.target
-  //if player is in playerstart square, start bot if not already running, grey out go
-  if(clicked.id === 'botGo' && moves.length === 0) {
-    if(collides(player,playerStart)){
-    moves = [...movesBank]
-    clicked.className = 'faded'
-    }
-  }
-  //reset level, restore Go
+      //reset level, restore Go
   if(clicked.id === 'levelReset') {
     makeLevel(currentLevel)
     clicked.previousElementSibling.className = ''
   }
-  //if you click a move bank box and sparky not running, splice out the move
-  if(clicked.parentElement.className === 'moveBlock' && moves.length === 0) {
-    movesBank.splice(+clicked.parentElement.id.slice(-1),1)
-  }
 
-  //if move bank isn't full and bot's not running, add move to movebank
-  if(movesBank.length < 10 && moves.length === 0) {
-    if(clicked.id === 'forward') movesBank.push('F')
-    if(clicked.id === 'turnLeft') movesBank.push('L')
-    if(clicked.id === 'turnRight') movesBank.push('R')
-    if(clicked.id === 'loop') movesBank.push('LOOP')
+  if(!controls.className.includes('faded')) {
+    if(clicked.id === 'botGo' && moves.length === 0) {
+      moves = [...movesBank]
+      clicked.className = 'faded'
+    }
+
+    //if you click a move bank box and sparky not running, splice out the move
+    if(clicked.parentElement.className === 'moveBlock' && moves.length === 0) {
+      movesBank.splice(+clicked.parentElement.id.slice(-1),1)
+    }
+
+    //if move bank isn't full and bot's not running, add move to movebank
+    if(movesBank.length < 10 && moves.length === 0) {
+      if(clicked.id === 'forward') movesBank.push('F')
+      if(clicked.id === 'turnLeft') movesBank.push('L')
+      if(clicked.id === 'turnRight') movesBank.push('R')
+      if(clicked.id === 'loop') movesBank.push('LOOP')
+    }
   }
   redrawControls();
 });
@@ -170,6 +171,12 @@ load(...imageAssetPaths).then(() => {
 const loop = GameLoop({
   context: context, // create the main game loop
   update: function () {
+
+
+    //grey out all controls if player isn't at start
+    if(!collides(player, playerStart)) controls.classList ='faded'
+    else controls.classList = ''
+
     ///// player key board controls. collision test prevents player from moving into obstacle tiles
     ////  position test prevents player from walking off screen
 
@@ -412,6 +419,15 @@ const makeLevel = lvl => {
   botStart = levelObjects.filter(object => object.name==='botStart')[0];
   botGoal = levelObjects.filter(object => object.name==='botGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
+  console.log(levelSwitches)
+
+  //reset bot switches and redraw
+  levelSwitches.filter(sw=>sw.properties[1].value==='Permanent').forEach(sw=>{
+    assignTilesToObject(sw);
+    sw.tiles.forEach(tile=> {
+      levelTileEngine.setTileAtLayer("decorations", tile, inactiveBotSwitchGID)
+    })
+  })
   activatedTempSwitches=[]
 
   levelGates= levelObjects.filter(object => object.type==='Gate');
