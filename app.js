@@ -87,7 +87,8 @@ let player,
 
 //disable the brower from scrolling when pressing directional keys
 // eslint-disable-next-line camelcase
-const arrow_keys_handler = function (e) {
+
+window.addEventListener("keydown",  (e)=> {
   switch (e.keyCode) {
     case 37:
     case 39:
@@ -98,8 +99,7 @@ const arrow_keys_handler = function (e) {
     default:
       break; // do not block other keys
   }
-};
-window.addEventListener("keydown", arrow_keys_handler, false);
+}, false);
 
 initKeys();
 
@@ -119,75 +119,35 @@ levels.map((level,ix) => {
 
 controls.addEventListener("click", (event) => {
   const clicked = event.target
+  const clickId=clicked.id
    //reset level, restore Go
-   if(clicked.id === 'levelReset') {
+   if(clickId === 'levelReset') {
     makeLevel(currentLevel)
-    clicked.previousElementSibling.className = ''
+    clicked.previousElementSibling.class = ''
   }
   //if player is in playerstart square accept inputs, otherwise show error text
   if(collides(player,playerStart)){
 
     //start bot if not already running, grey out go
-  if(clicked.id === 'botGo' && moves.length === 0) {
+  if(clickId === 'botGo' && moves.length === 0) {
     moves = [...movesBank]
-    clicked.className = 'faded'
+    clicked.class = 'faded'
     }
 
+    /////////////commented out the below code because it doesn't appear to affect gameplay.
+    ////////////can we remove it?
   //if you click a move bank box and sparky not running, splice out the move
-  if(clicked.parentElement.className === 'moveBlock' && moves.length === 0) {
-    movesBank.splice(+clicked.parentElement.id.slice(-1),1)
-  }
+  // if(clicked.parentElement.class === 'moveBlock' && moves.length === 0) {
+  //   movesBank.splice(+clicked.parentElement.id.slice(-1),1)
+  // }
 
   //if move bank isn't full and bot's not running, add move to movebank
   if(movesBank.length < 10 && moves.length === 0) {
-    if(clicked.id === 'forward') movesBank.push('F')
-    if(clicked.id === 'turnLeft') movesBank.push('L')
-    if(clicked.id === 'turnRight') movesBank.push('R')
-    if(clicked.id === 'loop') movesBank.push('LOOP')
-
-
-    inputTimer=30;
-      inputMessageBot= Text({
-      text: '202\nAccepted',
-      font: 'bold 10px Arial',
-      color: 'white',
-      x: 0,
-      y: 0,
-      anchor: {x: 0.5, y: 0.5},
-      textAlign: 'center'
-    });
-    setXY(inputMessageBot,bot);
-
-    inputMessagePlayer=null;
+    movesBank.push(clickId)
+    writeText("202");
   }
   redrawControls();
-} else{
-  inputTimer=60;
-  inputMessageBot= Text({
-  text: '503\nService Unavailable',
-  font: 'bold 12px Arial',
-  color: 'white',
-  x: 0,
-  y: 0,
-  anchor: {x: 0.5, y: 0.5},
-  textAlign: 'center'
-});
-
-setXY(inputMessageBot,bot);
-
-inputMessagePlayer= Text({
-  text: 'I need the\nterminal for that',
-  font: 'bold 14px Arial',
-  color: 'white',
-  x: 0,
-  y: 0 ,
-  anchor: {x: 0.5, y: 0.5},
-  textAlign: 'center'
-});
-
-setXY(inputMessagePlayer,player);
-
-}
+} else  writeText("503");
 });
 
 
@@ -219,7 +179,6 @@ load(...imageAssetPaths).then(() => {
 const loop = GameLoop({
   context: context, // create the main game loop
   update: function () {
-
 
     //grey out all controls if player isn't at start
     if(!collides(player, playerStart)) controls.classList ='faded'
@@ -297,16 +256,7 @@ const loop = GameLoop({
       if(collides(gate, bot)) {
         bot.speed = 0;
         bot.playAnimation("crash")
-        botMessage= Text({
-          text: '401\nUnauthorized',
-          font: 'bold 20px Arial',
-          color: 'white',
-          x: 0,
-          y: 0,
-          anchor: {x: 0.5, y: 0.5},
-          textAlign: 'center'
-        });
-        setXY(botMessage,bot);
+       writeText("401")
       }
     })
     bot.update();
@@ -363,17 +313,7 @@ const loop = GameLoop({
         botMessage.render()
 
       } else if (collides(bot,botGoal)){
-       botMessage = Text({
-          text: '200\nOK',
-          font: 'bold 20px Arial',
-          color: 'white',
-          x: 0,
-          y: 0,
-          anchor: {x: 0.5, y: 0.5},
-          textAlign: 'center'
-        })
-        setXY(botMessage,bot)
-        botMessage.render()
+               botMessage.render()
       if(collides(player,playerGoal))
       {
     //  If not the last level, reset the bot, player, and tile engine for the  next level and rerender
@@ -452,7 +392,6 @@ function activateSwitch(levelSwitch, activate=true){
   }
 }
 
-
 const makeLevel = lvl => {
     //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
   //it also fakes the required mapping for the TileEngine
@@ -511,21 +450,63 @@ const redrawControls = () => {
   //empty out move boxes
   for(let i = 0; i < 10; i++) document.getElementById(`move${i}`).textContent = ''
   //redraw all banked moves
-  movesBank.map((move,ix)=>{
+   movesBank.map((move,ix)=>{
     const divApp = document.getElementById(`move${ix}`)
     divApp.textContent = '';
     const img = document.createElement('img')
     img.src = moveImage[move]
-    if(move === 'L') img.className = 'mirror'
+    if(move === 'L') img.class = 'mirror'
     divApp.appendChild(img)
   })
   //unfade go button
-  if(moves.length === 0) document.getElementById('botGo').className = ''
+  if(moves.length === 0) document.getElementById('botGo').class = ''
 }
 
 function setXY(textObject,sprite){
-  textObject.x=sprite.x>(512-(.5*textObject.width))? (512-(.5*textObject.width)): sprite.x<(.5*textObject.width) ? (.5*textObject.width) :sprite.x;
-  textObject.y= sprite.y>(sprite.height+textObject.height)? (sprite.y-textObject.height) : (sprite.y+sprite.height);
+  const halfWidth=(.5*textObject.width)
+  const theight =textObject.height
+  textObject.x=sprite.x>(512-halfWidth)? (512-halfWidth): sprite.x<halfWidth ? halfWidth :sprite.x;
+  textObject.y= sprite.y>(sprite.height+theight)? (sprite.y-theight) : (sprite.y+sprite.height);
 
 }
 
+function writeText(code){
+
+  if(code==="401"||code ==="200"){
+    botMessage= Text({
+      text: code==="401" ? '401\nUnauthorized':"200\nOK",
+      font: 'bold 20px Arial',
+      color: 'white',
+      x: 0,
+      y: 0,
+      anchor: {x: 0.5, y: 0.5},
+      textAlign: 'center'
+    });
+    setXY(botMessage,bot);
+  } else   {
+    inputTimer=30;
+      inputMessageBot= Text({
+      text: code==="202" ? '202\nAccepted': code==="503"? '503\nService Unavailable' : null,
+      font: 'bold 12px Arial',
+      color: 'white',
+      x: 0,
+      y: 0,
+      anchor: {x: 0.5, y: 0.5},
+      textAlign: 'center'
+    });
+    setXY(inputMessageBot,bot);
+    inputMessagePlayer=null;
+  }
+    if(code==="503"){
+      inputMessagePlayer= Text({
+        text: 'I need the\nterminal for that',
+        font: 'bold 14px Arial',
+        color: 'white',
+        x: 0,
+        y: 0 ,
+        anchor: {x: 0.5, y: 0.5},
+        textAlign: 'center'
+      });
+
+      setXY(inputMessagePlayer,player);}
+}

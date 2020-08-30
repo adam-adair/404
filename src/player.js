@@ -12,20 +12,20 @@ export default function makePlayer(playerImage){
   animations: {
     // create a named animation: walk
     walkDown: {
-      frames: '0..7',  // frames 0 through 9
-      frameRate: 30
+      frames: '0..3',  // frames 0 through 9
+      frameRate: 9
     },
     walkUp: {
-      frames: '8..15',  // frames 0 through 9
-      frameRate: 30
+      frames: '4..7',  // frames 0 through 9
+      frameRate: 9
     },
     walkLeft: {
-      frames: '16..23',  // frames 0 through 9
-      frameRate: 30
+      frames: '8..11',  // frames 0 through 9
+      frameRate: 9
     },
     walkRight: {
-      frames: '24..31',  // frames 0 through 9
-      frameRate: 30
+      frames: '12..15',  // frames 0 through 9
+      frameRate: 9
     },
     idle: {
       frames: 0,  // frames 0 through 9
