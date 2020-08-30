@@ -11,10 +11,11 @@
   "author": "Jeff Garber and Adam Reeves",
   "license": "ISC",
   "dependencies": {
-    "kontra": "^7.1.0",
-    "packer-webpack-plugin": "0.0.5"
+    "kontra": "^7.1.0"
   },
   "devDependencies": {
+    "packer-webpack-plugin": "0.0.5",
+    "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "xml2js": "^0.4.23"

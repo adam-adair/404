@@ -34,7 +34,7 @@ import levels from "./assets/tile/parsed.allLevels.json"
 /////////////////////////////////////////////////////////////////////////////////////
 
 //////////////  GLOBAL VARS  ////////////////////////////////////////////////////////
-
+levelPreProcess()
 let player,
   bot,
   currentLevel,
@@ -57,12 +57,12 @@ let player,
   movesBank
 
   const imageAssetPaths=[
-  './assets/img/boardArt.png',
+  './assets/img/tiles.png',
   "./assets/img/player.png",
   './assets/img/botSheet.png',
   ]
 
-  const tilesetNames = ["boardArt.tsx"]
+  const tilesetNames = ["tiles.tsx"]
 
   const moveImage = {
     L: 'assets/img/turn.png',
@@ -143,7 +143,7 @@ controls.addEventListener("click", (event) => {
 
   //if move bank isn't full and bot's not running, add move to movebank
   if(movesBank.length < 10 && moves.length === 0) {
-    movesBank.push(clickId)
+    if(['F','L','R','LOOP'].includes(clickId)) movesBank.push(clickId)
     writeText("202");
   }
   redrawControls();
@@ -284,8 +284,8 @@ const loop = GameLoop({
 
       if(collides(levelSwitch,player)){
         activateSwitch(levelSwitch)
-        levelTileEngine.setTileAtLayer("ground",levelSwitch,activePlayerSwitchGID)
-      } else levelTileEngine.setTileAtLayer("ground",levelSwitch, inactivePlayerSwitchGID,
+        levelTileEngine.setTileAtLayer("pipes",levelSwitch,activePlayerSwitchGID)
+      } else levelTileEngine.setTileAtLayer("pipes",levelSwitch, inactivePlayerSwitchGID,
       )
 
     })
@@ -310,11 +310,24 @@ const loop = GameLoop({
     }
     //Bot gives status messages. If crashing, give message set at time of crash, if not check for end goal
       if(bot.currentAnimation.frames.length===4){
-        botMessage.render()
+
+
+        //this causes an error right now
+
+        //botMessage.render()
+
+
 
       } else if (collides(bot,botGoal)){
-               botMessage.render()
-      if(collides(player,playerGoal))
+
+
+        //error
+
+        //botMessage.render()
+
+
+
+        if(collides(player,playerGoal))
       {
     //  If not the last level, reset the bot, player, and tile engine for the  next level and rerender
     //  Otherwise end game message
@@ -413,13 +426,12 @@ const makeLevel = lvl => {
   botStart = levelObjects.filter(object => object.name==='botStart')[0];
   botGoal = levelObjects.filter(object => object.name==='botGoal')[0];
   levelSwitches= levelObjects.filter(object => object.type==='Switch');
-  console.log(levelSwitches)
 
   //reset bot switches and redraw
   levelSwitches.filter(sw=>sw.properties[1].value==='Permanent').forEach(sw=>{
     assignTilesToObject(sw);
     sw.tiles.forEach(tile=> {
-      levelTileEngine.setTileAtLayer("decorations", tile, inactiveBotSwitchGID)
+      levelTileEngine.setTileAtLayer("pipes", tile, inactiveBotSwitchGID)
     })
   })
   activatedTempSwitches=[]
@@ -444,6 +456,7 @@ const makeLevel = lvl => {
   redrawControls();
   player.placeAtStart(playerStart)
   bot.placeAtStart(botStart)
+
 }
 
 const redrawControls = () => {
@@ -509,4 +522,13 @@ function writeText(code){
       });
 
       setXY(inputMessagePlayer,player);}
+}
+
+function levelPreProcess() {
+  //this adds a background layer full of plain green
+  levels.map(level => {
+    const bgData = new Array(256)
+    bgData.fill(1)
+    level.layers.unshift({"data":bgData})
+  })
 }

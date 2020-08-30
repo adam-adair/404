@@ -9,21 +9,21 @@ export const
   gridSize = 32,
   rows = 16,
   invalidPipeTypes = {
-    S: [37,43,44,48,49,51,53],
-    E: [39,41,44,47,49,52,53],
-    W: [40,43,44,47,48,50,52],
-    N: [37,39,40,42,43,52,53]},
+    S: [10,16,17,21,22,24,26],
+    E: [12,14,17,20,22,25,26],
+    W: [13,16,17,20,21,23,25],
+    N: [10,12,13,15,16,25,26]},
  initialTileHeadings = {
-    43: 'E',
-    44: 'N',
-    52: 'S',
-    53: 'W'
+    16: 'E',
+    17: 'N',
+    25: 'S',
+    26: 'W'
   },
-  winNodeGID = 35,
-  openGateGID = 31,
-  closedGateGID = 30,
-  inactivePlayerSwitchGID = 29,
-  activePlayerSwitchGID = 28,
-  inactiveBotSwitchGID = 54,
-  activeBotSwitchGID = 45
+  winNodeGID = 8,
+  openGateGID = 0,
+  closedGateGID = 3,
+  inactivePlayerSwitchGID = 2,
+  activePlayerSwitchGID = 2,
+  inactiveBotSwitchGID = 27,
+  activeBotSwitchGID = 18
 
