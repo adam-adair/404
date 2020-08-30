@@ -58,7 +58,7 @@ let player,
 
   const imageAssetPaths=[
   './assets/img/boardArt.png',
-  "./assets/img/rpg_sprite_walk.png",
+  "./assets/img/player.png",
   './assets/img/botSheet.png',
   ]
 
