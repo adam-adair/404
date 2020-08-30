@@ -1,9 +1,14 @@
 [
 	{
-
-
+		"compressionlevel": -1,
+		"editorsettings": {
+			"export": {
+				"format": "json",
+				"target": "level1.json"
+			}
+		},
 		"height": 16,
-
+		"infinite": false,
 		"layers": [
 			{
 				"data": [
@@ -263,8 +268,16 @@
 					19,
 					20,
 					21
-				]
-
+				],
+				"height": 16,
+				"id": 1,
+				"name": "background",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -524,7 +537,16 @@
 					0,
 					0,
 					0
-				]
+				],
+				"height": 16,
+				"id": 2,
+				"name": "ground",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -785,9 +807,15 @@
 					0,
 					0
 				],
-
-				"name": "pipes"
-
+				"height": 16,
+				"id": 5,
+				"name": "pipes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -1048,8 +1076,15 @@
 					0,
 					0
 				],
-
-				"name": "nodes"
+				"height": 16,
+				"id": 4,
+				"name": "nodes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -1310,118 +1345,170 @@
 					0,
 					0
 				],
-
-				"name": "decorations"
-
+				"height": 16,
+				"id": 3,
+				"name": "decorations",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
-
+				"draworder": "topdown",
+				"id": 6,
 				"name": "InteractiveComponents",
 				"objects": [
 					{
 						"height": 32,
-
+						"id": 3,
 						"name": "playerStart",
-
+						"rotation": 0,
 						"type": "playerStart",
+						"visible": true,
 						"width": 32,
 						"x": 448,
 						"y": 32
 					},
 					{
 						"height": 64,
+						"id": 4,
 						"name": "playerGoal",
+						"rotation": 0,
 						"type": "playerGoal",
+						"visible": true,
 						"width": 64,
 						"x": 416,
 						"y": 448
 					},
 					{
 						"height": 32,
+						"id": 5,
 						"name": "botStart",
+						"rotation": 0,
 						"type": "botStart",
+						"visible": true,
 						"width": 32,
 						"x": 416,
 						"y": 32
 					},
 					{
 						"height": 32,
+						"id": 9,
 						"name": "botGoal",
+						"rotation": 0,
+						"type": "",
+						"visible": true,
 						"width": 32,
 						"x": 416,
 						"y": 480
 					},
 					{
 						"height": 32,
+						"id": 11,
 						"name": "1",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "1"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Permanent"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 64,
 						"y": 352
 					},
 					{
 						"height": 32,
+						"id": 12,
 						"name": "2",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "2"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Temporary"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 352,
 						"y": 160
 					},
 					{
 						"height": 32,
+						"id": 13,
 						"name": "2",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 96,
 						"x": 192,
 						"y": 64
 					},
 					{
 						"height": 32,
+						"id": 14,
 						"name": "1",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 128,
 						"x": 384,
 						"y": 256
 					}
-				]
+				],
+				"opacity": 1,
+				"type": "objectgroup",
+				"visible": true,
+				"x": 0,
+				"y": 0
 			}
 		],
-
+		"nextlayerid": 7,
+		"nextobjectid": 15,
+		"orientation": "orthogonal",
+		"renderorder": "right-down",
+		"tiledversion": "1.4.2",
 		"tileheight": 32,
 		"tilesets": [
 			{
 				"firstgid": 1,
+				"source": "boardArt.tsx",
 				"image": "./assets/img/boardArt.png"
 			}
 		],
 		"tilewidth": 32,
-
-		"width": 16
+		"type": "map",
+		"version": 1.4,
+		"width": 16,
+		"levelName": "level1.json"
 	},
 	{
-
+		"compressionlevel": -1,
+		"editorsettings": {
+			"export": {
+				"format": "json",
+				"target": "level2.json"
+			}
+		},
 		"height": 16,
-
+		"infinite": false,
 		"layers": [
 			{
 				"data": [
@@ -1681,7 +1768,16 @@
 					14,
 					14,
 					14
-				]
+				],
+				"height": 16,
+				"id": 3,
+				"name": "background",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -1941,7 +2037,16 @@
 					18,
 					27,
 					18
-				]
+				],
+				"height": 16,
+				"id": 4,
+				"name": "ground",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -2202,7 +2307,15 @@
 					37,
 					49
 				],
-				"name": "pipes"
+				"height": 16,
+				"id": 1,
+				"name": "pipes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -2463,7 +2576,15 @@
 					0,
 					36
 				],
-				"name": "nodes"
+				"height": 16,
+				"id": 2,
+				"name": "nodes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -2724,113 +2845,164 @@
 					0,
 					0
 				],
-
-				"name": "decorations"
+				"height": 16,
+				"id": 5,
+				"name": "decorations",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
-
+				"draworder": "topdown",
+				"id": 7,
 				"name": "InteractiveComponents",
 				"objects": [
 					{
 						"height": 32,
+						"id": 4,
 						"name": "1",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "1,2"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Permanent"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 256,
 						"y": 224
 					},
 					{
 						"height": 64,
+						"id": 5,
 						"name": "1",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 96,
 						"x": 416,
 						"y": 128
 					},
 					{
 						"height": 64,
+						"id": 7,
 						"name": "2",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 96,
 						"x": 416,
 						"y": 320
 					},
 					{
 						"height": 32,
+						"id": 9,
 						"name": "2",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "1,2"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Temporary"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 256,
 						"y": 384
 					},
 					{
 						"height": 64,
+						"id": 10,
 						"name": "playerGoal",
+						"rotation": 0,
 						"type": "playerGoal",
+						"visible": true,
 						"width": 64,
 						"x": 448,
 						"y": 0
 					},
 					{
 						"height": 32,
+						"id": 11,
 						"name": "playerStart",
+						"rotation": 0,
 						"type": "playerStart",
+						"visible": true,
 						"width": 32,
 						"x": 96,
 						"y": 416
 					},
 					{
 						"height": 32,
+						"id": 13,
 						"name": "botStart",
+						"rotation": 0,
 						"type": "botStart",
+						"visible": true,
 						"width": 32,
 						"x": 0,
 						"y": 480
 					},
 					{
 						"height": 32,
+						"id": 16,
 						"name": "botGoal",
+						"rotation": 0,
 						"type": "botGoal",
+						"visible": true,
 						"width": 32,
 						"x": 480,
 						"y": 0
 					}
-				]
+				],
+				"opacity": 1,
+				"type": "objectgroup",
+				"visible": true,
+				"x": 0,
+				"y": 0
 			}
 		],
-
+		"nextlayerid": 8,
+		"nextobjectid": 17,
+		"orientation": "orthogonal",
+		"renderorder": "right-down",
+		"tiledversion": "1.4.2",
 		"tileheight": 32,
 		"tilesets": [
 			{
 				"firstgid": 1,
+				"source": "boardArt.tsx",
 				"image": "./assets/img/boardArt.png"
 			}
 		],
 		"tilewidth": 32,
-		"width": 16
+		"type": "map",
+		"version": 1.4,
+		"width": 16,
+		"levelName": "level2.json"
 	},
 	{
-
+		"compressionlevel": -1,
+		"height": 16,
+		"infinite": false,
 		"layers": [
 			{
 				"data": [
@@ -3090,7 +3262,16 @@
 					14,
 					7,
 					14
-				]
+				],
+				"height": 16,
+				"id": 1,
+				"name": "background",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -3350,7 +3531,16 @@
 					0,
 					0,
 					0
-				]
+				],
+				"height": 16,
+				"id": 2,
+				"name": "ground",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -3611,7 +3801,15 @@
 					0,
 					0
 				],
-				"name": "pipes"
+				"height": 16,
+				"id": 4,
+				"name": "pipes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -3872,7 +4070,15 @@
 					0,
 					0
 				],
-				"name": "nodes"
+				"height": 16,
+				"id": 3,
+				"name": "nodes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -4133,85 +4339,136 @@
 					0,
 					0
 				],
-				"name": "decorations"
+				"height": 16,
+				"id": 5,
+				"name": "decorations",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
-
+				"draworder": "topdown",
+				"id": 6,
 				"name": "InteractiveComponents",
 				"objects": [
 					{
 						"height": 32,
+						"id": 1,
 						"name": "botStart",
+						"rotation": 0,
 						"type": "botStart",
+						"visible": true,
 						"width": 32,
 						"x": 32,
 						"y": 448
 					},
 					{
 						"height": 32,
+						"id": 2,
 						"name": "playerStart",
+						"rotation": 0,
 						"type": "playerStart",
+						"visible": true,
 						"width": 32,
 						"x": 32,
 						"y": 416
 					},
 					{
 						"height": 32,
+						"id": 3,
 						"name": "botGoal",
+						"rotation": 0,
 						"type": "botGoal",
+						"visible": true,
 						"width": 32,
 						"x": 224,
 						"y": 32
 					},
 					{
 						"height": 64,
+						"id": 4,
 						"name": "playerGoal",
+						"rotation": 0,
 						"type": "playerGoal",
+						"visible": true,
 						"width": 64,
 						"x": 192,
 						"y": 0
 					},
 					{
 						"height": 32,
+						"id": 7,
 						"name": "1",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "1"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Permanent"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 224,
 						"y": 224
 					},
 					{
 						"height": 32,
+						"id": 8,
 						"name": "1",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 96,
 						"x": 192,
 						"y": 352
 					}
-				]
+				],
+				"opacity": 1,
+				"type": "objectgroup",
+				"visible": true,
+				"x": 0,
+				"y": 0
 			}
 		],
+		"nextlayerid": 7,
+		"nextobjectid": 9,
+		"orientation": "orthogonal",
+		"renderorder": "right-down",
+		"tiledversion": "1.4.2",
 		"tileheight": 32,
 		"tilesets": [
 			{
 				"firstgid": 1,
+				"source": "boardArt.tsx",
 				"image": "./assets/img/boardArt.png"
 			}
 		],
-		"tilewidth": 32
+		"tilewidth": 32,
+		"type": "map",
+		"version": 1.4,
+		"width": 16,
+		"levelName": "level3.json"
 	},
 	{
-
+		"compressionlevel": -1,
+		"editorsettings": {
+			"export": {
+				"format": "json",
+				"target": "level4.json"
+			}
+		},
 		"height": 16,
+		"infinite": false,
 		"layers": [
 			{
 				"data": [
@@ -4471,7 +4728,16 @@
 					19,
 					20,
 					21
-				]
+				],
+				"height": 16,
+				"id": 1,
+				"name": "background",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -4731,7 +4997,16 @@
 					0,
 					0,
 					0
-				]
+				],
+				"height": 16,
+				"id": 2,
+				"name": "ground",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -4992,7 +5267,15 @@
 					0,
 					0
 				],
-				"name": "pipes"
+				"height": 16,
+				"id": 4,
+				"name": "pipes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -5253,7 +5536,15 @@
 					0,
 					0
 				],
-				"name": "nodes"
+				"height": 16,
+				"id": 3,
+				"name": "nodes",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
 				"data": [
@@ -5514,132 +5805,192 @@
 					0,
 					0
 				],
-				"name": "decorations"
+				"height": 16,
+				"id": 5,
+				"name": "decorations",
+				"opacity": 1,
+				"type": "tilelayer",
+				"visible": true,
+				"width": 16,
+				"x": 0,
+				"y": 0
 			},
 			{
+				"draworder": "topdown",
+				"id": 6,
 				"name": "InteractiveComponents",
 				"objects": [
 					{
 						"height": 32,
+						"id": 1,
 						"name": "botStart",
+						"rotation": 0,
 						"type": "botStart",
+						"visible": true,
 						"width": 32,
 						"x": 448,
 						"y": 448
 					},
 					{
 						"height": 32,
+						"id": 2,
 						"name": "playerStart",
+						"rotation": 0,
 						"type": "playerStart",
+						"visible": true,
 						"width": 32,
 						"x": 448,
 						"y": 64
 					},
 					{
 						"height": 32,
+						"id": 3,
 						"name": "botGoal",
+						"rotation": 0,
 						"type": "botGoal",
+						"visible": true,
 						"width": 32,
 						"x": 0,
 						"y": 32
 					},
 					{
 						"height": 64,
+						"id": 4,
 						"name": "playerGoal",
+						"rotation": 0,
 						"type": "playerGoal",
+						"visible": true,
 						"width": 64,
 						"x": 0,
 						"y": 0
 					},
 					{
 						"height": 32,
+						"id": 7,
 						"name": "3",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "3"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Permanent"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 192,
 						"y": 288
 					},
 					{
 						"height": 32,
+						"id": 8,
 						"name": "1",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "1"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Permanent"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 256,
 						"y": 416
 					},
 					{
 						"height": 32,
+						"id": 9,
 						"name": "2",
 						"properties": [
 							{
 								"name": "Gates",
+								"type": "string",
 								"value": "2"
 							},
 							{
 								"name": "SwitchType",
+								"type": "string",
 								"value": "Temporary"
 							}
 						],
+						"rotation": 0,
 						"type": "Switch",
+						"visible": true,
 						"width": 32,
 						"x": 448,
 						"y": 192
 					},
 					{
 						"height": 96,
+						"id": 10,
 						"name": "3",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 32,
 						"x": 96,
 						"y": 0
 					},
 					{
 						"height": 32,
+						"id": 11,
 						"name": "2",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 96,
 						"x": 0,
 						"y": 128
 					},
 					{
 						"height": 32,
+						"id": 12,
 						"name": "1",
+						"rotation": 0,
 						"type": "Gate",
+						"visible": true,
 						"width": 128,
 						"x": 384,
 						"y": 128
 					}
-				]
+				],
+				"opacity": 1,
+				"type": "objectgroup",
+				"visible": true,
+				"x": 0,
+				"y": 0
 			}
 		],
+		"nextlayerid": 7,
+		"nextobjectid": 13,
+		"orientation": "orthogonal",
+		"renderorder": "right-down",
+		"tiledversion": "1.4.2",
 		"tileheight": 32,
 		"tilesets": [
 			{
 				"firstgid": 1,
+				"source": "boardArt.tsx",
 				"image": "./assets/img/boardArt.png"
 			}
 		],
 		"tilewidth": 32,
-		"width": 16
+		"type": "map",
+		"version": 1.4,
+		"width": 16,
+		"levelName": "level4.json"
 	}
 ]
