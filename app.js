@@ -538,7 +538,12 @@ function levelPreProcess() {
     })
       //this adds a background layer full of plain green
     const bgData = new Array(256)
-    bgData.fill(1)
+    for(let i = 0; i < 256; i++) {
+      const randIx = Math.floor(Math.random()*30)
+      const randImg = [5,6,7].includes(randIx) ? randIx : 1
+      bgData[i] = randImg
+    }
+    //bgData.fill(1)
     clvl.layers.unshift({"data":bgData})
     clvl.layers.push(clvl.objects)
   })
