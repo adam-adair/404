@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable react/button-has-type */
 /* eslint-disable max-statements */
 /* eslint-disable no-use-before-define */
 /* eslint-disable complexity */
@@ -29,12 +31,12 @@ import {
 import makePlayer from "./src/player";
 import makeBot from "./src/bot";
 import track from "./src/track";
-import levels from "./assets/tile/parsed.allLevels.json"
+import compressedLevels from "./assets/tile/parsed.allLevels.json"
 
 /////////////////////////////////////////////////////////////////////////////////////
-
+const levels = levelPreProcess()
 //////////////  GLOBAL VARS  ////////////////////////////////////////////////////////
-levelPreProcess()
+
 let player,
   bot,
   currentLevel,
@@ -52,7 +54,6 @@ let player,
   levelSwitches,
   levelGates,
   activatedTempSwitches,
-
   moves,
   movesBank
 
@@ -123,7 +124,7 @@ controls.addEventListener("click", (event) => {
    //reset level, restore Go
    if(clickId === 'levelReset') {
     makeLevel(currentLevel)
-    clicked.previousElementSibling.class = ''
+    clicked.previousElementSibling.className = ''
   }
   //if player is in playerstart square accept inputs, otherwise show error text
   if(collides(player,playerStart)){
@@ -131,7 +132,7 @@ controls.addEventListener("click", (event) => {
     //start bot if not already running, grey out go
   if(clickId === 'botGo' && moves.length === 0) {
     moves = [...movesBank]
-    clicked.class = 'faded'
+    clicked.className = 'faded'
     }
 
     /////////////commented out the below code because it doesn't appear to affect gameplay.
@@ -468,11 +469,11 @@ const redrawControls = () => {
     divApp.textContent = '';
     const img = document.createElement('img')
     img.src = moveImage[move]
-    if(move === 'L') img.class = 'mirror'
+    if(move === 'L') img.className = 'mirror'
     divApp.appendChild(img)
   })
   //unfade go button
-  if(moves.length === 0) document.getElementById('botGo').class = ''
+  if(moves.length === 0) document.getElementById('botGo').className = ''
 }
 
 function setXY(textObject,sprite){
@@ -525,10 +526,21 @@ function writeText(code){
 }
 
 function levelPreProcess() {
-  //this adds a background layer full of plain green
-  levels.map(level => {
+  compressedLevels.forEach(clvl => {
+    clvl.layers = [{name:'pipes'},{name:'nodes'},{name:'decorations'}]
+    clvl.cLayers.forEach((cLayer,ix)=>{
+      const data = new Array(256)
+      data.fill(0)
+      Object.keys(cLayer).forEach(key=>{
+        cLayer[key].forEach(value=> {data[value] = +key})
+      })
+      clvl.layers[ix].data = data
+    })
+      //this adds a background layer full of plain green
     const bgData = new Array(256)
     bgData.fill(1)
-    level.layers.unshift({"data":bgData})
+    clvl.layers.unshift({"data":bgData})
+    clvl.layers.push(clvl.objects)
   })
+  return compressedLevels
 }

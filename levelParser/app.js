@@ -35,17 +35,37 @@ levelList.forEach(fileName =>{
   });
 
   function exporter(parsedLevel) {
-    levels.push(parsedLevel)
+    levels.push(compressor(parsedLevel))
     if(levels.length === numLevels) {
       //put levels in order based on level.name
       levels.sort((a,b) => a.levelName > b.levelName ? 1 : -1)
       //for production, these stringify flags should be removed or altered.
       //they make the json more readable but take up more space
-      const levelsString = JSON.stringify(levels, null, '\t')
+      const levelsString = JSON.stringify(levels)
       fs.writeFile(path.join(__dirname,'..','assets','tile','parsed.allLevels.json'), levelsString, function(err) {
         if(err) throw err
       });
     }
+  }
+
+  function compressor(parsedLevel) {
+    let returnLevel = {}
+    returnLevel.levelName = parsedLevel.levelName
+    returnLevel.height = returnLevel.width = 16
+    returnLevel.tileheight = returnLevel.tilewidth = 32
+    returnLevel.tilesets = parsedLevel.tilesets
+    returnLevel.objects = parsedLevel.layers[3]
+    returnLevel.cLayers = [{},{},{}]
+    for(let i = 0; i < 3; i++) {
+      const thisLayer = returnLevel.cLayers[i]
+      for(let x = 0; x < 256; x++) {
+        const mapValue = parsedLevel.layers[i].data[x]
+        if(mapValue !== 0) {
+          thisLayer[mapValue] ? thisLayer[mapValue].push(x) : thisLayer[mapValue] = [x]
+        }
+      }
+    }
+    return returnLevel
   }
 
 })
