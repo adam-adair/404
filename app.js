@@ -5,10 +5,10 @@
 /* eslint-disable complexity */
 
 //////////////  IMPORTS  ////////////////////////////////////////////////////////////
-
+import liteEngine from './src/liteEngine'
 import {
   load,
-  TileEngine,
+  //TileEngine,
   dataAssets,
   imageAssets,
   GameLoop,
@@ -41,7 +41,7 @@ let player,
   bot,
   currentLevel,
   currentLevelIx,
-  levelTileEngine,
+  levelliteEngine,
   levelTrack,
   playerStart,
   playerGoal,
@@ -190,7 +190,7 @@ const loop = GameLoop({
 
     if (keyPressed("right")) {
       if (player.x < canvas.width - player.width * player.scaleX) player.x += 2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+      if (levelliteEngine.layerCollidesWith("decorations", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -206,7 +206,7 @@ const loop = GameLoop({
     } else if (keyPressed("left")) {
       if (player.x <= 0) player.x += 2;
       player.x += -2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+      if (levelliteEngine.layerCollidesWith("decorations", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -219,7 +219,7 @@ const loop = GameLoop({
       player.playAnimation("walkLeft");
     } else if (keyPressed("up")) {
       if (player.y > 0) player.y -= 2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+      if (levelliteEngine.layerCollidesWith("decorations", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -233,7 +233,7 @@ const loop = GameLoop({
     } else if (keyPressed("down")) {
       if (player.y < canvas.height - player.height * player.scaleY)
         player.y += 2;
-      if (levelTileEngine.layerCollidesWith("decorations", player)) {
+      if (levelliteEngine.layerCollidesWith("decorations", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -280,20 +280,20 @@ const loop = GameLoop({
       //something about the bot's y offset is messing with the collision detection so I had to create a custom object
       if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
-        levelTileEngine.setTileAtLayer("decorations",levelSwitch,activeBotSwitchGID)
+        levelliteEngine.setTileAtLayer("decorations",levelSwitch,activeBotSwitchGID)
       }
 
       if(collides(levelSwitch,player)){
         activateSwitch(levelSwitch)
-        levelTileEngine.setTileAtLayer("pipes",levelSwitch,activePlayerSwitchGID)
-      } else levelTileEngine.setTileAtLayer("pipes",levelSwitch, inactivePlayerSwitchGID,
+        levelliteEngine.setTileAtLayer("pipes",levelSwitch,activePlayerSwitchGID)
+      } else levelliteEngine.setTileAtLayer("pipes",levelSwitch, inactivePlayerSwitchGID,
       )
 
     })
   },
   render: function () {
     // render the game state
-    levelTileEngine.render();
+    levelliteEngine.render();
     player.render();
     bot.render();
 
@@ -379,7 +379,7 @@ function activateSwitch(levelSwitch, activate=true){
   associatedGameObjects.forEach(gate=>{
     gate.open = true
     gate.tiles.forEach(tile=> {
-      levelTileEngine.setTileAtLayer("decorations", tile, openGateGID)
+      levelliteEngine.setTileAtLayer("decorations", tile, openGateGID)
     })
   })
 
@@ -395,7 +395,7 @@ function activateSwitch(levelSwitch, activate=true){
     associatedGameObjects.forEach(gate=>{
       gate.open = false;
       gate.tiles.forEach(tile=> {
-        levelTileEngine.setTileAtLayer("decorations", tile, closedGateGID)
+        levelliteEngine.setTileAtLayer("decorations", tile, closedGateGID)
       })
     })
 
@@ -408,7 +408,7 @@ function activateSwitch(levelSwitch, activate=true){
 
 const makeLevel = lvl => {
     //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
-  //it also fakes the required mapping for the TileEngine
+  //it also fakes the required mapping for the liteEngine
   //later, we should make something that cleans this up and creates the necessary JSON for a level and also deal w multiple levels
   dataAssets[lvl.levelName] = lvl
 
@@ -417,7 +417,7 @@ const makeLevel = lvl => {
     window.__k.d[tilesetURL] = 'x'
     window.__k.dm.set(dataAssets[lvl.levelName],tilesetURL)
   })
-  levelTileEngine = TileEngine(dataAssets[lvl.levelName]);
+  levelliteEngine = liteEngine(dataAssets[lvl.levelName]);
   levelTrack = track(lvl);
 
   //assign interactive components from JSON to objects
@@ -432,7 +432,7 @@ const makeLevel = lvl => {
   levelSwitches.filter(sw=>sw.properties[1].value==='Permanent').forEach(sw=>{
     assignTilesToObject(sw);
     sw.tiles.forEach(tile=> {
-      levelTileEngine.setTileAtLayer("pipes", tile, inactiveBotSwitchGID)
+      levelliteEngine.setTileAtLayer("pipes", tile, inactiveBotSwitchGID)
     })
   })
   activatedTempSwitches=[]
@@ -443,7 +443,7 @@ const makeLevel = lvl => {
     gate.open = false;
     assignTilesToObject(gate);
     gate.tiles.forEach(tile=> {
-      levelTileEngine.setTileAtLayer("decorations", tile, closedGateGID)
+      levelliteEngine.setTileAtLayer("decorations", tile, closedGateGID)
     })
   })
 
