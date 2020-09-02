@@ -137,14 +137,14 @@ controls.addEventListener("click", (event) => {
 
     /////////////commented out the below code because it doesn't appear to affect gameplay.
     ////////////can we remove it?
-  //if you click a move bank box and sparky not running, splice out the move
+ // if you click a move bank box and sparky not running, splice out the move
   // if(clicked.parentElement.class === 'moveBlock' && moves.length === 0) {
   //   movesBank.splice(+clicked.parentElement.id.slice(-1),1)
   // }
 
   //if move bank isn't full and bot's not running, add move to movebank
   if(movesBank.length < 10 && moves.length === 0) {
-    if(['F','L','R','LOOP'].includes(clickId)) movesBank.push(clickId)
+    if(["L","R","F","LOOP"].includes(clickId)) movesBank.push(clickId)
     writeText("202");
   }
   redrawControls();
@@ -313,19 +313,11 @@ const loop = GameLoop({
       if(bot.currentAnimation.frames.length===4){
 
 
-        //this causes an error right now
-
-        //botMessage.render()
-
-
+        botMessage.render()
 
       } else if (collides(bot,botGoal)){
 
-
-        //error
-
-        //botMessage.render()
-
+        botMessage.render()
 
 
         if(collides(player,playerGoal))
