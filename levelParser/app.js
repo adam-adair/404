@@ -23,12 +23,12 @@ levelList.forEach(fileName =>{
           if (errReadXML) throw errReadXML;
           parseString(xml,function (xmlerr, result) {
             if (xmlerr) throw xmlerr;
-            let imgString = result.tileset.image[0]['$'].source
-            imgString = imgString.replace('..','./assets')
-            level.tilesets[ix].image = imgString
-            level.tilesets[ix].source = tileset
+            // let imgString = result.tileset.image[0]['$'].source
+            // imgString = imgString.replace('..','./assets')
+            //level.tilesets[ix].image = imgString
+            //level.tilesets[ix].source = tileset
             level.levelName = fileName
-            if(ix===tilesets.length-1) {exporter(level)}//{exporter(JSON.stringify(level, null, '\t'))}
+             if(ix===tilesets.length-1) {exporter(level)}
           });
         })
       })
@@ -42,6 +42,7 @@ levelList.forEach(fileName =>{
       //for production, these stringify flags should be removed or altered.
       //they make the json more readable but take up more space
       const levelsString = JSON.stringify(levels)
+      //const levelsString = JSON.stringify(levels, null, '\t')
       fs.writeFile(path.join(__dirname,'..','assets','tile','parsed.allLevels.json'), levelsString, function(err) {
         if(err) throw err
       });
@@ -51,9 +52,9 @@ levelList.forEach(fileName =>{
   function compressor(parsedLevel) {
     let returnLevel = {}
     returnLevel.levelName = parsedLevel.levelName
-    returnLevel.height = returnLevel.width = 16
-    returnLevel.tileheight = returnLevel.tilewidth = 32
-    returnLevel.tilesets = parsedLevel.tilesets
+    //returnLevel.height = returnLevel.width = 16
+    //returnLevel.tileheight = returnLevel.tilewidth = 32
+    //returnLevel.tilesets = parsedLevel.tilesets
     returnLevel.objects = parsedLevel.layers[3]
     returnLevel.cLayers = [{},{},{}]
     for(let i = 0; i < 3; i++) {
