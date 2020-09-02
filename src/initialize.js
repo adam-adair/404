@@ -1,4 +1,6 @@
-
+// 49,50,51,52,53,54,0,0,0,0,0,0,0,0,0,0,
+// 6R49,6R51,cR51,aR51,6R53,0,0,0,0,0,0,0,0,0,0,0,
+// cR53,aR53,6R52,cR52,aR52,0,0,0,0,0,0,0,0,0,0,0,
 import {init} from 'kontra';
 
 let {canvas, context}=init('game');
@@ -9,21 +11,23 @@ export const
   gridSize = 32,
   rows = 16,
   invalidPipeTypes = {
-    S: [10,16,17,21,22,24,26],
-    E: [12,14,17,20,22,25,26],
-    W: [13,16,17,20,21,23,25],
-    N: [10,12,13,15,16,25,26]},
+    S: ['49','52','aR51','cR53','aR53','6R52','cR52'],
+    E: ['51','53','6R49','aR53','6R52','cR52','aR52'],
+    W: ['52','6R49','cR51','6R53','cR53','6R52','aR52'],
+    N: ['49','52','53','6R51','6R53','cR52','aR52']},
  initialTileHeadings = {
-    16: 'E',
-    17: 'N',
-    25: 'S',
-    26: 'W'
+    '52': 'E',
+    '6R52': 'N',
+    'aR52': 'S',
+    'cR52': 'W'
   },
-  winNodeGID = 8,
+  winNodeGID = 48,
   openGateGID = 0,
-  closedGateGID = 3,
-  inactivePlayerSwitchGID = 2,
-  activePlayerSwitchGID = 2,
-  inactiveBotSwitchGID = 27,
-  activeBotSwitchGID = 18
+  closedGateGID = 38,
+  inactivePlayerSwitchGID = 37,
+  activePlayerSwitchGID = 37,
+  inactiveBotSwitchGID = 42,
+  activeBotSwitchGID = 41,
+  levelFiller = [45,44,46]
+
 

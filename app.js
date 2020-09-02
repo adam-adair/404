@@ -7,10 +7,10 @@
 //////////////  IMPORTS  ////////////////////////////////////////////////////////////
 import liteEngine from './src/liteEngine'
 import {
-  load,
+  //load,
   //TileEngine,
-  dataAssets,
-  imageAssets,
+  //dataAssets,
+  //imageAssets,
   GameLoop,
   initKeys,
   keyPressed,
@@ -26,7 +26,8 @@ import {
   inactivePlayerSwitchGID,
   activePlayerSwitchGID,
   inactiveBotSwitchGID,
-  activeBotSwitchGID
+  activeBotSwitchGID,
+  levelFiller
 } from "./src/initialize";
 import makePlayer from "./src/player";
 import makeBot from "./src/bot";
@@ -57,14 +58,17 @@ let player,
   moves,
   movesBank
 
-  const imageAssetPaths=[
-  './assets/img/tiles.png',
-  "./assets/img/player.png",
-  './assets/img/botSheet.png',
-  ]
+  // const imageAssetPaths=[
+  // './assets/img/tiles.png',
+  // "./assets/img/player.png",
+  // './assets/img/botSheet.png',
+  // ]
 
-  const tilesetNames = ["tiles.tsx"]
+  //const tilesetNames = ["tiles.tsx"]
 
+
+  ///////////////// Need to figure out using single asset 'a.png' for controls.///////////
+  ///////////////// Think it can be done with CSS//////////////////
   const moveImage = {
     L: 'assets/img/turn.png',
     R: 'assets/img/turn.png',
@@ -123,7 +127,7 @@ controls.addEventListener("click", (event) => {
   const clickId=clicked.id
    //reset level, restore Go
    if(clickId === 'levelReset') {
-    makeLevel(currentLevel)
+    makeLevel(currentLevel,art)
     clicked.previousElementSibling.className = ''
   }
   //if player is in playerstart square accept inputs, otherwise show error text
@@ -157,7 +161,7 @@ levelPick.addEventListener("click", (ev) => {
     moves = []
     currentLevelIx = +ev.target.value
     currentLevel = levels[ev.target.value]
-    makeLevel(levels[ev.target.value])
+    makeLevel(levels[ev.target.value],art)
   }
 });
 
@@ -166,13 +170,20 @@ levelPick.addEventListener("click", (ev) => {
 //////////////  ASSET LOADING  //////////////////////////////////////////////////////
 
 //// all images, tiles, spritesheets, etc. must be loaded prior to starting the game loop
-load(...imageAssetPaths).then(() => {
-  player = makePlayer(imageAssets[imageAssetPaths[1]]);
-  bot = makeBot(imageAssets[imageAssetPaths[2]]);
-  makeLevel(currentLevel);
-  loop.start();
-});
-
+// load(...imageAssetPaths).then(() => {
+//   player = makePlayer(imageAssets[imageAssetPaths[1]]);
+//   bot = makeBot(imageAssets[imageAssetPaths[2]]);
+//   makeLevel(currentLevel);
+//   loop.start();
+// });
+const art = new Image()
+art.src = './a.png'
+art.onload = () =>{
+  player = makePlayer(art);
+  bot = makeBot(art);
+  makeLevel(currentLevel,art);
+  loop.start()
+}
 /////////////////////////////////////////////////////////////////////////////////////
 
 //////////////  GAME LOOP  //////////////////////////////////////////////////////////
@@ -333,7 +344,7 @@ const loop = GameLoop({
       } else {
         currentLevelIx++;
         currentLevel = levels[currentLevelIx]
-        makeLevel(currentLevel)
+        makeLevel(currentLevel,art)
       }
     }
   }
@@ -398,18 +409,19 @@ function activateSwitch(levelSwitch, activate=true){
   }
 }
 
-const makeLevel = lvl => {
+const makeLevel = (lvl,tileset) => {
     //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
   //it also fakes the required mapping for the liteEngine
   //later, we should make something that cleans this up and creates the necessary JSON for a level and also deal w multiple levels
-  dataAssets[lvl.levelName] = lvl
+  // dataAssets[lvl.levelName] = lvl
 
-  tilesetNames.map(tileset=> {
-    const tilesetURL = new URL(tileset, window.location.href).href
-    window.__k.d[tilesetURL] = 'x'
-    window.__k.dm.set(dataAssets[lvl.levelName],tilesetURL)
-  })
-  levelliteEngine = liteEngine(dataAssets[lvl.levelName]);
+  // tilesetNames.map(tileset=> {
+  //   const tilesetURL = new URL(tileset, window.location.href).href
+  //   window.__k.d[tilesetURL] = 'x'
+  //   window.__k.dm.set(dataAssets[lvl.levelName],tilesetURL)
+  // })
+  // levelliteEngine = liteEngine(dataAssets[lvl.levelName]);
+  levelliteEngine = liteEngine(lvl,tileset)
   levelTrack = track(lvl);
 
   //assign interactive components from JSON to objects
@@ -529,17 +541,16 @@ function levelPreProcess() {
       })
       clvl.layers[ix].data = data
     })
-      //this adds a background layer full of plain green
+      //this adds a background layer full of mostly green with random circuitry
     const bgData = new Array(256)
     for(let i = 0; i < 256; i++) {
-      const randIx = Math.floor(Math.random()*30)
-      const randImg = [5,6,7].includes(randIx) ? randIx : 1
-      bgData[i] = randImg
+      let randIx = Math.floor(Math.random()*30)
+      randIx = randIx > 27 ? 30 - randIx : 0
+      bgData[i] = levelFiller[randIx]
     }
     //bgData.fill(1)
     clvl.layers.unshift({"data":bgData})
     clvl.layers.push(clvl.objects)
   })
-  console.log(compressedLevels)
   return compressedLevels
 }

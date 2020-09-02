@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import {context} from "./initialize";
-import {imageAssets} from "kontra"
-const liteEngine = function(lvl){
+//import {imageAssets} from "kontra"
+const liteEngine = function(lvl,tileImg){
   const level = lvl
   const tileEngine = {
     render() {
@@ -19,12 +19,12 @@ const liteEngine = function(lvl){
                 tilenum = +tile.slice(2)
               }
               //gets source image x and y from GID in tile
-              let srcx = ((tilenum-1)%9)*32
-              let srcy = Math.floor((tilenum-1)/9)*32
+              let srcx = ((tilenum-1)%6)*32
+              let srcy = Math.floor((tilenum-1)/6)*32
               //gets canvas x and y where to draw from index of array
               let canvasy = Math.floor(ix/16)*32
               let canvasx = (ix%16)*32
-              const img = imageAssets['./assets/img/tiles.png']
+              const img = tileImg//imageAssets['./assets/img/tiles.png']
               //do some stuff to draw in the right place with the right image
               if(rot===90) {
                 let o = canvasy

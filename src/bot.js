@@ -12,23 +12,23 @@ export  default function makeBot(botImage){
     frameHeight: 32,
     animations: {
       moveEast: {
-        frames: '0..1',
-        frameRate: 5
-      },
-      moveWest: {
-        frames: '2..3',
-        frameRate: 5
-      },
-      moveNorth: {
-        frames: '4..5',
-        frameRate: 5
-      },
-      moveSouth: {
         frames: '6..7',
         frameRate: 5
       },
+      moveWest: {
+        frames: '8..9',
+        frameRate: 5
+      },
+      moveNorth: {
+        frames: '10..11',
+        frameRate: 5
+      },
+      moveSouth: {
+        frames: '12..13',
+        frameRate: 5
+      },
       crash: {
-        frames: [1,7,3,5],
+        frames: [6,12,8,10],
         frameRate: 10
       }
     }
@@ -71,6 +71,7 @@ export  default function makeBot(botImage){
 
       ///adjust for offset in original placement
       if(this.x === node.x && this.y + 3*offset/4 === node.y) {
+       // console.log('!')
         //if you're on a node, stop
         nodeSet = 1
         this.currentNode = node
@@ -86,7 +87,8 @@ export  default function makeBot(botImage){
           if (moves[this.currentMoveIndex]==='F') {
             //only go forward if the node type and orientation allows
             const badPipes = invalidPipeTypes[this.heading]
-            const numBadPipes = badPipes.filter(badPipe=>badPipe===+node.pipeType).length
+            console.log(badPipes)
+            const numBadPipes = badPipes.filter(badPipe=>badPipe===node.pipeType).length
             if(numBadPipes===0) this.speed = this.baseSpeed
           }
 
