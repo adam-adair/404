@@ -5,16 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -w",
-    "parsebuild": "node levelParser/app && webpack -w"
+    "build": "webpack",
+    "parsebuild": "node levelParser/app && webpack -w",
+    "build:rollup": "rollup -c"
   },
   "author": "Jeff Garber and Adam Reeves",
   "license": "ISC",
   "dependencies": {
-    "kontra": "^7.1.0"
+    "kontra": "^7.1.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-terser": "^7.0.1"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^4.1.0",
     "packer-webpack-plugin": "0.0.5",
+    "rollup": "^2.26.8",
+    "rollup-plugin-kontra": "^1.0.1",
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
