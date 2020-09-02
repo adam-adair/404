@@ -1,7 +1,6 @@
-const img = new Image()
-img.src = 'assets/img/tiles.png'
-const canvas = document.getElementById('game');
-const ctx = canvas.getContext('2d');
+/* eslint-disable complexity */
+import {context} from "./initialize";
+import {imageAssets} from "kontra"
 const liteEngine = function(lvl){
   const level = lvl
   const tileEngine = {
@@ -11,13 +10,38 @@ const liteEngine = function(lvl){
         if(layer.name !== 'InteractiveComponents') {
           layer.data.map((tile,ix)=>{
             if(tile!==0){
+              let tilenum = +tile
+              let rot = 0
+              if(typeof tile === 'string') {
+                if(tile[0]==='a')rot=90
+                else if(tile[0]==='c') rot=180
+                else if(tile[0]==='6') rot=270
+                tilenum = +tile.slice(2)
+              }
               //gets source image x and y from GID in tile
-              const srcx = ((tile-1)%9)*32
-              const srcy = Math.floor((tile-1)/9)*32
+              let srcx = ((tilenum-1)%9)*32
+              let srcy = Math.floor((tilenum-1)/9)*32
               //gets canvas x and y where to draw from index of array
-              const canvasy = Math.floor(ix/16)*32
-              const canvasx = (ix%16)*32
-              ctx.drawImage(img,srcx,srcy,32,32,canvasx,canvasy,32,32)
+              let canvasy = Math.floor(ix/16)*32
+              let canvasx = (ix%16)*32
+              const img = imageAssets['./assets/img/tiles.png']
+              //do some stuff to draw in the right place with the right image
+              if(rot===90) {
+                let o = canvasy
+                canvasy = -(canvasx+32)
+                canvasx = o
+              } else if (rot===180) {
+                canvasx = -(canvasx+32)
+                canvasy = -(canvasy+32)
+              } else if (rot===270) {
+                let o = canvasx
+                canvasx = -(canvasy+32)
+                canvasy = o
+              }
+              context.save()
+              if(rot!==0) context.rotate(rot*Math.PI/180)
+              context.drawImage(img,srcx,srcy,32,32,canvasx,canvasy,32,32)
+              context.restore()
             }
           })
         }
@@ -54,3 +78,4 @@ const liteEngine = function(lvl){
   return tileEngine
 }
 export default liteEngine
+

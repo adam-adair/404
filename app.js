@@ -532,7 +532,8 @@ function levelPreProcess() {
       const data = new Array(256)
       data.fill(0)
       Object.keys(cLayer).forEach(key=>{
-        cLayer[key].forEach(value=> {data[value] = +key})
+        const arrVal = isNaN(+key) ? key : +key
+        cLayer[key].forEach(value=> {data[value] = arrVal})
       })
       clvl.layers[ix].data = data
     })
@@ -547,5 +548,6 @@ function levelPreProcess() {
     clvl.layers.unshift({"data":bgData})
     clvl.layers.push(clvl.objects)
   })
+  console.log(compressedLevels)
   return compressedLevels
 }

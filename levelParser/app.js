@@ -59,8 +59,9 @@ levelList.forEach(fileName =>{
     for(let i = 0; i < 3; i++) {
       const thisLayer = returnLevel.cLayers[i]
       for(let x = 0; x < 256; x++) {
-        const mapValue = parsedLevel.layers[i].data[x]
+        let mapValue = parsedLevel.layers[i].data[x]
         if(mapValue !== 0) {
+          if (mapValue > 100) mapValue = mapValue.toString(16)[0]+'R'+parseInt(mapValue.toString(16).slice(1),16)
           thisLayer[mapValue] ? thisLayer[mapValue].push(x) : thisLayer[mapValue] = [x]
         }
       }
