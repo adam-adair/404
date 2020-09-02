@@ -7,10 +7,6 @@
 //////////////  IMPORTS  ////////////////////////////////////////////////////////////
 import liteEngine from './src/liteEngine'
 import {
-  //load,
-  //TileEngine,
-  //dataAssets,
-  //imageAssets,
   GameLoop,
   initKeys,
   keyPressed,
@@ -27,7 +23,8 @@ import {
   activePlayerSwitchGID,
   inactiveBotSwitchGID,
   activeBotSwitchGID,
-  levelFiller
+  levelFiller,
+  imgLoc
 } from "./src/initialize";
 import makePlayer from "./src/player";
 import makeBot from "./src/bot";
@@ -57,26 +54,6 @@ let player,
   activatedTempSwitches,
   moves,
   movesBank
-
-  // const imageAssetPaths=[
-  // './assets/img/tiles.png',
-  // "./assets/img/player.png",
-  // './assets/img/botSheet.png',
-  // ]
-
-  //const tilesetNames = ["tiles.tsx"]
-
-
-  ///////////////// Need to figure out using single asset 'a.png' for controls.///////////
-  ///////////////// Think it can be done with CSS//////////////////
-  const moveImage = {
-    L: 'assets/img/turn.png',
-    R: 'assets/img/turn.png',
-    LOOP: 'assets/img/loop.png',
-    F: 'assets/img/fwd.png'
-  }
-
-
 
   currentLevelIx = 0
 
@@ -108,20 +85,24 @@ window.addEventListener("keydown",  (e)=> {
 
 initKeys();
 
+//define controls
 const controls = document.getElementById("controls");
-const levelPick = document.getElementById("levelPick");
+for(let i = 0; i <16; i++) {
+  const moveBox = document.createElement('div')
+  if(i<5) moveBox.id = `move${i}`
+  else if(i===5)moveBox.id = moveBox.className = 'F'
+  else if(i===6)moveBox.id = moveBox.className =  'L'
+  else if(i===7)moveBox.id = moveBox.className =  'R'
+  else if(i > 7 && i < 13)moveBox.id = `move${i-3}`
+  else if(i===13)moveBox.id = moveBox.className = 'LOOP'
+  else if(i===14)moveBox.id = moveBox.className = 'botGo'
+  else if(i===15)moveBox.id = moveBox.className = 'levelReset'
+  if(moveBox.id[0]==='m')moveBox.className='moveBlock'
+  else moveBox.style.background=`url('a.png') left ${imgLoc[moveBox.id][0]}px top ${imgLoc[moveBox.id][1]}px`
+  controls.appendChild(moveBox)
+}
 
-///this is for level testing///////
-const buttonContainer = document.getElementById("buttonContainer");
-
-levels.map((level,ix) => {
-  const button = document.createElement('button')
-  button.innerText = level.levelName
-  button.value = ix
-  buttonContainer.appendChild(button)
-})
-////////////
-
+//listen for control clicks and process
 controls.addEventListener("click", (event) => {
   const clicked = event.target
   const clickId=clicked.id
@@ -136,15 +117,8 @@ controls.addEventListener("click", (event) => {
     //start bot if not already running, grey out go
   if(clickId === 'botGo' && moves.length === 0) {
     moves = [...movesBank]
-    clicked.className = 'faded'
+    clicked.className = 'botGo faded'
     }
-
-    /////////////commented out the below code because it doesn't appear to affect gameplay.
-    ////////////can we remove it?
- // if you click a move bank box and sparky not running, splice out the move
-  // if(clicked.parentElement.class === 'moveBlock' && moves.length === 0) {
-  //   movesBank.splice(+clicked.parentElement.id.slice(-1),1)
-  // }
 
   //if move bank isn't full and bot's not running, add move to movebank
   if(movesBank.length < 10 && moves.length === 0) {
@@ -155,7 +129,16 @@ controls.addEventListener("click", (event) => {
 } else  writeText("503");
 });
 
+///////////this is for level testing! Remove here and from HTML for minification! //////////
 
+const levelPick = document.getElementById("levelPick");
+const buttonContainer = document.getElementById("buttonContainer");
+levels.map((level,ix) => {
+  const button = document.createElement('button')
+  button.innerText = level.levelName
+  button.value = ix
+  buttonContainer.appendChild(button)
+})
 levelPick.addEventListener("click", (ev) => {
   if (ev.target.tagName === "BUTTON") {
     moves = []
@@ -164,18 +147,12 @@ levelPick.addEventListener("click", (ev) => {
     makeLevel(levels[ev.target.value],art)
   }
 });
+////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 //////////////  ASSET LOADING  //////////////////////////////////////////////////////
 
-//// all images, tiles, spritesheets, etc. must be loaded prior to starting the game loop
-// load(...imageAssetPaths).then(() => {
-//   player = makePlayer(imageAssets[imageAssetPaths[1]]);
-//   bot = makeBot(imageAssets[imageAssetPaths[2]]);
-//   makeLevel(currentLevel);
-//   loop.start();
-// });
 const art = new Image()
 art.src = './a.png'
 art.onload = () =>{
@@ -410,17 +387,7 @@ function activateSwitch(levelSwitch, activate=true){
 }
 
 const makeLevel = (lvl,tileset) => {
-    //this skips the dataAsset loading in Kontra (which requires fetch) and sticks everything directly on the window object
-  //it also fakes the required mapping for the liteEngine
-  //later, we should make something that cleans this up and creates the necessary JSON for a level and also deal w multiple levels
-  // dataAssets[lvl.levelName] = lvl
-
-  // tilesetNames.map(tileset=> {
-  //   const tilesetURL = new URL(tileset, window.location.href).href
-  //   window.__k.d[tilesetURL] = 'x'
-  //   window.__k.dm.set(dataAssets[lvl.levelName],tilesetURL)
-  // })
-  // levelliteEngine = liteEngine(dataAssets[lvl.levelName]);
+  //create tiles using liteEngine and bot track data
   levelliteEngine = liteEngine(lvl,tileset)
   levelTrack = track(lvl);
 
@@ -466,15 +433,16 @@ const makeLevel = (lvl,tileset) => {
 
 const redrawControls = () => {
   //empty out move boxes
-  for(let i = 0; i < 10; i++) document.getElementById(`move${i}`).textContent = ''
+  for(let i = 0; i < 10; i++) {
+    const divApp = document.getElementById(`move${i}`)
+    divApp.style.background = ''
+    divApp.className = 'moveBlock'
+  }
   //redraw all banked moves
    movesBank.map((move,ix)=>{
     const divApp = document.getElementById(`move${ix}`)
-    divApp.textContent = '';
-    const img = document.createElement('img')
-    img.src = moveImage[move]
-    if(move === 'L') img.className = 'mirror'
-    divApp.appendChild(img)
+    divApp.style.background=`url('a.png') left ${imgLoc[move][0]}px top ${imgLoc[move][1]}px`
+    if(move==='L')divApp.className = 'moveBlock L'
   })
   //unfade go button
   if(moves.length === 0) document.getElementById('botGo').className = ''
@@ -544,8 +512,8 @@ function levelPreProcess() {
       //this adds a background layer full of mostly green with random circuitry
     const bgData = new Array(256)
     for(let i = 0; i < 256; i++) {
-      let randIx = Math.floor(Math.random()*30)
-      randIx = randIx > 27 ? 30 - randIx : 0
+      let randIx = Math.floor(Math.random()*20)
+      randIx = randIx > 16 ? 20 - randIx : 0
       bgData[i] = levelFiller[randIx]
     }
     //bgData.fill(1)

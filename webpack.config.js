@@ -1,8 +1,8 @@
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-   mode: "production",
-//  mode: "development",
+  //  mode: "production",
+ mode: "development",
   node: {
     fs: 'empty',
     net:'empty'

@@ -28,6 +28,14 @@ export const
   activePlayerSwitchGID = 37,
   inactiveBotSwitchGID = 42,
   activeBotSwitchGID = 41,
-  levelFiller = [45,44,46]
+  levelFiller = [45,43,44,46],
+  imgLoc = {
+    L:[-128,-64],
+    R:[-128,-64],
+    F:[-64,-64],
+    LOOP:[0,-128],
+    botGo: [-64,-128],
+    levelReset: [-128,-128]
+  }
 
 

@@ -3,9 +3,6 @@ body{
 }
 
 canvas{
-  display: block;
-  margin-left:auto;
-  margin-right: auto;
   border:1px solid #ca1616;
   width: 512px;
   height: 512px;
@@ -26,11 +23,7 @@ canvas{
   flex-flow: row wrap;
 }
 
- #controls > img {
-  display: inline;
-}
-
-.mirror {
+.L {
   transform: scaleX(-1)
 }
 
