@@ -11,7 +11,7 @@ import {
   initKeys,
   keyPressed,
   collides,
-  Text
+  Text,
 } from "kontra";
 import {
   canvas,
@@ -526,3 +526,4 @@ function levelPreProcess() {
   })
   return compressedLevels
 }
+
