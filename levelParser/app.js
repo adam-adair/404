@@ -16,7 +16,9 @@ levelList.forEach(fileName =>{
   fs.readFile(path.join(__dirname,'..','assets','json',fileName), 'utf8', function(err, data) {
       if (err) throw err;
       level = JSON.parse(data);
+
       const tilesets = level.tilesets.map(tileset=>tileset.source.replace('../tile/',''))
+
       console.dir(tilesets)
       tilesets.forEach((tileset,ix) => {
         fs.readFile(path.join(__dirname,'..','assets','tile',tileset), 'utf8', function(errReadXML, xml) {
@@ -55,7 +57,10 @@ levelList.forEach(fileName =>{
     //returnLevel.height = returnLevel.width = 16
     //returnLevel.tileheight = returnLevel.tilewidth = 32
     //returnLevel.tilesets = parsedLevel.tilesets
-    returnLevel.objects = parsedLevel.layers[3]
+
+    //pruning object properties
+    returnLevel.objects = compressObjectLayer(parsedLevel.layers[3])
+    console.log(returnLevel.objects)
     returnLevel.cLayers = [{},{},{}]
     for(let i = 0; i < 3; i++) {
       const thisLayer = returnLevel.cLayers[i]
@@ -70,4 +75,39 @@ levelList.forEach(fileName =>{
     return returnLevel
   }
 
+  function compressObjectLayer(inputOLayer){
+
+  let prunedOLayer={}
+
+  prunedOLayer.name=inputOLayer.name;
+  prunedOLayer.objects= inputOLayer.objects.map(object=> compressObject(object))
+
+
+  return prunedOLayer
+  }
+
+  function compressObject(inputObject){
+    let prunedObject={}
+    prunedObject.height=inputObject.height;
+    prunedObject.name=inputObject.name;
+    prunedObject.type=inputObject.type;
+    prunedObject.width=inputObject.width;
+    prunedObject.x=inputObject.x;
+    prunedObject.y=inputObject.y;
+    if(inputObject.properties)
+    {
+        prunedObject.properties=[]
+        inputObject.properties.forEach(property =>{
+          let prop = {}
+          prop.name=property.name;
+          prop.value=property.value
+          prunedObject.properties.push(prop)
+        })
+    }
+
+
+    return prunedObject
+  }
 })
+
+
