@@ -7,7 +7,7 @@ const liteEngine = function(lvl,tileImg){
     render() {
       const layers = level.layers
       layers.map(layer =>{
-        if(layer.name !== 'I') {
+        if(layer.n !== 'I') {
           layer.data.map((tile,ix)=>{
             if(tile!==0){
               let tilenum = +tile

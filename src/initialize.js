@@ -3,7 +3,7 @@
 // cR53,aR53,6R52,cR52,aR52,0,0,0,0,0,0,0,0,0,0,0,
 import {init} from 'kontra';
 
-let {canvas, context}=init('game');
+let {canvas, context}=init('g');
 export {canvas, context}
 
 export const
@@ -33,9 +33,9 @@ export const
     L:[-128,-64],
     R:[-128,-64],
     F:[-64,-64],
-    LOOP:[0,-128],
-    botGo: [-64,-128],
-    levelReset: [-128,-128]
+    LO:[0,-128],
+    bG: [-64,-128],
+    lR: [-128,-128]
   }
 
 

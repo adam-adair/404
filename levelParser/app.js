@@ -79,8 +79,8 @@ levelList.forEach(fileName =>{
 
   let prunedOLayer={}
 
-  prunedOLayer.name=inputOLayer.name;
-  prunedOLayer.objects= inputOLayer.objects.map(object=> compressObject(object))
+  prunedOLayer.n=inputOLayer.name;
+  prunedOLayer.o= inputOLayer.objects.map(object=> compressObject(object))
 
 
   return prunedOLayer
@@ -89,18 +89,18 @@ levelList.forEach(fileName =>{
   function compressObject(inputObject){
     let prunedObject={}
     prunedObject.height=inputObject.height;
-    prunedObject.name=inputObject.name;
-    if(inputObject.type!=="")prunedObject.type=inputObject.type;
+    prunedObject.n=inputObject.name;
+    if(inputObject.type!=="")prunedObject.t=inputObject.type;
     prunedObject.width=inputObject.width;
     prunedObject.x=inputObject.x;
     prunedObject.y=inputObject.y;
     if(inputObject.properties)
     {
-        prunedObject.properties=[]
+        prunedObject.p=[]
         inputObject.properties.forEach(property =>{
           let prop = {}
-          prop.value=property.value
-          prunedObject.properties.push(prop)
+          prop.v=property.value
+          prunedObject.p.push(prop)
         })
     }
 

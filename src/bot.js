@@ -2,7 +2,6 @@ import {Sprite, SpriteSheet} from 'kontra';
 import { offset, invalidPipeTypes, context } from './initialize';
 
 const dirs = ['N','E','S','W']
-const anims = ["moveNorth","moveEast","moveSouth","moveWest"]
 
 export  default function makeBot(botImage){
 
@@ -11,23 +10,23 @@ export  default function makeBot(botImage){
     frameWidth: 32,
     frameHeight: 32,
     animations: {
-      moveEast: {
+      E: {
         frames: '6..7',
         frameRate: 5
       },
-      moveWest: {
+      W: {
         frames: '8..9',
         frameRate: 5
       },
-      moveNorth: {
+      N: {
         frames: '10..11',
         frameRate: 5
       },
-      moveSouth: {
+      S: {
         frames: '12..13',
         frameRate: 5
       },
-      crash: {
+      C: {
         frames: [6,12,8,10],
         frameRate: 10
       }
@@ -49,18 +48,18 @@ export  default function makeBot(botImage){
     this.x=startObject.x + offset;
     this.y=startObject.y + offset/4
     this.heading = startObject.heading
-    this.playAnimation(anims[dirs.indexOf(this.heading)])
+    this.playAnimation(dirs[dirs.indexOf(this.heading)])
   },
   rotate(dir) {
     const curDir = dirs.indexOf(this.heading)
     if(dir==='R'){
       this.heading = dirs[(curDir+1)%4]
       //this.rotation += degToRad(90)
-      this.playAnimation(anims[(curDir+1)%4])
+      this.playAnimation(dirs[(curDir+1)%4])
     } else {
       this.heading = dirs[(curDir+3)%4]
       //this.rotation -= degToRad(90)
-      this.playAnimation(anims[(curDir+3)%4])
+      this.playAnimation(dirs[(curDir+3)%4])
     }
   },
   process(nodes, moves){
@@ -102,8 +101,8 @@ export  default function makeBot(botImage){
           //to do this, first check if you're at the end
           if(this.currentMoveIndex >= moves.length - 1){
             //if there's a loop, go back to the start of the loop
-            if(moves.includes('LOOP')) {
-              this.currentMoveIndex = moves.indexOf('LOOP')
+            if(moves.includes('LO')) {
+              this.currentMoveIndex = moves.indexOf('LO')
             } else {
               //otherwise, go back to the first index
               this.currentMoveIndex = 0

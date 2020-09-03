@@ -86,18 +86,18 @@ window.addEventListener("keydown",  (e)=> {
 initKeys();
 
 //define controls
-const controls = document.getElementById("controls");
+const controls = document.getElementById("c");
 for(let i = 0; i <16; i++) {
   const moveBox = document.createElement('div')
-  if(i<5) moveBox.id = `move${i}`
+  if(i<5) moveBox.id = `m${i}`
   else if(i===5)moveBox.id = moveBox.className = 'F'
   else if(i===6)moveBox.id = moveBox.className =  'L'
   else if(i===7)moveBox.id = moveBox.className =  'R'
-  else if(i > 7 && i < 13)moveBox.id = `move${i-3}`
-  else if(i===13)moveBox.id = moveBox.className = 'LOOP'
-  else if(i===14)moveBox.id = moveBox.className = 'botGo'
-  else if(i===15)moveBox.id = moveBox.className = 'levelReset'
-  if(moveBox.id[0]==='m')moveBox.className='moveBlock'
+  else if(i > 7 && i < 13)moveBox.id = `m${i-3}`
+  else if(i===13)moveBox.id = moveBox.className = 'LO'
+  else if(i===14)moveBox.id = moveBox.className = 'bG'
+  else if(i===15)moveBox.id = moveBox.className = 'lR'
+  if(moveBox.id[0]==='m')moveBox.className='m'
   else moveBox.style.background=`url('a.png') left ${imgLoc[moveBox.id][0]}px top ${imgLoc[moveBox.id][1]}px`
   controls.appendChild(moveBox)
 }
@@ -107,7 +107,7 @@ controls.addEventListener("click", (event) => {
   const clicked = event.target
   const clickId=clicked.id
    //reset level, restore Go
-   if(clickId === 'levelReset') {
+   if(clickId === 'lR') {
     makeLevel(currentLevel,art)
     clicked.previousElementSibling.className = ''
   }
@@ -115,14 +115,14 @@ controls.addEventListener("click", (event) => {
   if(collides(player,playerStart)){
 
     //start bot if not already running, grey out go
-  if(clickId === 'botGo' && moves.length === 0) {
+  if(clickId === 'bG' && moves.length === 0) {
     moves = [...movesBank]
-    clicked.className = 'botGo faded'
+    clicked.className = 'bG f'
     }
 
   //if move bank isn't full and bot's not running, add move to movebank
   if(movesBank.length < 10 && moves.length === 0) {
-    if(["L","R","F","LOOP"].includes(clickId)) movesBank.push(clickId)
+    if(["L","R","F","LO"].includes(clickId)) movesBank.push(clickId)
     writeText("202");
   }
   redrawControls();
@@ -170,7 +170,7 @@ const loop = GameLoop({
   update: function () {
 
     //grey out all controls if player isn't at start
-    if(!collides(player, playerStart)) controls.classList ='faded'
+    if(!collides(player, playerStart)) controls.classList ='f'
     else controls.classList = ''
 
     ///// player key board controls. collision test prevents player from moving into obstacle tiles
@@ -190,7 +190,7 @@ const loop = GameLoop({
         })
         if(blocked)player.x -= 2;
       }
-      player.playAnimation("walkRight");
+      player.playAnimation("R");
     } else if (keyPressed("left")) {
       if (player.x <= 0) player.x += 2;
       player.x += -2;
@@ -204,7 +204,7 @@ const loop = GameLoop({
         })
         if(blocked) player.x -= -2;
       }
-      player.playAnimation("walkLeft");
+      player.playAnimation("L");
     } else if (keyPressed("up")) {
       if (player.y > 0) player.y -= 2;
       if (levelliteEngine.layerCollidesWith("d", player)) {
@@ -217,7 +217,7 @@ const loop = GameLoop({
         })
         if(blocked) player.y += 2;
       }
-      player.playAnimation("walkUp");
+      player.playAnimation("U");
     } else if (keyPressed("down")) {
       if (player.y < canvas.height - player.height * player.scaleY)
         player.y += 2;
@@ -231,9 +231,9 @@ const loop = GameLoop({
         })
         if(blocked) player.y -= 2;
       }
-      player.playAnimation("walkDown");
+      player.playAnimation("D");
     } else {
-      player.playAnimation("idle");
+      player.playAnimation("I");
     }
 
     player.update();
@@ -244,7 +244,7 @@ const loop = GameLoop({
     .forEach(gate => {
       if(collides(gate, bot)) {
         bot.speed = 0;
-        bot.playAnimation("crash")
+        bot.playAnimation("C")
        writeText("401")
       }
     })
@@ -345,13 +345,13 @@ function assignTilesToObject(gameObject){
 
 function activateSwitch(levelSwitch, activate=true){
   //get array of gates linked to the switch
-  const linkedGateNames=  levelSwitch.properties[0].value.split(",")
+  const linkedGateNames=  levelSwitch.p[0].v.split(",")
 
   //use the gate names to create an array of gate objects.
   const associatedGameObjects=[];
 
   linkedGateNames.forEach(gateName=>{
-      associatedGameObjects.push(levelGates.filter(gate=> gate.name===gateName)[0])
+      associatedGameObjects.push(levelGates.filter(gate=> gate.n===gateName)[0])
   })
 
   if (activate){
@@ -365,7 +365,7 @@ function activateSwitch(levelSwitch, activate=true){
 
 
   //if switch is temporary, add it to the array of activated switches
-    if(levelSwitch.type ==="T"
+    if(levelSwitch.t ==="T"
 
     && !activatedTempSwitches.includes(levelSwitch)) {
       activatedTempSwitches.push(levelSwitch)
@@ -392,15 +392,15 @@ const makeLevel = (lvl,tileset) => {
   levelTrack = track(lvl);
 
   //assign interactive components from JSON to objects
-  let levelObjects=lvl.layers.filter(layer=>layer.name==='I')[0].objects;
-  playerStart =levelObjects.filter(object=>object.name==='pS')[0];
-  playerGoal = levelObjects.filter(object => object.name==='pG')[0];
-  botStart = levelObjects.filter(object => object.name==='bS')[0];
-  botGoal = levelObjects.filter(object => object.name==='bG')[0];
-  levelSwitches= levelObjects.filter(object => object.type==='P'||object.type==='T');
+  let levelObjects=lvl.layers.filter(layer=>layer.n==='I')[0].o;
+  playerStart =levelObjects.filter(object=>object.n==='pS')[0];
+  playerGoal = levelObjects.filter(object => object.n==='pG')[0];
+  botStart = levelObjects.filter(object => object.n==='bS')[0];
+  botGoal = levelObjects.filter(object => object.n==='bG')[0];
+  levelSwitches= levelObjects.filter(object => object.t==='P'||object.t==='T');
 
   //reset bot switches and redraw
-  levelSwitches.filter(sw=>sw.type==='P').forEach(sw=>{
+  levelSwitches.filter(sw=>sw.t==='P').forEach(sw=>{
     assignTilesToObject(sw);
     sw.tiles.forEach(tile=> {
       levelliteEngine.setTileAtLayer("p", tile, inactiveBotSwitchGID)
@@ -408,7 +408,7 @@ const makeLevel = (lvl,tileset) => {
   })
   activatedTempSwitches=[]
 
-  levelGates= levelObjects.filter(object => object.type==='G');
+  levelGates= levelObjects.filter(object => object.t==='G');
   levelGates.forEach(gate=>{
     //reclose any open gates and redraw closed gate images if level is reset
     gate.open = false;
@@ -421,7 +421,7 @@ const makeLevel = (lvl,tileset) => {
 
   //get type of pipe for bot start to determine initial bot heading
   let initialPipeIx = (botStart.y/32 * 16) + botStart.x/32
-  let initialPipeType = lvl.layers.filter((layer) => layer.name === "p")[0].data[initialPipeIx]
+  let initialPipeType = lvl.layers.filter((layer) => layer.n === "p")[0].data[initialPipeIx]
   botStart.heading = initialTileHeadings[initialPipeType]
   moves = []
   movesBank = []
@@ -434,18 +434,18 @@ const makeLevel = (lvl,tileset) => {
 const redrawControls = () => {
   //empty out move boxes
   for(let i = 0; i < 10; i++) {
-    const divApp = document.getElementById(`move${i}`)
+    const divApp = document.getElementById(`m${i}`)
     divApp.style.background = ''
-    divApp.className = 'moveBlock'
+    divApp.className = 'm'
   }
   //redraw all banked moves
    movesBank.map((move,ix)=>{
-    const divApp = document.getElementById(`move${ix}`)
+    const divApp = document.getElementById(`m${ix}`)
     divApp.style.background=`url('a.png') left ${imgLoc[move][0]}px top ${imgLoc[move][1]}px`
-    if(move==='L')divApp.className = 'moveBlock L'
+    if(move==='L')divApp.className = 'm L'
   })
   //unfade go button
-  if(moves.length === 0) document.getElementById('botGo').className = ''
+  if(moves.length === 0) document.getElementById('bG').className = ''
 }
 
 function setXY(textObject,sprite){
@@ -499,7 +499,7 @@ function writeText(code){
 
 function levelPreProcess() {
   compressedLevels.forEach(clvl => {
-    clvl.layers = [{name:'p'},{name:'n'},{name:'d'}]
+    clvl.layers = [{n:'p'},{n:'n'},{n:'d'}]
     clvl.cLayers.forEach((cLayer,ix)=>{
       const data = new Array(256)
       data.fill(0)
@@ -518,7 +518,7 @@ function levelPreProcess() {
     }
     //bgData.fill(1)
     clvl.layers.unshift({"data":bgData})
-    clvl.layers.push(clvl.objects)
+    clvl.layers.push(clvl.o)
   })
   return compressedLevels
 }
