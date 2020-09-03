@@ -500,6 +500,10 @@ function writeText(code){
 function levelPreProcess() {
   compressedLevels.forEach(clvl => {
     clvl.layers = [{n:'p'},{n:'n'},{n:'d'}]
+    clvl.o.o.forEach(object=>{
+      object.width= object.width||32
+      object.height=object.height||32
+    })
     clvl.cLayers.forEach((cLayer,ix)=>{
       const data = new Array(256)
       data.fill(0)

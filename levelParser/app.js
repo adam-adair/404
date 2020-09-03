@@ -59,8 +59,8 @@ levelList.forEach(fileName =>{
     //returnLevel.tilesets = parsedLevel.tilesets
 
     //pruning object properties
-    returnLevel.objects = compressObjectLayer(parsedLevel.layers[3])
-    console.log(returnLevel.objects)
+    returnLevel.o = compressObjectLayer(parsedLevel.layers[3])
+    console.log(returnLevel.o)
     returnLevel.cLayers = [{},{},{}]
     for(let i = 0; i < 3; i++) {
       const thisLayer = returnLevel.cLayers[i]
@@ -88,10 +88,10 @@ levelList.forEach(fileName =>{
 
   function compressObject(inputObject){
     let prunedObject={}
-    prunedObject.height=inputObject.height;
+    if(inputObject.height!==32) prunedObject.height=inputObject.height;
     prunedObject.n=inputObject.name;
     if(inputObject.type!=="")prunedObject.t=inputObject.type;
-    prunedObject.width=inputObject.width;
+    if(inputObject.width!==32) prunedObject.width=inputObject.width;
     prunedObject.x=inputObject.x;
     prunedObject.y=inputObject.y;
     if(inputObject.properties)
