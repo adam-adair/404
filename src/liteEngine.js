@@ -7,7 +7,7 @@ const liteEngine = function(lvl,tileImg){
     render() {
       const layers = level.layers
       layers.map(layer =>{
-        if(layer.name !== 'InteractiveComponents') {
+        if(layer.name !== 'I') {
           layer.data.map((tile,ix)=>{
             if(tile!==0){
               let tilenum = +tile
@@ -49,7 +49,7 @@ const liteEngine = function(lvl,tileImg){
     },
     setTileAtLayer (layerName,tile,gid) {
       //tells what layer to draw at; hardcoded
-      const layerIx = layerName === 'pipes' ? 1 : 3
+      const layerIx = layerName === 'p' ? 1 : 3
       //botswitches don't have row/cols but have types, so this changes ix of layer data to set
       const ix = tile.type ? tile.x/32 + 16*(tile.y/32):tile.col + tile.row*16
       level.layers[layerIx].data[ix] = gid

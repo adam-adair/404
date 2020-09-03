@@ -4,7 +4,7 @@
   <export target="../json/level4.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="a.tsx"/>
- <layer id="4" name="pipes" width="16" height="16">
+ <layer id="4" name="p" width="16" height="16">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 52,1610612787,49,49,49,49,1610612787,49,49,49,49,53,0,0,0,0,
@@ -24,7 +24,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="3" name="nodes" width="16" height="16">
+ <layer id="3" name="n" width="16" height="16">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 48,47,0,0,0,0,47,0,0,0,0,47,0,0,0,0,
@@ -44,7 +44,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="5" name="decorations" width="16" height="16">
+ <layer id="5" name="d" width="16" height="16">
   <data encoding="csv">
 0,0,0,38,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,38,0,0,0,0,0,0,0,0,0,0,40,0,
@@ -64,31 +64,28 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="6" name="InteractiveComponents">
-  <object id="1" name="botStart" type="botStart" x="448" y="448" width="32" height="32"/>
-  <object id="2" name="playerStart" type="playerStart" x="448" y="64" width="32" height="32"/>
-  <object id="3" name="botGoal" type="botGoal" x="0" y="32" width="32" height="32"/>
-  <object id="4" name="playerGoal" type="playerGoal" x="0" y="0" width="64" height="64"/>
-  <object id="7" name="3" type="Switch" x="192" y="288" width="32" height="32">
+ <objectgroup id="6" name="I">
+  <object id="1" name="bS" x="448" y="448" width="32" height="32"/>
+  <object id="2" name="pS" x="448" y="64" width="32" height="32"/>
+  <object id="3" name="bG" x="0" y="32" width="32" height="32"/>
+  <object id="4" name="pG" x="0" y="0" width="64" height="64"/>
+  <object id="7" name="3" type="P" x="192" y="288" width="32" height="32">
    <properties>
     <property name="Gates" value="3"/>
-    <property name="SwitchType" value="Permanent"/>
    </properties>
   </object>
-  <object id="8" name="1" type="Switch" x="256" y="416" width="32" height="32">
+  <object id="8" name="1" type="P" x="256" y="416" width="32" height="32">
    <properties>
     <property name="Gates" value="1"/>
-    <property name="SwitchType" value="Permanent"/>
    </properties>
   </object>
-  <object id="9" name="2" type="Switch" x="448" y="192" width="32" height="32">
+  <object id="9" name="2" type="T" x="448" y="192" width="32" height="32">
    <properties>
     <property name="Gates" value="2"/>
-    <property name="SwitchType" value="Temporary"/>
    </properties>
   </object>
-  <object id="10" name="3" type="Gate" x="96" y="0" width="32" height="96"/>
-  <object id="11" name="2" type="Gate" x="0" y="128" width="96" height="32"/>
-  <object id="12" name="1" type="Gate" x="384" y="128" width="128" height="32"/>
+  <object id="10" name="3" type="G" x="96" y="0" width="32" height="96"/>
+  <object id="11" name="2" type="G" x="0" y="128" width="96" height="32"/>
+  <object id="12" name="1" type="G" x="384" y="128" width="128" height="32"/>
  </objectgroup>
 </map>

@@ -90,7 +90,7 @@ levelList.forEach(fileName =>{
     let prunedObject={}
     prunedObject.height=inputObject.height;
     prunedObject.name=inputObject.name;
-    prunedObject.type=inputObject.type;
+    if(inputObject.type!=="")prunedObject.type=inputObject.type;
     prunedObject.width=inputObject.width;
     prunedObject.x=inputObject.x;
     prunedObject.y=inputObject.y;
@@ -99,7 +99,6 @@ levelList.forEach(fileName =>{
         prunedObject.properties=[]
         inputObject.properties.forEach(property =>{
           let prop = {}
-          prop.name=property.name;
           prop.value=property.value
           prunedObject.properties.push(prop)
         })

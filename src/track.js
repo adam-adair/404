@@ -2,8 +2,8 @@ import node from './node'
 import { winNodeGID } from './initialize';
 
 const track = (lvl) => {
-  const pipeArray = lvl.layers.filter(layer=>layer.name==="pipes")[0].data
-  const nodeArray = lvl.layers.filter(layer=>layer.name==="nodes")[0].data
+  const pipeArray = lvl.layers.filter(layer=>layer.name==="p")[0].data
+  const nodeArray = lvl.layers.filter(layer=>layer.name==="n")[0].data
   let nodes = []
   for(let j = 0; j < 16; j++) {
     for(let i = 0; i < 16; i++){
