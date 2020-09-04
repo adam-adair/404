@@ -12,9 +12,8 @@
   "author": "Jeff Garber and Adam Reeves",
   "license": "ISC",
   "dependencies": {
-    "kontra": "^7.1.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-terser": "^7.0.1"
+    "kontra": "^7.1.0"
+
   },
   "devDependencies": {
     "@rollup/plugin-json": "^4.1.0",
@@ -25,6 +24,8 @@
     "terser-webpack-plugin": "^4.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.4.23",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-terser": "^7.0.1"
   }
 }

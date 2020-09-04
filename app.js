@@ -290,10 +290,7 @@ const loop = GameLoop({
     bot.render();
 
        /* checks for end game if player is colliding with an invisible goal tile layer AND
-      if the bot is at the end node coordinates. Right now the end node tile is hard coded.
-      I'm not sure the tile id will stay the same across levels, in the future we will either
-      need to create a bot end node tile layer for each level or dynamically check for the
-      tile id of the end node
+      if the bot is at the end node coordinates.
       */
     if(inputTimer>0){
       inputTimer--;
@@ -311,6 +308,7 @@ const loop = GameLoop({
 
 //////////////// this causes an exception if the bot reaches the goal without ever crashing /////////
 ////////////// botMessage is undefined if you win level first try ///////////////////////////
+        writeText("200");
         botMessage.render()
 
 
