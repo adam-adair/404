@@ -309,6 +309,8 @@ const loop = GameLoop({
 
       } else if (collides(bot,botGoal)){
 
+//////////////// this causes an exception if the bot reaches the goal without ever crashing /////////
+////////////// botMessage is undefined if you win level first try ///////////////////////////
         botMessage.render()
 
 
