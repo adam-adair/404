@@ -22,10 +22,10 @@ export const
     'cR52': 'W'
   },
   winNodeGID = '48',
-  openGateGID = 0,
+  openGateGID = '20',
   closedGateGID = '38',
   inactivePlayerSwitchGID = '37',
-  activePlayerSwitchGID = '37',
+  activePlayerSwitchGID = '19',
   inactiveBotSwitchGID = '42',
   activeBotSwitchGID = '41',
   levelFiller = ['45','43','44','46'],
