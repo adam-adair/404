@@ -52,6 +52,7 @@ let player,
   levelSwitches,
   levelGates,
   activatedTempSwitches,
+  activatedPermSwitches,
   moves,
   movesBank
 
@@ -262,6 +263,15 @@ const loop = GameLoop({
         }
       })
     }
+
+    ///loop  through activated permanent switches, reactivate them to undo any gate closures that the temporary switch logic might have caused
+    if(activatedPermSwitches.length>0){
+      activatedPermSwitches.forEach( permSwitch =>{
+
+          activateSwitch(permSwitch)
+      })
+    }
+
         //run through collision detection for each switch
     levelSwitches.forEach(levelSwitch =>{
 
@@ -354,7 +364,6 @@ function activateSwitch(levelSwitch, activate=true){
 
   if (activate){
   // clear the decorations at each tiles
-  levelSwitch.active=true;
   associatedGameObjects.forEach(gate=>{
     gate.open = true
     gate.tiles.forEach(tile=> {
@@ -363,15 +372,18 @@ function activateSwitch(levelSwitch, activate=true){
     })
 
 
-  //if switch is temporary, add it to the array of activated switches
+  //add switches to their appropriate arrays
     if(levelSwitch.t ==="T"
 
     && !activatedTempSwitches.includes(levelSwitch)) {
       activatedTempSwitches.push(levelSwitch)
+    } else if (levelSwitch.t==="P"
+        && !activatedPermSwitches.includes(levelSwitch)){
+      activatedPermSwitches.push(levelSwitch)
+      console.log(activatedPermSwitches)
     }
 
   } else {
-    levelSwitch.active=false;
     associatedGameObjects.forEach(gate=>{
       gate.open = false;
       gate.tiles.forEach(tile=> {
@@ -401,21 +413,16 @@ const makeLevel = (lvl,tileset) => {
 
   //reset permanent switches and redraw
   levelSwitches.filter(sw=>sw.t==='P').forEach(sw=>{
-    console.log(sw)
     assignTilesToObject(sw);
-    console.log(sw)
     sw.tiles.forEach(tile=> {
-      console.log(tile)
-
-
       levelliteEngine.setTileAtLayer("d", tile, inactiveBotSwitchGID)
-      console.log(tile)
     })
 
   })
 
 
   activatedTempSwitches=[]
+  activatedPermSwitches=[]
 
   levelGates= levelObjects.filter(object => object.t==='G');
   levelGates.forEach(gate=>{
@@ -458,20 +465,12 @@ const redrawControls = () => {
 }
 
 function setXY(textObject,sprite){
-  console.log("Text width "+textObject.width)
-  console.log("Text height "+textObject.height)
-  console.log("Text x "+textObject.x)
-  console.log("Text y "+textObject.y)
-  console.log("Sprite x" +sprite.x)
-  console.log("Sprite y" +sprite.y)
 
   const halfWidth=(.5*textObject.width)
   const theight =textObject.height
   textObject.x=sprite.x>(512-halfWidth)? (512-halfWidth): sprite.x<halfWidth ? halfWidth :sprite.x;
   textObject.y= sprite.y>(sprite.height+theight)? (sprite.y-theight) : (sprite.y+sprite.height);
 
-  console.log("Text x "+textObject.x)
-  console.log("Text y "+textObject.y)
 }
 
 function writeText(code){
