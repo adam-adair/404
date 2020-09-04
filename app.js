@@ -266,6 +266,10 @@ const loop = GameLoop({
     levelSwitches.forEach(levelSwitch =>{
 
       //something about the bot's y offset is messing with the collision detection so I had to create a custom object
+
+//////////////////   we need to fix the logic here and when resetting the level ///////////////
+//////////////////  the switch needs to store whether it's been activated and be able to be reset////
+///////////// the two blocks below need to be applied only to one type of switch ////////////
       if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
         levelliteEngine.setTileAtLayer("d",levelSwitch,activeBotSwitchGID)
@@ -508,8 +512,7 @@ function levelPreProcess() {
       const data = new Array(256)
       data.fill(0)
       Object.keys(cLayer).forEach(key=>{
-        const arrVal = isNaN(+key) ? key : +key
-        cLayer[key].forEach(value=> {data[value] = arrVal})
+        cLayer[key].forEach(value=> {data[value] = key})
       })
       clvl.layers[ix].data = data
     })

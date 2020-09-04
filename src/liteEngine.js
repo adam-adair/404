@@ -12,7 +12,7 @@ const liteEngine = function(lvl,tileImg){
             if(tile!==0){
               let tilenum = +tile
               let rot = 0
-              if(typeof tile === 'string') {
+              if(tile.length > 2) {
                 if(tile[0]==='a')rot=90
                 else if(tile[0]==='c') rot=180
                 else if(tile[0]==='6') rot=270
@@ -51,7 +51,7 @@ const liteEngine = function(lvl,tileImg){
       //tells what layer to draw at; hardcoded
       const layerIx = layerName === 'p' ? 1 : 3
       //botswitches don't have row/cols but have types, so this changes ix of layer data to set
-      const ix = tile.type ? tile.x/32 + 16*(tile.y/32):tile.col + tile.row*16
+      const ix = tile.t ? tile.x/32 + 16*(tile.y/32):tile.col + tile.row*16
       level.layers[layerIx].data[ix] = gid
     },
     layerCollidesWith (_,gameObj) {

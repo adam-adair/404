@@ -70,11 +70,11 @@ export  default function makeBot(botImage){
 
       ///adjust for offset in original placement
       if(this.x === node.x && this.y + 3*offset/4 === node.y) {
-       // console.log('!')
+
         //if you're on a node, stop
         nodeSet = 1
         this.currentNode = node
-        //console.log(bot.currentNode)
+
         this.speed = 0
 
           //if you're at the end of the level, stop and wait
@@ -85,8 +85,8 @@ export  default function makeBot(botImage){
 
           if (moves[this.currentMoveIndex]==='F') {
             //only go forward if the node type and orientation allows
+
             const badPipes = invalidPipeTypes[this.heading]
-            console.log(badPipes)
             const numBadPipes = badPipes.filter(badPipe=>badPipe===node.pipeType).length
             if(numBadPipes===0) this.speed = this.baseSpeed
           }
