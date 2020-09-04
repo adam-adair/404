@@ -409,7 +409,7 @@ const makeLevel = (lvl,tileset) => {
     sw.tiles.forEach(tile=> {
       console.log(tile)
 
-      //there is no layer t but by not passing p we take advantage of the the liteengine's hardcoding and overwrite the correct layer
+
       levelliteEngine.setTileAtLayer("d", tile, inactiveBotSwitchGID)
       console.log(tile)
     })
