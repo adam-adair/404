@@ -267,8 +267,7 @@ const loop = GameLoop({
 
       //something about the bot's y offset is messing with the collision detection so I had to create a custom object
 
-//////////////////   we need to fix the logic here and when resetting the level ///////////////
-//////////////////  the switch needs to store whether it's been activated and be able to be reset////
+
 ///////////// the two blocks below need to be applied only to one type of switch ////////////
       if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
@@ -306,11 +305,8 @@ const loop = GameLoop({
 
       } else if (collides(bot,botGoal)){
 
-//////////////// this causes an exception if the bot reaches the goal without ever crashing /////////
-////////////// botMessage is undefined if you win level first try ///////////////////////////
         writeText("200");
         botMessage.render()
-
 
         if(collides(player,playerGoal))
       {
@@ -360,12 +356,13 @@ function activateSwitch(levelSwitch, activate=true){
 
   if (activate){
   // clear the decorations at each tiles
+  levelSwitch.active=true;
   associatedGameObjects.forEach(gate=>{
     gate.open = true
     gate.tiles.forEach(tile=> {
       levelliteEngine.setTileAtLayer("d", tile, openGateGID)
+      })
     })
-  })
 
 
   //if switch is temporary, add it to the array of activated switches
@@ -376,6 +373,7 @@ function activateSwitch(levelSwitch, activate=true){
     }
 
   } else {
+    levelSwitch.active=false;
     associatedGameObjects.forEach(gate=>{
       gate.open = false;
       gate.tiles.forEach(tile=> {
@@ -403,13 +401,22 @@ const makeLevel = (lvl,tileset) => {
   botGoal = levelObjects.filter(object => object.n==='bG')[0];
   levelSwitches= levelObjects.filter(object => object.t==='P'||object.t==='T');
 
-  //reset bot switches and redraw
+  //reset permanent switches and redraw
   levelSwitches.filter(sw=>sw.t==='P').forEach(sw=>{
+    console.log(sw)
     assignTilesToObject(sw);
+    console.log(sw)
     sw.tiles.forEach(tile=> {
-      levelliteEngine.setTileAtLayer("p", tile, inactiveBotSwitchGID)
+      console.log(tile)
+
+      //there is no layer t but by not passing p we take advantage of the the liteengine's hardcoding and overwrite the correct layer
+      levelliteEngine.setTileAtLayer("d", tile, inactiveBotSwitchGID)
+      console.log(tile)
     })
+
   })
+
+
   activatedTempSwitches=[]
 
   levelGates= levelObjects.filter(object => object.t==='G');
