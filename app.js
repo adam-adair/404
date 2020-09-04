@@ -267,8 +267,6 @@ const loop = GameLoop({
 
       //something about the bot's y offset is messing with the collision detection so I had to create a custom object
 
-
-///////////// the two blocks below need to be applied only to one type of switch ////////////
       if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
         levelliteEngine.setTileAtLayer("d",levelSwitch,activeBotSwitchGID)
@@ -460,11 +458,20 @@ const redrawControls = () => {
 }
 
 function setXY(textObject,sprite){
+  console.log("Text width "+textObject.width)
+  console.log("Text height "+textObject.height)
+  console.log("Text x "+textObject.x)
+  console.log("Text y "+textObject.y)
+  console.log("Sprite x" +sprite.x)
+  console.log("Sprite y" +sprite.y)
+
   const halfWidth=(.5*textObject.width)
   const theight =textObject.height
   textObject.x=sprite.x>(512-halfWidth)? (512-halfWidth): sprite.x<halfWidth ? halfWidth :sprite.x;
   textObject.y= sprite.y>(sprite.height+theight)? (sprite.y-theight) : (sprite.y+sprite.height);
 
+  console.log("Text x "+textObject.x)
+  console.log("Text y "+textObject.y)
 }
 
 function writeText(code){

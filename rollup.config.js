@@ -21,7 +21,9 @@ export default {
           image: true
         },
         text: {
-          textAlign: true
+          textAlign: true,
+          newline:true,
+          rtl:true
         },
         // turn on debugging
         debug: true
