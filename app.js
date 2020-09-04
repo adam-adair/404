@@ -131,22 +131,22 @@ controls.addEventListener("click", (event) => {
 
 ///////////this is for level testing! Remove here and from HTML for minification! //////////
 
-// const levelPick = document.getElementById("levelPick");
-// const buttonContainer = document.getElementById("buttonContainer");
-// levels.map((level,ix) => {
-//   const button = document.createElement('button')
-//   button.innerText = level.levelName
-//   button.value = ix
-//   buttonContainer.appendChild(button)
-// })
-// levelPick.addEventListener("click", (ev) => {
-//   if (ev.target.tagName === "BUTTON") {
-//     moves = []
-//     currentLevelIx = +ev.target.value
-//     currentLevel = levels[ev.target.value]
-//     makeLevel(levels[ev.target.value],art)
-//   }
-// });
+const levelPick = document.getElementById("levelPick");
+const buttonContainer = document.getElementById("buttonContainer");
+levels.map((level,ix) => {
+  const button = document.createElement('button')
+  button.innerText = level.levelName
+  button.value = ix
+  buttonContainer.appendChild(button)
+})
+levelPick.addEventListener("click", (ev) => {
+  if (ev.target.tagName === "BUTTON") {
+    moves = []
+    currentLevelIx = +ev.target.value
+    currentLevel = levels[ev.target.value]
+    makeLevel(levels[ev.target.value],art)
+  }
+});
 ////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -422,7 +422,7 @@ const makeLevel = (lvl,tileset) => {
   //get type of pipe for bot start to determine initial bot heading
   let initialPipeIx = (botStart.y/32 * 16) + botStart.x/32
   let initialPipeType = lvl.layers.filter((layer) => layer.n === "p")[0].data[initialPipeIx]
-  botStart.heading = initialTileHeadings[initialPipeType]
+  botStart.heading = initialTileHeadings[initialPipeType] || 'N' //this is a hack to make level 5 work
   moves = []
   movesBank = []
   redrawControls();
