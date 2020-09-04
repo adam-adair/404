@@ -112,13 +112,13 @@ controls.addEventListener("click", (event) => {
     clicked.previousElementSibling.className = ''
   }
   //if player is in playerstart square accept inputs, otherwise show error text
-  if(collides(player,playerStart)){
+  else if(collides(player,playerStart)){
 
     //start bot if not already running, grey out go
-  if(clickId === 'bG' && moves.length === 0) {
-    moves = [...movesBank]
-    clicked.className = 'bG f'
-    }
+      if(clickId === 'bG' && moves.length === 0) {
+        moves = [...movesBank]
+        clicked.className = 'bG f'
+      }
 
   //if move bank isn't full and bot's not running, add move to movebank
   if(movesBank.length < 10 && moves.length === 0) {
