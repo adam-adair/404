@@ -1,19 +1,33 @@
-import kontra from 'rollup-plugin-kontra';
-import json from '@rollup/plugin-json'
+import kontra from 'rollup-plugin-kontra'
+import json from '@rollup/plugin-json';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import {terser} from 'rollup-plugin-terser';
 
 export default {
   input: 'app.js',
-  output: [{
-    file: 'bundle_rollup.js',
-    format: 'cjs'
-  }, {
-    file: 'bundle.min.js',
+  output: {
+    file: 'bundle.js',
     format: 'iife',
-    name: 'version',
-    plugins: [terser()]
-  }]
-  ,  plugins:[json(),kontra({
-    sprite
-  })],
-};
+    plugins: [
+      kontra({
+        gameObject: {
+          // enable only velocity and rotation functionality
+          anchor: true,
+          scale: true
+        },
+        sprite: {
+          // enable vector length functionality
+          animation: true,
+          image: true
+        },
+        text: {
+          textAlign: true
+        },
+        // turn on debugging
+        debug: true
+      }),
+      terser()
+    ]
+  },
+  plugins: [ json(), nodeResolve() ]
+}

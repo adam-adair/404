@@ -131,22 +131,22 @@ controls.addEventListener("click", (event) => {
 
 ///////////this is for level testing! Remove here and from HTML for minification! //////////
 
-const levelPick = document.getElementById("levelPick");
-const buttonContainer = document.getElementById("buttonContainer");
-levels.map((level,ix) => {
-  const button = document.createElement('button')
-  button.innerText = level.levelName
-  button.value = ix
-  buttonContainer.appendChild(button)
-})
-levelPick.addEventListener("click", (ev) => {
-  if (ev.target.tagName === "BUTTON") {
-    moves = []
-    currentLevelIx = +ev.target.value
-    currentLevel = levels[ev.target.value]
-    makeLevel(levels[ev.target.value],art)
-  }
-});
+// const levelPick = document.getElementById("levelPick");
+// const buttonContainer = document.getElementById("buttonContainer");
+// levels.map((level,ix) => {
+//   const button = document.createElement('button')
+//   button.innerText = level.levelName
+//   button.value = ix
+//   buttonContainer.appendChild(button)
+// })
+// levelPick.addEventListener("click", (ev) => {
+//   if (ev.target.tagName === "BUTTON") {
+//     moves = []
+//     currentLevelIx = +ev.target.value
+//     currentLevel = levels[ev.target.value]
+//     makeLevel(levels[ev.target.value],art)
+//   }
+// });
 ////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -526,4 +526,3 @@ function levelPreProcess() {
   })
   return compressedLevels
 }
-
