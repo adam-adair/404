@@ -40,3 +40,16 @@ canvas{
 .f {
   opacity: 50%
 }
+
+pre{
+  color:white;
+  overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+}
+
+#intro{
+  width: 512px;
+  margin-left: auto;
+  margin-right:auto;
+}

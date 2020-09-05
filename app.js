@@ -10,7 +10,6 @@ import {
   GameLoop,
   initKeys,
   keyPressed,
-  unbindKeys,
   collides,
   Text,
 } from "kontra";
