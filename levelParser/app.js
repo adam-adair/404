@@ -9,9 +9,10 @@ let levelList= fs.readdirSync(path.join(__dirname,'..','assets','json'));
 let numLevels = levelList.length
 let levels = []
 
-console.log(levelList);
+
 levelList.forEach(fileName =>{
 
+  console.log(fileName)
   let level
   fs.readFile(path.join(__dirname,'..','assets','json',fileName), 'utf8', function(err, data) {
       if (err) throw err;
@@ -19,7 +20,7 @@ levelList.forEach(fileName =>{
 
       const tilesets = level.tilesets.map(tileset=>tileset.source.replace('../tile/',''))
 
-      console.dir(tilesets)
+
       tilesets.forEach((tileset,ix) => {
         fs.readFile(path.join(__dirname,'..','assets','tile',tileset), 'utf8', function(errReadXML, xml) {
           if (errReadXML) throw errReadXML;
@@ -60,7 +61,7 @@ levelList.forEach(fileName =>{
 
     //pruning object properties
     returnLevel.o = compressObjectLayer(parsedLevel.layers[3])
-    console.log(returnLevel.o)
+
     returnLevel.cLayers = [{},{},{}]
     for(let i = 0; i < 3; i++) {
       const thisLayer = returnLevel.cLayers[i]

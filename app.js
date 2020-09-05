@@ -54,7 +54,8 @@ let player,
   activatedTempSwitches,
   activatedPermSwitches,
   moves,
-  movesBank
+  movesBank,
+  levelEndCountDown
 
   currentLevelIx = 0
 
@@ -87,6 +88,8 @@ window.addEventListener("keydown",  (e)=> {
 initKeys();
 
 //define controls
+
+
 const controls = document.getElementById("c");
 for(let i = 0; i <16; i++) {
   const moveBox = document.createElement('div')
@@ -148,6 +151,11 @@ levelPick.addEventListener("click", (ev) => {
     makeLevel(levels[ev.target.value],art)
   }
 });
+
+const c =document.getElementById("g");
+const canvasElement = c.getContext('2d');
+canvasElement.fillStyle= '#FFFFFF'
+
 ////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -296,7 +304,7 @@ const loop = GameLoop({
     player.render();
     bot.render();
 
-       /* checks for end game if player is colliding with an invisible goal tile layer AND
+       /* checks for end game if player is colliding with an the player goal object AND
       if the bot is at the end node coordinates.
       */
     if(inputTimer>0){
@@ -327,9 +335,24 @@ const loop = GameLoop({
         alert("HTTP STATUS 200! GAME OVER!");
         loop.stop();
       } else {
+        if(levelEndCountDown>0){
+          console.log(levelEndCountDown)
+          if(levelEndCountDown>60){
+
+            player._opa=player._opa-(1/61)
+            bot._opa=bot._opa-(1/61)
+            console.log(player._opa)
+
+          } else if(levelEndCountDown%5==0){
+            console.log(player._opa)
+            canvasElement.fillRect(0,0,512,512)
+            } else canvasElement.fillRect(0,0,0,0)
+          levelEndCountDown--;
+        } else{
         currentLevelIx++;
         currentLevel = levels[currentLevelIx]
         makeLevel(currentLevel,art)
+        }
       }
     }
   }
@@ -402,6 +425,9 @@ const makeLevel = (lvl,tileset) => {
   //create tiles using liteEngine and bot track data
   levelliteEngine = liteEngine(lvl,tileset)
   levelTrack = track(lvl);
+  levelEndCountDown =120;
+  player._opa=1;
+  bot._opa=1
 
   //assign interactive components from JSON to objects
   let levelObjects=lvl.layers.filter(layer=>layer.n==='I')[0].o;

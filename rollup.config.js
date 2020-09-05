@@ -13,7 +13,8 @@ export default {
         gameObject: {
           // enable only velocity and rotation functionality
           anchor: true,
-          scale: true
+          scale: true,
+          opacity:true
         },
         sprite: {
           // enable vector length functionality
