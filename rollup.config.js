@@ -14,7 +14,7 @@ export default {
           // enable only velocity and rotation functionality
           anchor: true,
           scale: true,
-          opacity:true
+        //  opacity:true we'll only need this if the sprites we want the sprites to fade
         },
         sprite: {
           // enable vector length functionality

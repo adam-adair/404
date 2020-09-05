@@ -269,6 +269,7 @@ const loop = GameLoop({
       activatedTempSwitches.forEach( tempSwitch =>{
         if(!collides(tempSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width}) && !collides(tempSwitch,player)) {
           activateSwitch(tempSwitch,false)
+          levelliteEngine.setTileAtLayer("p",tempSwitch, inactivePlayerSwitchGID)
         }
       })
     }
@@ -294,8 +295,7 @@ const loop = GameLoop({
       if(collides(levelSwitch,player)){
         activateSwitch(levelSwitch)
         levelliteEngine.setTileAtLayer("p",levelSwitch,activePlayerSwitchGID)
-      } else levelliteEngine.setTileAtLayer("p",levelSwitch, inactivePlayerSwitchGID,
-      )
+      }
 
     })
   },
