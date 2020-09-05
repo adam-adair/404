@@ -55,7 +55,8 @@ let player,
   activatedPermSwitches,
   moves,
   movesBank,
-  levelEndCountDown
+  levelEndCountDown,
+  levelFadeIn
 
   currentLevelIx = 0
 
@@ -304,6 +305,14 @@ const loop = GameLoop({
     player.render();
     bot.render();
 
+    ///////Fade in
+    if(levelFadeIn<30){
+      levelFadeIn++
+        canvasElement.globalAlpha = (30-levelFadeIn)/30
+        canvasElement.fillRect(0,0,512,512)
+        canvasElement.globalAlpha = 1
+    }
+
        /* checks for end game if player is colliding with an the player goal object AND
       if the bot is at the end node coordinates.
       */
@@ -354,9 +363,9 @@ const loop = GameLoop({
         // makeLevel(currentLevel,art)
 
         //////////////////// how about a fade instead of a flash?? /////////////
-
+        console.log(levelEndCountDown)
         levelEndCountDown--
-        canvasElement.globalAlpha = (120-levelEndCountDown)/120
+        canvasElement.globalAlpha = (60-levelEndCountDown)/60
         canvasElement.fillRect(0,0,512,512)
         canvasElement.globalAlpha = 1
         if(levelEndCountDown===0){
@@ -437,7 +446,8 @@ const makeLevel = (lvl,tileset) => {
   //create tiles using liteEngine and bot track data
   levelliteEngine = liteEngine(lvl,tileset)
   levelTrack = track(lvl);
-  levelEndCountDown =120;
+  levelEndCountDown =60;
+  levelFadeIn=0;
   player._opa=1;
   bot._opa=1
 
