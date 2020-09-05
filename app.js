@@ -335,29 +335,41 @@ const loop = GameLoop({
         alert("HTTP STATUS 200! GAME OVER!");
         loop.stop();
       } else {
-        if(levelEndCountDown>0){
-          console.log(levelEndCountDown)
-          if(levelEndCountDown>60){
+        // if(levelEndCountDown>0){
+        //   console.log(levelEndCountDown)
+        //   if(levelEndCountDown>60){
 
-            player._opa=player._opa-(1/61)
-            bot._opa=bot._opa-(1/61)
-            console.log(player._opa)
+        //     player._opa=player._opa-(1/61)
+        //     bot._opa=bot._opa-(1/61)
+        //     console.log(player._opa)
 
-          } else if(levelEndCountDown%5==0){
-            console.log(player._opa)
-            canvasElement.fillRect(0,0,512,512)
-            } else canvasElement.fillRect(0,0,0,0)
-          levelEndCountDown--;
-        } else{
-        currentLevelIx++;
-        currentLevel = levels[currentLevelIx]
-        makeLevel(currentLevel,art)
+        //   } else if(levelEndCountDown%5==0){
+        //     console.log(player._opa)
+        //     canvasElement.fillRect(0,0,512,512)
+        //     } else canvasElement.fillRect(0,0,0,0)
+        //   levelEndCountDown--;
+        // } else{
+        // currentLevelIx++;
+        // currentLevel = levels[currentLevelIx]
+        // makeLevel(currentLevel,art)
+
+        //////////////////// how about a fade instead of a flash?? /////////////
+
+        levelEndCountDown--
+        canvasElement.globalAlpha = (120-levelEndCountDown)/120
+        canvasElement.fillRect(0,0,512,512)
+        canvasElement.globalAlpha = 1
+        if(levelEndCountDown===0){
+          currentLevelIx++;
+          currentLevel = levels[currentLevelIx]
+          makeLevel(currentLevel,art)
         }
       }
     }
   }
   },
 });
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 
