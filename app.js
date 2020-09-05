@@ -10,6 +10,7 @@ import {
   GameLoop,
   initKeys,
   keyPressed,
+  unbindKeys,
   collides,
   Text,
 } from "kontra";
@@ -56,7 +57,8 @@ let player,
   moves,
   movesBank,
   levelEndCountDown,
-  levelFadeIn
+  levelFadeIn,
+  transition
 
   currentLevelIx = 0
 
@@ -183,9 +185,11 @@ const loop = GameLoop({
     if(!collides(player, playerStart)) controls.classList ='f'
     else controls.classList = ''
 
-    ///// player key board controls. collision test prevents player from moving into obstacle tiles
+    ///// player key board controls.
+    ///// only enabled if not transitioning scenes
+    ///// collision test prevents player from moving into obstacle tiles
     ////  position test prevents player from walking off screen
-
+if(!transition){
     if (keyPressed("right")) {
       if (player.x < canvas.width - player.width * player.scaleX) player.x += 2;
       if (levelliteEngine.layerCollidesWith("d", player)) {
@@ -245,6 +249,7 @@ const loop = GameLoop({
     } else {
       player.playAnimation("I");
     }
+  }
 
     player.update();
 
@@ -335,6 +340,9 @@ const loop = GameLoop({
 
         if(collides(player,playerGoal))
       {
+        //disable controls so the player cannot interrupt the scene transition
+        transition=true;
+
     //  If not the last level, reset the bot, player, and tile engine for the  next level and rerender
     //  Otherwise end game message
       // eslint-disable-next-line no-alert
@@ -344,30 +352,22 @@ const loop = GameLoop({
         alert("HTTP STATUS 200! GAME OVER!");
         loop.stop();
       } else {
-        // if(levelEndCountDown>0){
-        //   console.log(levelEndCountDown)
-        //   if(levelEndCountDown>60){
 
-        //     player._opa=player._opa-(1/61)
-        //     bot._opa=bot._opa-(1/61)
-        //     console.log(player._opa)
+        // 2 seconds of sprite blinking, then 1 second of screen fading to white, then level switch. an if block at the top of the render functions adds a .5 second fade in. total scene transition is 3.5 seconds
 
-        //   } else if(levelEndCountDown%5==0){
-        //     console.log(player._opa)
-        //     canvasElement.fillRect(0,0,512,512)
-        //     } else canvasElement.fillRect(0,0,0,0)
-        //   levelEndCountDown--;
-        // } else{
-        // currentLevelIx++;
-        // currentLevel = levels[currentLevelIx]
-        // makeLevel(currentLevel,art)
+        if(levelEndCountDown>60){
+          console.log(levelEndCountDown)
+          if(levelEndCountDown%5===0){
+              toggleFade();
+          }
+          levelEndCountDown--
+         } else{
 
-        //////////////////// how about a fade instead of a flash?? /////////////
-        console.log(levelEndCountDown)
         levelEndCountDown--
         canvasElement.globalAlpha = (60-levelEndCountDown)/60
         canvasElement.fillRect(0,0,512,512)
         canvasElement.globalAlpha = 1
+            }
         if(levelEndCountDown===0){
           currentLevelIx++;
           currentLevel = levels[currentLevelIx]
@@ -446,10 +446,13 @@ const makeLevel = (lvl,tileset) => {
   //create tiles using liteEngine and bot track data
   levelliteEngine = liteEngine(lvl,tileset)
   levelTrack = track(lvl);
-  levelEndCountDown =60;
+
+  //reset level transition elements
+  levelEndCountDown =180;
   levelFadeIn=0;
   player._opa=1;
   bot._opa=1
+  transition=false;
 
   //assign interactive components from JSON to objects
   let levelObjects=lvl.layers.filter(layer=>layer.n==='I')[0].o;
@@ -589,4 +592,16 @@ function levelPreProcess() {
     clvl.layers.push(clvl.o)
   })
   return compressedLevels
+}
+
+function toggleFade(){
+  if(player._opa===1){
+      player._opa=(levelEndCountDown-60)/120
+      bot._opa=(levelEndCountDown-60)/120
+  }
+  else {
+    player._opa=1
+    bot._opa=1
+  }
+
 }
