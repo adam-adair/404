@@ -135,6 +135,11 @@ controls.addEventListener("click", (event) => {
 } else  writeText("503");
 });
 
+//go button for game intro screen
+document.getElementById('begin').addEventListener('click',()=>{
+  fade(document.getElementById('intro'),'out')//.style.display = 'none'
+})
+
 ///////////this is for level testing! Remove here and from HTML for minification! //////////
 
 const levelPick = document.getElementById("levelPick");
@@ -348,7 +353,8 @@ if(!transition){
       //alert("YOU WIN!!!");
       console.log('win')
       if(currentLevelIx === levels.length - 1) {
-        alert("HTTP STATUS 200! GAME OVER!");
+        //alert("HTTP STATUS 200! GAME OVER!");
+        fade(document.getElementById('end'),'in')
         loop.stop();
       } else {
 
@@ -603,4 +609,20 @@ function toggleFade(){
     bot._opa=1
   }
 
+}
+
+function fade(element,dir) {
+  if(dir!=='out') {element.style.opacity = 0; element.style.display = 'block'}
+  let count = 1;
+  let timer = setInterval(function () {
+      if (count <= 0.05){
+          clearInterval(timer);
+          element.style.opacity = dir === 'out' ? 0 : 1;
+          console.log(dir === 'out' ? 0 : 1)
+          element.style.display = dir === 'out' ? 'none' : 'block';
+          return
+      }
+      element.style.opacity = dir === 'out' ? count : 1 - count;
+      count -= 0.05;
+  }, 50);
 }
