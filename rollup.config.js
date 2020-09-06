@@ -27,7 +27,7 @@ export default {
           rtl:true
         },
         // turn on debugging
-        debug: true
+        //debug: true
       }),
       terser()
     ]

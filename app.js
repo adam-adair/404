@@ -1,3 +1,4 @@
+/* eslint-disable max-statements-per-line */
 /* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
 /* eslint-disable max-statements */
@@ -140,6 +141,11 @@ document.getElementById('begin').addEventListener('click',()=>{
   fade(document.getElementById('intro'),'out')//.style.display = 'none'
 })
 
+//level fading
+const c =document.getElementById("g");
+const canvasElement = c.getContext('2d');
+canvasElement.fillStyle= '#FFFFFF'
+
 ///////////this is for level testing! Remove here and from HTML for minification! //////////
 
 const levelPick = document.getElementById("levelPick");
@@ -158,10 +164,6 @@ levelPick.addEventListener("click", (ev) => {
     makeLevel(levels[ev.target.value],art)
   }
 });
-
-const c =document.getElementById("g");
-const canvasElement = c.getContext('2d');
-canvasElement.fillStyle= '#FFFFFF'
 
 ////////////////////////////////////
 
