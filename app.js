@@ -355,14 +355,8 @@ if(!transition){
       // eslint-disable-next-line no-alert
       //alert("YOU WIN!!!");
       console.log('win')
-      if(currentLevelIx === levels.length - 1) {
-        //alert("HTTP STATUS 200! GAME OVER!");
-        document.getElementById('game').style.display='none'
-        fade(document.getElementById('end'),'in')
-        loop.stop();
-      } else {
 
-        // 2 seconds of sprite blinking, then 1 second of screen fading to white, then level switch. an if block at the top of the render functions adds a .5 second fade in. total scene transition is 3.5 seconds
+      // 2 seconds of sprite blinking, then 1 second of screen fading to white, then level switch. an if block at the top of the render functions adds a .5 second fade in. total scene transition is 3.5 seconds
 
         if(levelEndCountDown>60){
           console.log(levelEndCountDown)
@@ -378,13 +372,20 @@ if(!transition){
         canvasElement.globalAlpha = 1
             }
         if(levelEndCountDown===0){
+          if(currentLevelIx === levels.length - 1) {
+            //alert("HTTP STATUS 200! GAME OVER!");
+            document.getElementById('game').style.display='none'
+            fade(document.getElementById('end'),'in')
+            loop.stop();
+          } else {
           currentLevelIx++;
           currentLevel = levels[currentLevelIx]
           makeLevel(currentLevel,art)
+          }
         }
       }
     }
-  }
+
   },
 });
 
