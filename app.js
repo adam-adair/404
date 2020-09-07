@@ -480,7 +480,6 @@ const makeLevel = (lvl,tileset) => {
 
   //redraw any currently activated temp switches
   if(!!activatedTempSwitches){
-    console.log(activatedTempSwitches)
   activatedTempSwitches.forEach(sw=>{
     assignTilesToObject(sw);
     sw.tiles.forEach(tile=> {
