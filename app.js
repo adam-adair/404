@@ -138,7 +138,8 @@ controls.addEventListener("click", (event) => {
 
 //go button for game intro screen
 document.getElementById('begin').addEventListener('click',()=>{
-  fade(document.getElementById('intro'),'out')//.style.display = 'none'
+  document.getElementById('intro').style.display='none'//.style.display = 'none'
+  fade(document.getElementById('game'),'in')
 })
 
 //level fading
@@ -356,6 +357,7 @@ if(!transition){
       console.log('win')
       if(currentLevelIx === levels.length - 1) {
         //alert("HTTP STATUS 200! GAME OVER!");
+        document.getElementById('game').style.display='none'
         fade(document.getElementById('end'),'in')
         loop.stop();
       } else {
