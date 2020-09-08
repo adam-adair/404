@@ -359,7 +359,7 @@ if(!transition){
       // 2 seconds of sprite blinking, then 1 second of screen fading to white, then level switch. an if block at the top of the render functions adds a .5 second fade in. total scene transition is 3.5 seconds
 
         if(levelEndCountDown>60){
-          console.log(levelEndCountDown)
+
           if(levelEndCountDown%5===0){
               toggleFade();
           }
@@ -434,7 +434,7 @@ function activateSwitch(levelSwitch, activate=true){
     } else if (levelSwitch.t==="P"
         && !activatedPermSwitches.includes(levelSwitch)){
       activatedPermSwitches.push(levelSwitch)
-      console.log(activatedPermSwitches)
+
     }
 
   } else {
@@ -588,29 +588,45 @@ function writeText(code){
 
 function levelPreProcess() {
   compressedLevels.forEach(clvl => {
+
     clvl.layers = [{n:'p'},{n:'n'},{n:'d'}]
     clvl.o.o.forEach(object=>{
       object.width= object.width||32
       object.height=object.height||32
     })
     clvl.cLayers.forEach((cLayer,ix)=>{
+
       const data = new Array(256)
       data.fill(0)
       Object.keys(cLayer).forEach(key=>{
         cLayer[key].forEach(value=> {data[value] = key})
       })
       clvl.layers[ix].data = data
+
     })
+
+
+
       //this adds a background layer full of mostly green with random circuitry
     const bgData = new Array(256)
     for(let i = 0; i < 256; i++) {
-      let randIx = Math.floor(Math.random()*20)
-      randIx = randIx > 16 ? 20 - randIx : 0
-      bgData[i] = levelFiller[randIx]
+      const max = 12 //higher number means more blank spaces
+      let randIx = Math.floor(Math.random()*max)
+
+      randIx = randIx > (max-4) ? max - randIx : 0
+
+      //forces background tile to blank if other layers are occupited
+      bgData[i] = clvl.layers[0].data[i] != 0 ? levelFiller[0] :
+                  clvl.layers[1].data[i] != 0 ? levelFiller[0] :
+                  !clvl.layers[2] ? levelFiller[0] : //this accounts for levels that do not have decoration layer
+                  clvl.layers[2].data[i] != 0 ?  levelFiller[0] :levelFiller[randIx]
     }
+
+
     //bgData.fill(1)
     clvl.layers.unshift({"data":bgData})
     clvl.layers.push(clvl.o)
+
   })
   return compressedLevels
 }
