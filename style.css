@@ -40,7 +40,9 @@ canvas{
 }
 
 .h{
-  border: 6px solid gold;
+
+  filter:  sepia() saturate(10000%) hue-rotate(60deg) brightness(10000%) drop-shadow(5px 5px 3px black);
+
 }
 
 .f {
