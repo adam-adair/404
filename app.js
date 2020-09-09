@@ -94,7 +94,7 @@ initKeys();
 //define controls
 
 
-const controls = document.getElementById("c");
+const controls = gEl("c");
 for(let i = 0; i <16; i++) {
   const moveBox = document.createElement('div')
   if(i<5) moveBox.id = `m${i}`
@@ -139,20 +139,20 @@ controls.addEventListener("click", (event) => {
 });
 
 //go button for game intro screen
-document.getElementById('begin').addEventListener('click',()=>{
-  document.getElementById('intro').style.display='none'//.style.display = 'none'
-  fade(document.getElementById('game'),'in')
+gEl('begin').addEventListener('click',()=>{
+  gEl('intro').style.display='none'//.style.display = 'none'
+  fade(gEl('game'),'in')
 })
 
 //level fading
-const c =document.getElementById("g");
+const c =gEl("g");
 const canvasElement = c.getContext('2d');
 canvasElement.fillStyle= '#FFFFFF'
 
 ///////////this is for level testing! Remove here and from HTML for minification! //////////
 
-const levelPick = document.getElementById("levelPick");
-const buttonContainer = document.getElementById("buttonContainer");
+const levelPick = gEl("levelPick");
+const buttonContainer = gEl("buttonContainer");
 levels.map((level,ix) => {
   const button = document.createElement('button')
   button.innerText = level.levelName
@@ -376,8 +376,8 @@ if(!transition){
         if(levelEndCountDown===0){
           if(currentLevelIx === levels.length - 1) {
             //alert("HTTP STATUS 200! GAME OVER!");
-            document.getElementById('game').style.display='none'
-            fade(document.getElementById('end'),'in')
+            gEl('game').style.display='none'
+            fade(gEl('end'),'in')
             loop.stop();
           } else {
           currentLevelIx++;
@@ -467,7 +467,7 @@ const makeLevel = (lvl,tileset) => {
   transition=false;
 
   //assign interactive components from JSON to objects
-  let levelObjects=lvl.layers.filter(layer=>layer.n==='I')[0].o;
+  let levelObjects=lvl.l.filter(layer=>layer.n==='I')[0].o;
   playerStart =levelObjects.filter(object=>object.n==='pS')[0];
   playerGoal = levelObjects.filter(object => object.n==='pG')[0];
   botStart = levelObjects.filter(object => object.n==='bS')[0];
@@ -511,7 +511,7 @@ const makeLevel = (lvl,tileset) => {
 
   //get type of pipe for bot start to determine initial bot heading
   let initialPipeIx = (botStart.y/32 * 16) + botStart.x/32
-  let initialPipeType = lvl.layers.filter((layer) => layer.n === "p")[0].data[initialPipeIx]
+  let initialPipeType = lvl.l.filter((layer) => layer.n === "p")[0].data[initialPipeIx]
   botStart.heading = initialTileHeadings[initialPipeType] || 'N' //this is a hack to make level 5 work
   moves = []
   movesBank = []
@@ -525,18 +525,18 @@ const makeLevel = (lvl,tileset) => {
 const redrawControls = () => {
   //empty out move boxes
   for(let i = 0; i < 10; i++) {
-    const divApp = document.getElementById(`m${i}`)
+    const divApp = gEl(`m${i}`)
     divApp.style.background = ''
     divApp.className = 'm'
   }
   //redraw all banked moves
    movesBank.map((move,ix)=>{
-    const divApp = document.getElementById(`m${ix}`)
+    const divApp = gEl(`m${ix}`)
     divApp.style.background=`url('a.png') left ${imgLoc[move][0]}px top ${imgLoc[move][1]}px`
     if(move==='L')divApp.className = 'm L'
   })
   //unfade go button
-  if(moves.length === 0) document.getElementById('bG').className = ''
+  if(moves.length === 0) gEl('bG').className = ''
 }
 
 function setXY(textObject,sprite){
@@ -592,19 +592,19 @@ function writeText(code){
 function levelPreProcess() {
   compressedLevels.forEach(clvl => {
 
-    clvl.layers = [{n:'p'},{n:'n'},{n:'d'}]
+    clvl.l = [{n:'p'},{n:'n'},{n:'d'}]
     clvl.o.o.forEach(object=>{
       object.width= object.width||32
       object.height=object.height||32
     })
-    clvl.cLayers.forEach((cLayer,ix)=>{
+    clvl.cL.forEach((cLayer,ix)=>{
 
       const data = new Array(256)
       data.fill(0)
       Object.keys(cLayer).forEach(key=>{
         cLayer[key].forEach(value=> {data[value] = key})
       })
-      clvl.layers[ix].data = data
+      clvl.l[ix].data = data
 
     })
 
@@ -619,16 +619,16 @@ function levelPreProcess() {
       randIx = randIx > (max-4) ? max - randIx : 0
 
       //forces background tile to blank if other layers are occupited
-      bgData[i] = clvl.layers[0].data[i] != 0 ? levelFiller[0] :
-                  clvl.layers[1].data[i] != 0 ? levelFiller[0] :
-                  !clvl.layers[2] ? levelFiller[0] : //this accounts for levels that do not have decoration layer
-                  clvl.layers[2].data[i] != 0 ?  levelFiller[0] :levelFiller[randIx]
+      bgData[i] = clvl.l[0].data[i] != 0 ? levelFiller[0] :
+                  clvl.l[1].data[i] != 0 ? levelFiller[0] :
+                  !clvl.l[2] ? levelFiller[0] : //this accounts for levels that do not have decoration layer
+                  clvl.l[2].data[i] != 0 ?  levelFiller[0] :levelFiller[randIx]
     }
 
 
     //bgData.fill(1)
-    clvl.layers.unshift({"data":bgData})
-    clvl.layers.push(clvl.o)
+    clvl.l.unshift({"data":bgData})
+    clvl.l.push(clvl.o)
 
   })
   return compressedLevels
@@ -659,4 +659,8 @@ function fade(element,dir) {
       element.style.opacity = dir === 'out' ? count : 1 - count;
       count -= 0.05;
   }, 50);
+}
+
+function gEl(e){
+  return document.getElementById(e)
 }

@@ -42,7 +42,7 @@ export  default function makeBot(botImage){
   context: context,
   baseSpeed: 2,
   speed: 0,
-  currentMoveIndex: 0,
+  cmi: 0,
   baseTimer:30, //change this to change how long the bot pauses at nodes
   timer:30,
   // offset start position to look better on the track; must adjust for this in node checking below
@@ -51,7 +51,7 @@ export  default function makeBot(botImage){
     this.y=startObject.y + offset/4
     this.heading = startObject.heading
     this.playAnimation(dirs[dirs.indexOf(this.heading)])
-    this.currentMoveIndex=0;
+    this.cmi=0;
     this.timer=30
   },
   rotate(dir) {
@@ -70,44 +70,44 @@ export  default function makeBot(botImage){
 // after move is processed, increment move counter
           //to do this, first check if you're at the end
 
-          if(this.currentMoveIndex >= moves.length - 1){
+          if(this.cmi >= moves.length - 1){
             //if there's a loop, go back to the start of the loop
             if(moves.includes('LO')) {
 
-              document.getElementById(`m${this.currentMoveIndex}`).classList.remove("h")
-              this.currentMoveIndex = moves.indexOf('LO')
-              document.getElementById(`m${this.currentMoveIndex}`).classList.add("h")
+              gEl(`m${this.cmi}`).classList.remove("h")
+              this.cmi = moves.indexOf('LO')
+              gEl(`m${this.cmi}`).classList.add("h")
             } else {
 
               //otherwise, go back to the first index
-              this.highlightNext();
-              this.currentMoveIndex = 0;
+              this.hN();
+              this.cmi = 0;
 
             }
           } else {
 
             //if you're not at the end of the moves, go to next
-            if(this.currentMoveIndex>0){
-              this.highlightNext()
+            if(this.cmi>0){
+              this.hN()
             }
-            this.currentMoveIndex++;
+            this.cmi++;
 
           }
   },
-  highlightNext(){
+  hN(){
     //if statement prevents crash when first move is rotate
-    if(this.currentMoveIndex>0){
-    document.getElementById(`m${this.currentMoveIndex-1}`).classList.remove("h")
-    document.getElementById(`m${this.currentMoveIndex}`).classList.add("h")
+    if(this.cmi>0){
+    gEl(`m${this.cmi-1}`).classList.remove("h")
+    gEl(`m${this.cmi}`).classList.add("h")
     }
   },
   pauseCheck(moves,direction){
 
     ///// highlight the move, start a timer. at end of timer rotate(if move is rotate), then go to next move
     ///// this makes the bot pause on Loop for the same time that it pauses to rotate. if we want separate durations we'll need create a different function.
-    if (moves[this.currentMoveIndex]===direction) {
+    if (moves[this.cmi]===direction) {
       if(this.timer===this.baseTimer-1){ //timer ticks for the first time when bot is at the node BEFORE, so highlighting logic needs to trigger at 1 less
-        this.highlightNext();
+        this.hN();
       }
       if(this.timer===0){
         if(direction!=="LO") this.rotate(direction)
@@ -129,9 +129,9 @@ export  default function makeBot(botImage){
       if(this.x === node.x && this.y + 3*offset/4 === node.y) {
 
         //this needs to be here in order to highlight the starting move, otherwise the highlight will skip to the second move, all the other highlighter changes happen in this.updateMove and this.pauseCheck
-        if(this.currentMoveIndex===0){
-          document.getElementById(`m0`).classList.add("h")
-          if(moves.length>1)document.getElementById(`m${moves.length-1}`).classList.remove("h") //without the if statement nothing will be highlighted if there is only one move
+        if(this.cmi===0){
+          gEl(`m0`).classList.add("h")
+          if(moves.length>1)gEl(`m${moves.length-1}`).classList.remove("h") //without the if statement nothing will be highlighted if there is only one move
         }
 
         //if you're on a node, stop
@@ -144,10 +144,10 @@ export  default function makeBot(botImage){
           if (node.nodeType === 99) {
             this.speed = 0
             moves.splice(0,moves.length)
-            document.getElementById(`m${this.currentMoveIndex}`).classList.remove('h')
+            gEl(`m${this.cmi}`).classList.remove('h')
           }
 
-          if (moves[this.currentMoveIndex]==='F') {
+          if (moves[this.cmi]==='F') {
             //only go forward if the node type and orientation allows
 
             const badPipes = invalidPipeTypes[this.heading]
@@ -174,4 +174,8 @@ export  default function makeBot(botImage){
 
   return bot
 
+}
+
+function gEl(e){
+  return document.getElementById(e)
 }

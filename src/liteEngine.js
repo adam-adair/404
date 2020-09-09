@@ -5,7 +5,7 @@ const liteEngine = function(lvl,tileImg){
   const level = lvl
   const tileEngine = {
     render() {
-      const layers = level.layers
+      const layers = level.l
       layers.map(layer =>{
         if(layer.n !== 'I') {
           layer.data.map((tile,ix)=>{
@@ -52,12 +52,12 @@ const liteEngine = function(lvl,tileImg){
       const layerIx = layerName === 'p' ? 1 : 3
       //botswitches don't have row/cols but have types, so this changes ix of layer data to set
       const ix = tile.t ? tile.x/32 + 16*(tile.y/32):tile.col + tile.row*16
-      level.layers[layerIx].data[ix] = gid
+      level.l[layerIx].data[ix] = gid
     },
     layerCollidesWith (_,gameObj) {
       //hardcoded for decorations, bc that's the only thing we check for collision
       let collides = false
-      level.layers[3].data.forEach((gid,ix) => {
+      level.l[3].data.forEach((gid,ix) => {
         if(gid !== 0) {
           //check collision based on ix
           const tileXa = (ix%16)*32

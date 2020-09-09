@@ -62,9 +62,9 @@ levelList.forEach(fileName =>{
     //pruning object properties
     returnLevel.o = compressObjectLayer(parsedLevel.layers[3])
 
-    returnLevel.cLayers = [{},{},{}]
+    returnLevel.cL = [{},{},{}]
     for(let i = 0; i < 3; i++) {
-      const thisLayer = returnLevel.cLayers[i]
+      const thisLayer = returnLevel.cL[i]
       for(let x = 0; x < 256; x++) {
         let mapValue = parsedLevel.layers[i].data[x]
         if(mapValue !== 0) {
