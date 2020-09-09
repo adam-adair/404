@@ -203,7 +203,7 @@ const loop = GameLoop({
 if(!transition){
     if (keyPressed("right")) {
       if (player.x < canvas.width - player.width * player.scaleX) player.x += 2;
-      if (levelliteEngine.layerCollidesWith("d", player)) {
+      if (levelliteEngine.lCW("d", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -219,7 +219,7 @@ if(!transition){
     } else if (keyPressed("left")) {
       if (player.x <= 0) player.x += 2;
       player.x += -2;
-      if (levelliteEngine.layerCollidesWith("d", player)) {
+      if (levelliteEngine.lCW("d", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -232,7 +232,7 @@ if(!transition){
       player.playAnimation("L");
     } else if (keyPressed("up")) {
       if (player.y > 0) player.y -= 2;
-      if (levelliteEngine.layerCollidesWith("d", player)) {
+      if (levelliteEngine.lCW("d", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -246,7 +246,7 @@ if(!transition){
     } else if (keyPressed("down")) {
       if (player.y < canvas.height - player.height * player.scaleY)
         player.y += 2;
-      if (levelliteEngine.layerCollidesWith("d", player)) {
+      if (levelliteEngine.lCW("d", player)) {
         let blocked = true
         levelGates.filter(gate => gate.open)
         .forEach(gate => {
@@ -269,7 +269,7 @@ if(!transition){
     levelGates.filter(gate => !gate.open)
     .forEach(gate => {
       if(collides(gate, bot)) {
-        bot.speed = 0;
+        bot.s = 0;
         bot.playAnimation("C")
        writeText("401")
       }
@@ -285,7 +285,7 @@ if(!transition){
       activatedTempSwitches.forEach( tempSwitch =>{
         if(!collides(tempSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width}) && !collides(tempSwitch,player)) {
           activateSwitch(tempSwitch,false)
-          levelliteEngine.setTileAtLayer("p",tempSwitch, inactivePlayerSwitchGID)
+          levelliteEngine.sTL("p",tempSwitch, inactivePlayerSwitchGID)
         }
       })
     }
@@ -305,12 +305,12 @@ if(!transition){
 
       if(collides(levelSwitch,{x:bot.x,y:bot.y-16,height:bot.height,width:bot.width})) {
         activateSwitch(levelSwitch)
-        levelliteEngine.setTileAtLayer("d",levelSwitch,activeBotSwitchGID)
+        levelliteEngine.sTL("d",levelSwitch,activeBotSwitchGID)
       }
 
       if(collides(levelSwitch,player)){
         activateSwitch(levelSwitch)
-        levelliteEngine.setTileAtLayer("p",levelSwitch,activePlayerSwitchGID)
+        levelliteEngine.sTL("p",levelSwitch,activePlayerSwitchGID)
       }
 
     })
@@ -425,7 +425,7 @@ function activateSwitch(levelSwitch, activate=true){
   associatedGameObjects.forEach(gate=>{
     gate.open = true
     gate.tiles.forEach(tile=> {
-      levelliteEngine.setTileAtLayer("d", tile, openGateGID)
+      levelliteEngine.sTL("d", tile, openGateGID)
       })
     })
 
@@ -445,7 +445,7 @@ function activateSwitch(levelSwitch, activate=true){
     associatedGameObjects.forEach(gate=>{
       gate.open = false;
       gate.tiles.forEach(tile=> {
-        levelliteEngine.setTileAtLayer("d", tile, closedGateGID)
+        levelliteEngine.sTL("d", tile, closedGateGID)
       })
     })
 
@@ -480,7 +480,7 @@ const makeLevel = (lvl,tileset) => {
   levelSwitches.filter(sw=>sw.t==='P').forEach(sw=>{
     assignTilesToObject(sw);
     sw.tiles.forEach(tile=> {
-      levelliteEngine.setTileAtLayer("d", tile, inactiveBotSwitchGID)
+      levelliteEngine.sTL("d", tile, inactiveBotSwitchGID)
     })
 
   })
@@ -490,7 +490,7 @@ const makeLevel = (lvl,tileset) => {
   activatedTempSwitches.forEach(sw=>{
     assignTilesToObject(sw);
     sw.tiles.forEach(tile=> {
-      levelliteEngine.setTileAtLayer("p", tile, inactivePlayerSwitchGID)
+      levelliteEngine.sTL("p", tile, inactivePlayerSwitchGID)
     })
 
   })
@@ -506,7 +506,7 @@ const makeLevel = (lvl,tileset) => {
     gate.open = false;
     assignTilesToObject(gate);
     gate.tiles.forEach(tile=> {
-      levelliteEngine.setTileAtLayer("d", tile, closedGateGID)
+      levelliteEngine.sTL("d", tile, closedGateGID)
     })
   })
 
@@ -514,7 +514,7 @@ const makeLevel = (lvl,tileset) => {
   //get type of pipe for bot start to determine initial bot heading
   let initialPipeIx = (botStart.y/32 * 16) + botStart.x/32
   let initialPipeType = lvl.l.filter((layer) => layer.n === "p")[0].data[initialPipeIx]
-  botStart.heading = initialTileHeadings[initialPipeType] || 'N' //this is a hack to make level 5 work
+  botStart.h = initialTileHeadings[initialPipeType] || 'N' //this is a hack to make level 5 work
   moves = []
   movesBank = []
   redrawControls();

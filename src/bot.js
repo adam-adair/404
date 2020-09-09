@@ -40,8 +40,8 @@ export  default function makeBot(botImage){
   anchor:  {x: 0.5, y: 0.5},
   animations:botSpriteSheet.animations,
   context: context,
-  baseSpeed: 2,
-  speed: 0,
+  bS: 2,
+  s: 0,
   cmi: 0,
   baseTimer:30, //change this to change how long the bot pauses at nodes
   timer:30,
@@ -49,19 +49,19 @@ export  default function makeBot(botImage){
   placeAtStart(startObject){
     this.x=startObject.x + offset;
     this.y=startObject.y + offset/4
-    this.heading = startObject.heading
-    this.playAnimation(dirs[dirs.indexOf(this.heading)])
+    this.h = startObject.h
+    this.playAnimation(dirs[dirs.indexOf(this.h)])
     this.cmi=0;
     this.timer=30
   },
   rotate(dir) {
-    const curDir = dirs.indexOf(this.heading)
+    const curDir = dirs.indexOf(this.h)
     if(dir==='R'){
-      this.heading = dirs[(curDir+1)%4]
+      this.h = dirs[(curDir+1)%4]
       //this.rotation += degToRad(90)
       this.playAnimation(dirs[(curDir+1)%4])
     } else {
-      this.heading = dirs[(curDir+3)%4]
+      this.h = dirs[(curDir+3)%4]
       //this.rotation -= degToRad(90)
       this.playAnimation(dirs[(curDir+3)%4])
     }
@@ -101,7 +101,7 @@ export  default function makeBot(botImage){
     gEl(`m${this.cmi}`).classList.add("h")
     }
   },
-  pauseCheck(moves,direction){
+  pC(moves,direction){
 
     ///// highlight the move, start a timer. at end of timer rotate(if move is rotate), then go to next move
     ///// this makes the bot pause on Loop for the same time that it pauses to rotate. if we want separate durations we'll need create a different function.
@@ -128,7 +128,7 @@ export  default function makeBot(botImage){
       ///adjust for offset in original placement
       if(this.x === node.x && this.y + 3*offset/4 === node.y) {
 
-        //this needs to be here in order to highlight the starting move, otherwise the highlight will skip to the second move, all the other highlighter changes happen in this.updateMove and this.pauseCheck
+        //this needs to be here in order to highlight the starting move, otherwise the highlight will skip to the second move, all the other highlighter changes happen in this.updateMove and this.pC
         if(this.cmi===0){
           gEl(`m0`).classList.add("h")
           if(moves.length>1)gEl(`m${moves.length-1}`).classList.remove("h") //without the if statement nothing will be highlighted if there is only one move
@@ -138,11 +138,11 @@ export  default function makeBot(botImage){
         nodeSet = 1
         this.currentNode = node
 
-        this.speed = 0
+        this.s = 0
 
           //if you're at the end of the level, stop and wait
           if (node.nodeType === 99) {
-            this.speed = 0
+            this.s = 0
             moves.splice(0,moves.length)
             gEl(`m${this.cmi}`).classList.remove('h')
           }
@@ -150,25 +150,25 @@ export  default function makeBot(botImage){
           if (moves[this.cmi]==='F') {
             //only go forward if the node type and orientation allows
 
-            const badPipes = invalidPipeTypes[this.heading]
+            const badPipes = invalidPipeTypes[this.h]
             const numBadPipes = badPipes.filter(badPipe=>badPipe===node.pipeType).length
-            if(numBadPipes===0) this.speed = this.baseSpeed
+            if(numBadPipes===0) this.s = this.bS
             this.updateMove(moves);
           }
 
-         this.pauseCheck(moves,'L');
-         this.pauseCheck(moves,'R');
-         this.pauseCheck(moves,'LO');
+         this.pC(moves,'L');
+         this.pC(moves,'R');
+         this.pC(moves,'LO');
 
           //don't check other nodes
         } else {this.currentNode = nodeSet === 1 ? this.currentNode : {gridRow: -1, gridCol: -1}}
       })
 
       //update bot position based on heading
-      if(this.heading==='E') this.x+=this.speed;
-      if(this.heading==='W') this.x-=this.speed;
-      if(this.heading==='N') this.y-=this.speed;
-      if(this.heading==='S') this.y+=this.speed;
+      if(this.h==='E') this.x+=this.s;
+      if(this.h==='W') this.x-=this.s;
+      if(this.h==='N') this.y-=this.s;
+      if(this.h==='S') this.y+=this.s;
     }
   });
 
