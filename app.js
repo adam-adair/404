@@ -153,22 +153,22 @@ canvasElement.fillStyle= '#FFFFFF'
 
 ///////////this is for level testing! Remove here and from HTML for minification! //////////
 
-const levelPick = gEl("levelPick");
-const buttonContainer = gEl("buttonContainer");
-levels.map((level,ix) => {
-  const button = document.createElement('button')
-  button.innerText = level.levelName
-  button.value = ix
-  buttonContainer.appendChild(button)
-})
-levelPick.addEventListener("click", (ev) => {
-  if (ev.target.tagName === "BUTTON") {
-    moves = []
-    currentLevelIx = +ev.target.value
-    currentLevel = levels[ev.target.value]
-    makeLevel(levels[ev.target.value],art)
-  }
-});
+// const levelPick = gEl("levelPick");
+// const buttonContainer = gEl("buttonContainer");
+// levels.map((level,ix) => {
+//   const button = document.createElement('button')
+//   button.innerText = level.levelName
+//   button.value = ix
+//   buttonContainer.appendChild(button)
+// })
+// levelPick.addEventListener("click", (ev) => {
+//   if (ev.target.tagName === "BUTTON") {
+//     moves = []
+//     currentLevelIx = +ev.target.value
+//     currentLevel = levels[ev.target.value]
+//     makeLevel(levels[ev.target.value],art)
+//   }
+// });
 
 ////////////////////////////////////
 
@@ -356,9 +356,6 @@ if(!transition){
 
     //  If not the last level, reset the bot, player, and tile engine for the  next level and rerender
     //  Otherwise end game message
-      // eslint-disable-next-line no-alert
-      //alert("YOU WIN!!!");
-      console.log('win')
 
       // 2 seconds of sprite blinking, then 1 second of screen fading to white, then level switch. an if block at the top of the render functions adds a .5 second fade in. total scene transition is 3.5 seconds
 
