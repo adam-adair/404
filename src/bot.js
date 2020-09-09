@@ -95,8 +95,11 @@ export  default function makeBot(botImage){
           }
   },
   highlightNext(){
+    //if statement prevents crash when first move is rotate
+    if(this.currentMoveIndex>0){
     document.getElementById(`m${this.currentMoveIndex-1}`).classList.remove("h")
     document.getElementById(`m${this.currentMoveIndex}`).classList.add("h")
+    }
   },
   pauseCheck(moves,direction){
 
@@ -128,7 +131,7 @@ export  default function makeBot(botImage){
         //this needs to be here in order to highlight the starting move, otherwise the highlight will skip to the second move, all the other highlighter changes happen in this.updateMove and this.pauseCheck
         if(this.currentMoveIndex===0){
           document.getElementById(`m0`).classList.add("h")
-          document.getElementById(`m${moves.length-1}`).classList.remove("h")
+          if(moves.length>1)document.getElementById(`m${moves.length-1}`).classList.remove("h") //without the if statement nothing will be highlighted if there is only one move
         }
 
         //if you're on a node, stop
@@ -141,6 +144,7 @@ export  default function makeBot(botImage){
           if (node.nodeType === 99) {
             this.speed = 0
             moves.splice(0,moves.length)
+            document.getElementById(`m${this.currentMoveIndex}`).classList.remove('h')
           }
 
           if (moves[this.currentMoveIndex]==='F') {
