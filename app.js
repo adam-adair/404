@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable max-statements-per-line */
 /* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
