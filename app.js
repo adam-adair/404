@@ -47,6 +47,7 @@ let player,
   botStart,
   botGoal,
   botMessage,
+  botRunning,
   inputTimer,
   inputMessageBot,
   inputMessagePlayer,
@@ -125,6 +126,7 @@ controls.addEventListener("click", (event) => {
       if(clickId === 'bG' && moves.length === 0) {
         moves = [...movesBank]
         clicked.className = 'bG f'
+        botRunning=true;
       }
 
   //if move bank isn't full and bot's not running, add move to movebank
@@ -271,7 +273,7 @@ if(!transition){
       }
     })
     bot.update();
-    bot.process(levelTrack, moves);
+    if(botRunning) bot.process(levelTrack, moves);
 
 
     //////////// Switch Triggering ///////////////
@@ -516,6 +518,7 @@ const makeLevel = (lvl,tileset) => {
   redrawControls();
   player.placeAtStart(playerStart)
   bot.placeAtStart(botStart)
+  botRunning=false
 
 }
 
@@ -650,7 +653,6 @@ function fade(element,dir) {
       if (count <= 0.05){
           clearInterval(timer);
           element.style.opacity = dir === 'out' ? 0 : 1;
-          console.log(dir === 'out' ? 0 : 1)
           element.style.display = dir === 'out' ? 'none' : 'block';
           return
       }

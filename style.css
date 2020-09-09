@@ -39,6 +39,10 @@ canvas{
   border: 1px solid black;
 }
 
+.h{
+  border: 6px solid gold;
+}
+
 .f {
   opacity: 50%
 }
