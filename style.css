@@ -3,13 +3,14 @@ body{
 }
 
 * {
-  margin: auto;
-  display: block;
   box-sizing: border-box;
+  margin: auto;
 }
 
 canvas{
   background: #006969;
+  margin: auto;
+  display: block;
 }
 
 #game{
