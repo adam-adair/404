@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You've Bot Mail</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript" src='bundle.js' defer></script>
+</head>
+<body>
+  <div id="intro">
+    <pre>Hello Postman, welcome to your first day at the <strong>Axios Agency!</strong>
+
+The Internet relies on us to fetch users the files they need, and we're relying on you!
+
+Your task is to direct your dog Sparky to follow the correct routes to its destination.
+
+You'll use your agency provided terminal to program Sparky, but be careful! You and Sparky will have to help each other pass authentication systems blocking both of your paths.
+
+===================
+Goal:
+
+  - Meet Sparky at the end point (the purple node)
+
+Instructions:
+
+  - Use the arrow keys to move the Postman
+  - Use the HUD to program up to 10 commands for Sparky to follow
+  - Sparky can go forward, turn left or right, or begin a command loop
+  - If there is no loop, Sparky will automatically repeat all his commands
+  - To set Sparky on his route, press GO!
+  - If you mess up, press RESET to try again
+
+===================
+We'll give you a simple assignment to start with so you can get the hang of it.
+
+<div id="begin" style="background: url('a.png') left -64px top -128px; width:64px;height:64px;"></div>
+    </pre>
+  </div>
+  <div id="end">
+    <pre>
+Dear Postman,
+
+<strong>Congratulations!!</strong>
+
+Thanks to you and faithful Sparky's tireless efforts, Axios Agency's routes have been restored!
+
+Please accept this ASCII trophy as a token of our sincere appreciation for your service.
+  _________
+ |         |
+(|   BOT   |)
+ | OF THE  |
+ |  MONTH  |
+  \       /
+   `-----'
+   _|___|_
+
+Sincerely,
+T.C. Pip
+Senior Vice President of Routing
+    </pre>
+  </div>
+  <div id="game">
+  <canvas id="g" width="512" height="512"></canvas>
+  <div id="c">
+  </div>
+  <!-- Remove for final minification! -->
+  <div style="color:green; width: 400px" id="levelPick">
+    pick a level:
+    <div id="buttonContainer">
+    </div>
+  </div>
+  <!-- Remove to here! -->
+  </div>
+</body>
+</html>
