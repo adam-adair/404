@@ -73,7 +73,6 @@ export  default function makeBot(botImage){
           if(this.cmi >= moves.length - 1){
             //if there's a loop, go back to the start of the loop
             if(moves.includes('LO')) {
-              console.log(this.cmi)
               this.hN();
               this.cmi = moves.indexOf('LO')
               //gEl(`m${moves.length - 1}`).classList.remove('h')
