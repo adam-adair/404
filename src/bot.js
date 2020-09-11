@@ -73,10 +73,10 @@ export  default function makeBot(botImage){
           if(this.cmi >= moves.length - 1){
             //if there's a loop, go back to the start of the loop
             if(moves.includes('LO')) {
-
-              gEl(`m${this.cmi}`).classList.remove("h")
+              console.log(this.cmi)
+              this.hN();
               this.cmi = moves.indexOf('LO')
-              gEl(`m${this.cmi}`).classList.add("h")
+              //gEl(`m${moves.length - 1}`).classList.remove('h')
             } else {
 
               //otherwise, go back to the first index
@@ -111,15 +111,14 @@ export  default function makeBot(botImage){
       }
       if(this.timer===0){
         if(direction!=="LO") this.rotate(direction)
-        this.updateMove(moves)
-        this.timer=this.baseTimer
+         this.updateMove(moves)
+         this.timer=this.baseTimer
       } else this.timer--
     }
 
   },
   process(nodes, moves){
     let nodeSet = 0
-
 
     // eslint-disable-next-line complexity
     nodes.forEach((node) => {
@@ -144,8 +143,8 @@ export  default function makeBot(botImage){
           if (node.nodeType === 99) {
             this.s = 0
             moves.splice(0,moves.length)
-            gEl(`m${this.cmi}`).classList.remove('h')
-          }
+            gEl(`m0`).classList.remove('h')
+          } else if (this.cmi!==moves.length-1) gEl(`m${moves.length - 1}`).classList.remove('h')
 
           if (moves[this.cmi]==='F') {
             //only go forward if the node type and orientation allows

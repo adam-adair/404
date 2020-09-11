@@ -153,22 +153,22 @@ canvasElement.fillStyle= '#FFFFFF'
 
 ///////////this is for level testing! Remove here and from HTML for minification! //////////
 
-// const levelPick = gEl("levelPick");
-// const buttonContainer = gEl("buttonContainer");
-// levels.map((level,ix) => {
-//   const button = document.createElement('button')
-//   button.innerText = level.levelName
-//   button.value = ix
-//   buttonContainer.appendChild(button)
-// })
-// levelPick.addEventListener("click", (ev) => {
-//   if (ev.target.tagName === "BUTTON") {
-//     moves = []
-//     currentLevelIx = +ev.target.value
-//     currentLevel = levels[ev.target.value]
-//     makeLevel(levels[ev.target.value],art)
-//   }
-// });
+const levelPick = gEl("levelPick");
+const buttonContainer = gEl("buttonContainer");
+levels.map((level,ix) => {
+  const button = document.createElement('button')
+  button.innerText = level.levelName
+  button.value = ix
+  buttonContainer.appendChild(button)
+})
+levelPick.addEventListener("click", (ev) => {
+  if (ev.target.tagName === "BUTTON") {
+    moves = []
+    currentLevelIx = +ev.target.value
+    currentLevel = levels[ev.target.value]
+    makeLevel(levels[ev.target.value],art)
+  }
+});
 
 ////////////////////////////////////
 
@@ -347,6 +347,11 @@ if(!transition){
       } else if (collides(bot,botGoal)){
 
         writeText("200");
+
+        //unhighlight all boxes. this is more efficient than trying to identify the correct box
+        for(let i = 0; i<moves.length;i++){
+          gEl(`m${i}`).classList.remove('h')
+        }
         botMessage.render()
 
         if(collides(player,playerGoal))
