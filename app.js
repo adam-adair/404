@@ -203,59 +203,21 @@ const loop = GameLoop({
 if(!transition){
     if (keyPressed("right")) {
       if (player.x < canvas.width - player.width * player.scaleX) player.x += 2;
-      if (levelliteEngine.lCW("d", player)) {
-        let blocked = true
-        levelGates.filter(gate => gate.open)
-        .forEach(gate => {
-          //annoyingly, kontra layer collision detection is <= and kontra object collision
-          //is strictly < so this temporary scaling is a hack to determine object collision
-          player.scaleX *= 1.1;
-          if(collides(gate, player)) blocked = false
-          player.scaleX /= 1.1;
-        })
-        if(blocked)player.x -= 2;
-      }
+      cC("r");
       player.playAnimation("R");
     } else if (keyPressed("left")) {
       if (player.x <= 0) player.x += 2;
       player.x += -2;
-      if (levelliteEngine.lCW("d", player)) {
-        let blocked = true
-        levelGates.filter(gate => gate.open)
-        .forEach(gate => {
-          player.scaleX *= 1.1;
-          if(collides(gate, player)) blocked = false
-          player.scaleX /= 1.1;
-        })
-        if(blocked) player.x -= -2;
-      }
+      cC("l")
       player.playAnimation("L");
     } else if (keyPressed("up")) {
       if (player.y > 0) player.y -= 2;
-      if (levelliteEngine.lCW("d", player)) {
-        let blocked = true
-        levelGates.filter(gate => gate.open)
-        .forEach(gate => {
-          player.scaleY *= 1.1;
-          if(collides(gate, player)) blocked = false
-          player.scaleY /= 1.1;
-        })
-        if(blocked) player.y += 2;
-      }
+      cC("u")
       player.playAnimation("U");
     } else if (keyPressed("down")) {
       if (player.y < canvas.height - player.height * player.scaleY)
         player.y += 2;
-      if (levelliteEngine.lCW("d", player)) {
-        let blocked = true
-        levelGates.filter(gate => gate.open)
-        .forEach(gate => {
-          player.scaleY *= 1.1;
-          if(collides(gate, player)) blocked = false
-          player.scaleY /= 1.1;
-        })
-        if(blocked) player.y -= 2;
-      }
+      cC("d")
       player.playAnimation("D");
     } else {
       player.playAnimation("I");
@@ -520,8 +482,8 @@ const makeLevel = (lvl,tileset) => {
   moves = []
   movesBank = []
   redrawControls();
-  player.placeAtStart(playerStart)
-  bot.placeAtStart(botStart)
+  player.pAS(playerStart)
+  bot.pAS(botStart)
   botRunning=false
 
 }
@@ -667,4 +629,23 @@ function fade(element,dir) {
 
 function gEl(e){
   return document.getElementById(e)
+}
+
+function cC(dir){
+  if (levelliteEngine.lCW("d", player)) {
+    let blocked = true
+    levelGates.filter(gate => gate.open)
+    .forEach(gate => {
+      //annoyingly, kontra layer collision detection is <= and kontra object collision
+      //is strictly < so this temporary scaling is a hack to determine object collision
+      player.scaleX *= 1.1;
+      if(collides(gate, player)) blocked = false
+      player.scaleX /= 1.1;
+    })
+    if(dir==="r") if(blocked)player.x -= 2;
+    if(dir==="l") if(blocked)player.x -= -2;
+    if(dir=="u")if(blocked)player.y += 2;
+    if(dir=="d")if(blocked)player.y += -2;
+  }
+
 }

@@ -41,7 +41,7 @@ return Sprite({
   // scaleY:1.25,
   animations:playerSpriteSheet.animations,
   context: context,
-  placeAtStart(startObject){
+  pAS(startObject){
     this.x=startObject.x;
     this.y=startObject.y
   }

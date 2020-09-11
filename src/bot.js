@@ -43,16 +43,16 @@ export  default function makeBot(botImage){
   bS: 2,
   s: 0,
   cmi: 0,
-  baseTimer:30, //change this to change how long the bot pauses at nodes
-  timer:30,
+  bT:30, //change this to change how long the bot pauses at nodes
+  t:30,
   // offset start position to look better on the track; must adjust for this in node checking below
-  placeAtStart(startObject){
+  pAS(startObject){
     this.x=startObject.x + offset;
     this.y=startObject.y + offset/4
     this.h = startObject.h
     this.playAnimation(dirs[dirs.indexOf(this.h)])
     this.cmi=0;
-    this.timer=30
+    this.t=30
   },
   rotate(dir) {
     const curDir = dirs.indexOf(this.h)
@@ -66,7 +66,7 @@ export  default function makeBot(botImage){
       this.playAnimation(dirs[(curDir+3)%4])
     }
   },
-  updateMove(moves){
+  uM(moves){
 // after move is processed, increment move counter
           //to do this, first check if you're at the end
 
@@ -106,14 +106,14 @@ export  default function makeBot(botImage){
     ///// highlight the move, start a timer. at end of timer rotate(if move is rotate), then go to next move
     ///// this makes the bot pause on Loop for the same time that it pauses to rotate. if we want separate durations we'll need create a different function.
     if (moves[this.cmi]===direction) {
-      if(this.timer===this.baseTimer-1){ //timer ticks for the first time when bot is at the node BEFORE, so highlighting logic needs to trigger at 1 less
+      if(this.t===this.bT-1){ //timer ticks for the first time when bot is at the node BEFORE, so highlighting logic needs to trigger at 1 less
         this.hN();
       }
-      if(this.timer===0){
+      if(this.t===0){
         if(direction!=="LO") this.rotate(direction)
-         this.updateMove(moves)
-         this.timer=this.baseTimer
-      } else this.timer--
+         this.uM(moves)
+         this.t=this.bT
+      } else this.t--
     }
 
   },
@@ -127,7 +127,7 @@ export  default function makeBot(botImage){
       ///adjust for offset in original placement
       if(this.x === node.x && this.y + 3*offset/4 === node.y) {
 
-        //this needs to be here in order to highlight the starting move, otherwise the highlight will skip to the second move, all the other highlighter changes happen in this.updateMove and this.pC
+        //this needs to be here in order to highlight the starting move, otherwise the highlight will skip to the second move, all the other highlighter changes happen in this.uM and this.pC
         if(this.cmi===0){
           gEl(`m0`).classList.add("h")
           if(moves.length>1)gEl(`m${moves.length-1}`).classList.remove("h") //without the if statement nothing will be highlighted if there is only one move
@@ -152,7 +152,7 @@ export  default function makeBot(botImage){
             const badPipes = invalidPipeTypes[this.h]
             const numBadPipes = badPipes.filter(badPipe=>badPipe===node.pipeType).length
             if(numBadPipes===0) this.s = this.bS
-            this.updateMove(moves);
+            this.uM(moves);
           }
 
          this.pC(moves,'L');
