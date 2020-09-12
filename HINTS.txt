@@ -1,0 +1,39 @@
+
+
+-------------------- WAIT!-------------------------------------
+
+
+The fun of this game comes from the joy of solving the puzzles yourself, 
+but if you want a little help the solutions are listed below.
+
+If you do not want the solution spoiled for you then CLOSE THIS FILE NOW.
+
+
+
+-------------------- STOP READING THIS! ---------------------
+
+
+
+-------------------- LAST CHANCE ----------------------------
+
+
+
+
+
+SOLUTIONS
+
+Level 1 - forward, left, forward, right, forward
+
+Level 2 - forward, left, forward, left, forward, loop, forward, right
+
+Level 3 - forward, left, forward, right, forward, left, forward, forward, left, forward
+
+Level 4 - forward, left, forward, left, loop, forward, right
+
+Level 5 - forward, left, forward, left, forward, right, forward, right
+
+Level 6- forward, left, forward, right
+
+Level 7 - forward, forward, right, loop, forward, right, forward, left, forward, right
+
+Level 8 - right, forward, loop, right, right, forward, forward, left, forward
